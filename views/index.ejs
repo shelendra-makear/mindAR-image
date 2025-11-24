@@ -16,23 +16,10 @@
         margin: 0;
         overflow: hidden;
       }
-      #loading {
-        position: fixed;
-        inset: 0;
-        background: #000;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        z-index: 10;
-        font-size: 20px;
-      }
     </style>
   </head>
 
   <body>
-    <div id="loading">Starting AR...</div>
 
     <a-scene
       mindar-image="
@@ -97,12 +84,6 @@
 
       document.addEventListener("DOMContentLoaded", async () => {
         await enableHighResCamera();
-
-        // Hide loading screen when scene is ready
-        const scene = document.querySelector("a-scene");
-        scene.addEventListener("loaded", () => {
-          document.getElementById("loading").style.display = "none";
-        });
       });
     </script>
 
