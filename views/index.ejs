@@ -1,91 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <title>MindAR Best Quality WebAR</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- AFRAME -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-    <!-- MindAR -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
-
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-      }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
   </head>
-
   <body>
-
-    <a-scene
-      mindar-image="
-        imageTargetSrc: assets/images/targets.mind;
-        autoStart: true;
-        filterMinCF: 0.0001;
-        filterBeta: 0.05;
-        warmupTolerance: 5;
-        missTolerance: 20;
-        maxTrack: 2;
-      "
-      color-space="sRGB"
-      renderer="colorManagement: true, physicallyCorrectLights: true"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: true"
-      id="scene"
-    >
-      <a-camera look-controls="enabled: false"></a-camera>
-
-      <!-- Target index 0 -->
-      <a-entity mindar-image-target="targetIndex: 0"
-        animation__show="startEvents: targetFound; property: opacity; from: 0; to: 1; dur: 300"
-        animation__hide="startEvents: targetLost; property: opacity; from: 1; to: 0; dur: 300"
-        opacity="0"
-      >
-        <!-- GLB MODEL -->
-        <a-gltf-model
-          src="#model"
-          position="0 0 0"
-          scale="0.2 0.2 0.2"
-          rotation="0 0 0"
-          animation-mixer
-        ></a-gltf-model>
-      </a-entity>
-
-      <!-- Assets -->
+    <a-scene mindar-image="imageTargetSrc: assets/images/targets.mind; autoStart: true;
+    filterMinCF: 0.0001;
+    filterBeta: 0.05;
+    warmupTolerance: 5;
+    missTolerance: 20; maxTrack: 1; uiEnabled: false; smoothed: true;"
+    vr-mode-ui="enabled: false"
+    embedded
+    renderer="antialias: false; precision: mediump; powerPreference: low-power;"
+    loading-screen="enabled: false">
       <a-assets>
-        <a-asset-item id="model" src="assets/images/anim1.glb"></a-asset-item>
+	<img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
+	<a-asset-item id="avatarModel" src="assets/images/anim1.glb"></a-asset-item>
       </a-assets>
 
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0"  smooth="true"
+              smoothCount="8"
+              smoothTolerance="0.01"
+              smoothThreshold="5">
+      
+        <a-gltf-model rotation="0 0 0" position="0 -0.5 0" scale="0.5 0.5 0.5" src="#avatarModel"
+          animation-mixer
+        >
+      </a-entity>
     </a-scene>
-
-    <script>
-      // HIGH-RES CAMERA BOOST for BETTER TRACKING
-      async function enableHighResCamera() {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-              facingMode: "environment",
-              width: { ideal: 1920 },
-              height: { ideal: 1080 },
-              frameRate: { ideal: 60 }
-            }
-          });
-
-          const scene = document.querySelector("#scene");
-          scene.systems["mindar-image-system"].video = stream;
-        } catch (e) {
-          console.warn("High-res camera not supported on this device.");
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", async () => {
-        await enableHighResCamera();
-      });
-    </script>
-
-  </body>
-</html>
+  </body></html>
