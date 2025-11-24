@@ -1,36 +1,53 @@
-
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
   </head>
+
   <body>
-    <a-scene mindar-image="imageTargetSrc: assets/images/targets-box.mind; autoStart: true;
-    filterMinCF: 0.0001;
-    filterBeta: 0.05;
-    warmupTolerance: 5;
-    missTolerance: 20; maxTrack: 1; uiEnabled: false; smoothed: true;"
-    vr-mode-ui="enabled: false"
-    embedded
-    renderer="antialias: false; precision: mediump; powerPreference: low-power;"
-    loading-screen="enabled: false">
+    <a-scene
+      mindar-image="imageTargetSrc: assets/images/targets.mind; autoStart: true;
+      filterMinCF: 0.0001; filterBeta: 0.05; warmupTolerance: 5; missTolerance: 20;
+      maxTrack: 1; uiEnabled: false; smoothed: true;"
+      embedded
+      vr-mode-ui="enabled: false"
+      renderer="precision: mediump;"
+      loading-screen="enabled: false"
+    >
       <a-assets>
-	<img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
-	<a-asset-item id="avatarModel" src="assets/images/anim1.glb"></a-asset-item>
+        <a-asset-item id="avatarModel" src="assets/images/anim1.glb"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0"  smooth="true"
-              smoothCount="8"
-              smoothTolerance="0.01"
-              smoothThreshold="5">
-      
-        <a-gltf-model rotation="0 0 0" position="0 -0.5 0" scale="0.5 0.5 0.5" src="#avatarModel"
-          animation-mixer
-        >
+      <!-- Target -->
+      <a-entity id="target1" mindar-image-target="targetIndex: 0">
+        <a-gltf-model
+          id="avatar"
+          src="#avatarModel"
+          position="0 -0.5 0"
+          scale="0.5 0.5 0.5"
+          animation-mixer="clip: *;"
+        ></a-gltf-model>
       </a-entity>
     </a-scene>
-  </body></html>
+
+    <script>
+      // iOS FIX – manually start animation on targetFound
+      const target = document.querySelector("#target1");
+      const model = document.querySelector("#avatar");
+
+      target.addEventListener("targetFound", () => {
+        console.log("Target Found → Play Animation");
+        model.components["animation-mixer"].stopAction();
+        model.components["animation-mixer"].playAction(); // FOR iOS
+      });
+
+      target.addEventListener("targetLost", () => {
+        console.log("Target Lost → Stop Animation");
+        model.components["animation-mixer"].stopAction();
+      });
+    </script>
+  </body>
+</html>
