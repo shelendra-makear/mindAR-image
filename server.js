@@ -6,7 +6,6 @@ const router = require('./router')
 const app = express()
 
 let sessionOptions = session({
-    name: "T3_session",
     secret: "seven sisters big",
     resave: false,
     saveUninitialized: false,

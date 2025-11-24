@@ -9,7 +9,7 @@ async function start() {
     console.log("db conntected")
     const app = require("./server")
 
-    app.listen(process.env.PORT)
+    // app.listen(process.env.PORT)
 }
 
 start();
