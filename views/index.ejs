@@ -36,20 +36,20 @@
     </a-scene>
 
     <script>
-      // iOS FIX – manually start animation on targetFound
-      const target = document.querySelector("#target1");
-      const model = document.querySelector("#avatar");
+    //   // iOS FIX – manually start animation on targetFound
+    //   const target = document.querySelector("#target1");
+    //   const model = document.querySelector("#avatar");
 
-      target.addEventListener("targetFound", () => {
-        console.log("Target Found → Play Animation");
-        model.components["animation-mixer"].stopAction();
-        model.components["animation-mixer"].playAction(); // FOR iOS
-      });
+    //   target.addEventListener("targetFound", () => {
+    //     console.log("Target Found → Play Animation");
+    //     model.components["animation-mixer"].stopAction();
+    //     model.components["animation-mixer"].playAction(); // FOR iOS
+    //   });
 
-      target.addEventListener("targetLost", () => {
-        console.log("Target Lost → Stop Animation");
-        model.components["animation-mixer"].stopAction();
-      });
+    //   target.addEventListener("targetLost", () => {
+    //     console.log("Target Lost → Stop Animation");
+    //     model.components["animation-mixer"].stopAction();
+    //   });
     </script>
   </body>
 </html>
