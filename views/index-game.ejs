@@ -161,19 +161,19 @@ function startGame() {
     /* ---------------- PRELOAD ---------------- */
     function preload() {
         // core art (ensure these files exist beside the HTML)
-        this.load.image("bg", "bg.png");
-        this.load.spritesheet("ball", "ball.all_.png", { frameWidth: 128, frameHeight: 128 });
+        this.load.image("bg", "./assets/videos/bg.png");
+        this.load.spritesheet("ball", "./assets/videos/ball.all_.png", { frameWidth: 128, frameHeight: 128 });
 
-        const keeperFile = (selectedPlayer == 1) ? "player10.png" : "player11.png";
+        const keeperFile = (selectedPlayer == 1) ? "./assets/videos/player10.png" : "./assets/videos/player11.png";
         this.load.spritesheet("keeper", keeperFile, { frameWidth: 96, frameHeight: 100 });
 
         // jump & dive overlays (local files)
-        this.load.image("keeperUp", "up.png");
-        this.load.image("keeperDown", "dow.png");
+        this.load.image("keeperUp", "./assets/videos/up.png");
+        this.load.image("keeperDown", "./assets/videos/dow.png");
 
         // side-dive images (developer-uploaded)
-        this.load.image("keeperLeftD", "leftD.png");
-        this.load.image("keeperRightD", "rightD.png");
+        this.load.image("keeperLeftD", "./assets/videos/leftD.png");
+        this.load.image("keeperRightD", "./assets/videos/rightD.png");
     }
 
     /* ---------------- CREATE ---------------- */
