@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Penalty Game — Face Controlled (Head L/R, Up, Down, Side Dives)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- MediaPipe libs -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+
+<!-- Phaser -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+<style>
+  html,body { height:100%; margin:0; }
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+  }
+
+  /* blurred background layer */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("bodybg.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px);
+    z-index: -1;
+  }
+
+  #game { position: relative; z-index: 10; width: 100%; height: 100%; touch-action: none; }
+
+  .playerBtn {
+    font-size: 22px;
+    padding: 12px 24px;
+    background: #222;
+    color: #fff;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  #playerSelect {
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%);
+    z-index: 50;
+  }
+
+  #info {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 50;
+    color: #fff;
+    font-size: 14px;
+    background: rgba(0,0,0,0.45);
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+
+  /* small label showing face controls */
+  #faceHint {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 50;
+    color: #fff;
+    font-size: 13px;
+    background: rgba(0,0,0,0.45);
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Hidden video for FaceMesh -->
+<video id="faceCam" autoplay playsinline muted style="display:none;width:320px;height:240px;"></video>
+
+<!-- PLAYER SELECTION UI -->
+<div id="playerSelect">
+    <button class="playerBtn" onclick="selectPlayer(1)">PLAYER 1</button>
+    <button class="playerBtn" onclick="selectPlayer(2)">PLAYER 2</button>
+</div>
+
+<div id="game"></div>
+
+<div id="info">
+  Controls: A ← &nbsp; S Center &nbsp; D → &nbsp; W Jump &nbsp; Z Dive &nbsp; (A+W = Left Side Dive, D+W = Right Side Dive)
+</div>
+
+<div id="faceHint">
+  Face controls: Turn head left/right → Move<br>
+  Look up → Jump, Look down → Dive<br>
+  Look up + tilt left/right → Side dive
+</div>
+
+<script>
+/* -------------- Game constants & state -------------- */
+const BASE_WIDTH = 540;
+const BASE_HEIGHT = 960;
+let selectedPlayer = 1;
+
+// References used across functions
+let keeper, keeperUp, keeperDown, keeperLeftD, keeperRightD;
+let ball, ballShadow;
+let shotsTaken = 0, totalShots = 10, score = 0;
+let isBallMoving = false;
+let lastKeeperX = 270; // logical center x for keeper
+
+// track keys for combos
+const keysDown = new Set();
+
+/* -------------- Player selection -------------- */
+function selectPlayer(num) {
+    selectedPlayer = num;
+    document.getElementById("playerSelect").style.display = "none";
+    startGame();
+}
+
+/* -------------- Start game (Phaser) -------------- */
+function startGame() {
+    const config = {
+        type: Phaser.AUTO,
+        parent: "game",
+        width: BASE_WIDTH,
+        height: BASE_HEIGHT,
+        backgroundColor: "#000000",
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: BASE_WIDTH,
+            height: BASE_HEIGHT
+        },
+        physics: {
+            default: "arcade",
+            arcade: { debug: false }
+        },
+        scene: { preload, create, update }
+    };
+
+    new Phaser.Game(config);
+
+    /* ---------------- PRELOAD ---------------- */
+    function preload() {
+        // core art (ensure these files exist beside the HTML)
+        this.load.image("bg", "bg.png");
+        this.load.spritesheet("ball", "ball.all_.png", { frameWidth: 128, frameHeight: 128 });
+
+        const keeperFile = (selectedPlayer == 1) ? "player10.png" : "player11.png";
+        this.load.spritesheet("keeper", keeperFile, { frameWidth: 96, frameHeight: 100 });
+
+        // jump & dive overlays (local files)
+        this.load.image("keeperUp", "up.png");
+        this.load.image("keeperDown", "dow.png");
+
+        // side-dive images (developer-uploaded)
+        this.load.image("keeperLeftD", "leftD.png");
+        this.load.image("keeperRightD", "rightD.png");
+    }
+
+    /* ---------------- CREATE ---------------- */
+    function create() {
+        const scene = this;
+
+        // expose simple API for external (face) code to call keeper actions
+        // We'll set these after objects exist below.
+
+        // background
+        scene.add.image(BASE_WIDTH/2, BASE_HEIGHT/2, "bg").setDisplaySize(BASE_WIDTH, BASE_HEIGHT);
+
+        // ball
+        ball = scene.physics.add.sprite(270, 820, "ball").setScale(0.45);
+        scene.anims.create({
+            key: "spin",
+            frames: scene.anims.generateFrameNumbers("ball"),
+            frameRate: 40,
+            repeat: -1
+        });
+
+        // shadow
+        ballShadow = scene.add.ellipse(ball.x, ball.y + 40, 90, 25, 0x000000, 0.35);
+        ballShadow.setDepth(1);
+        ball.setDepth(2);
+
+        // keeper (main)
+        keeper = scene.physics.add.sprite(270, 228, "keeper").setScale(1.4);
+        keeper.body.setImmovable(true);
+        keeper.setCollideWorldBounds(true);
+        keeper.setDepth(4);
+
+        scene.anims.create({
+            key: "keeperLoop",
+            frames: scene.anims.generateFrameNumbers("keeper", { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        keeper.play("keeperLoop");
+
+        // jump & dive overlays (physics sprites but disabled until needed)
+        keeperUp = scene.physics.add.sprite(270, 228, "keeperUp").setScale(1.4);
+        keeperUp.setVisible(false);
+        keeperUp.body.setImmovable(true);
+        keeperUp.body.enable = false;
+        keeperUp.setDepth(3);
+
+        keeperDown = scene.physics.add.sprite(270, 228, "keeperDown").setScale(1.4);
+        keeperDown.setVisible(false);
+        keeperDown.body.setImmovable(true);
+        keeperDown.body.enable = false;
+        keeperDown.setDepth(3);
+
+        // side dive sprites
+        keeperLeftD = scene.physics.add.sprite(270, 228, "keeperLeftD").setScale(1.4);
+        keeperLeftD.setVisible(false);
+        keeperLeftD.body.setImmovable(true);
+        keeperLeftD.body.enable = false;
+        keeperLeftD.setDepth(3);
+
+        keeperRightD = scene.physics.add.sprite(270, 228, "keeperRightD").setScale(1.4);
+        keeperRightD.setVisible(false);
+        keeperRightD.body.setImmovable(true);
+        keeperRightD.body.enable = false;
+        keeperRightD.setDepth(3);
+
+        // keyboard events for movement & combo detection
+        scene.input.keyboard.on("keydown", (e) => {
+            const code = e.key.toLowerCase();
+            keysDown.add(code);
+            handleCombos(scene);
+            // also map single keys explicitly to preserve prior behavior:
+            if (code === 'a') keeperMove(scene, "left");
+            if (code === 's') keeperMove(scene, "center");
+            if (code === 'd') keeperMove(scene, "right");
+            if (code === 'w') keeperUpAnim(scene);    // single W jump (if no combo)
+            if (code === 'z') keeperDownAnim(scene);
+        });
+
+        scene.input.keyboard.on("keyup", (e) => {
+            keysDown.delete(e.key.toLowerCase());
+        });
+
+        // UI buttons
+        createButtons(scene);
+
+        // Overlaps: main & all overlays can save the ball
+        scene.physics.add.overlap(ball, keeper, () => handleSave(scene));
+        scene.physics.add.overlap(ball, keeperUp, () => handleSave(scene));
+        scene.physics.add.overlap(ball, keeperDown, () => handleSave(scene));
+        scene.physics.add.overlap(ball, keeperLeftD, () => handleSave(scene));
+        scene.physics.add.overlap(ball, keeperRightD, () => handleSave(scene));
+
+        // expose simple external functions the face code will call (no scene param needed)
+        window.externalKeeperMove = (dir) => keeperMove(scene, dir);
+        window.externalKeeperUp = () => keeperUpAnim(scene);
+        window.externalKeeperDown = () => keeperDownAnim(scene);
+        window.externalLeftDive = () => triggerLeftSideDive(scene);
+        window.externalRightDive = () => triggerRightSideDive(scene);
+
+        // let face code know this scene exists
+        window.linkScene && window.linkScene(scene);
+
+        // start
+        shootNextBall(scene);
+    }
+
+    /* ---------------- UPDATE ---------------- */
+    function update() {
+        // shadow follow
+        if (ballShadow && ball) {
+            ballShadow.x = ball.x;
+            ballShadow.y = ball.y + 40;
+            let scale = Phaser.Math.Clamp((ball.y - 200) / 700, 0.3, 1);
+            ballShadow.scaleX = scale;
+            ballShadow.scaleY = scale * 0.4;
+        }
+
+        if (isBallMoving && ball.y < 350) {
+            handleGoal(this);
+        }
+    }
+
+    /* ---------------- BUTTONS ---------------- */
+    function createButtons(scene) {
+        let style = {
+            font: "28px Arial",
+            fill: "#fff",
+            backgroundColor: "#333",
+            padding: { left: 16, right: 16, top: 8, bottom: 8 }
+        };
+
+        scene.add.text(90, 900, "LEFT", style)
+            .setOrigin(0.5)
+            .setInteractive()
+            .on("pointerdown", () => keeperMove(scene, "left"));
+
+        scene.add.text(270, 900, "CENTER", style)
+            .setOrigin(0.5)
+            .setInteractive()
+            .on("pointerdown", () => keeperMove(scene, "center"));
+
+        scene.add.text(450, 900, "RIGHT", style)
+            .setOrigin(0.5)
+            .setInteractive()
+            .on("pointerdown", () => keeperMove(scene, "right"));
+    }
+
+    /* ---------------- KEEPER HORIZONTAL MOVEMENT ---------------- */
+    function keeperMove(scene, dir) {
+        let targetX = 270;
+        if (dir === "left") targetX = 50;
+        if (dir === "right") targetX = 480;
+
+        lastKeeperX = targetX;
+
+        keeper.setFlipX(dir === "right" ? true : false);
+        keeper.play("keeperLoop");
+
+        scene.tweens.add({
+            targets: [keeper, keeperUp, keeperDown, keeperLeftD, keeperRightD],
+            x: targetX,
+            duration: 380,
+            ease: "Linear",
+            onComplete: () => { keeper.stop(); }
+        });
+    }
+
+    /* ---------------- COMBO HANDLER ---------------- */
+    function handleCombos(scene) {
+        // A + W => left side dive
+        if (keysDown.has('a') && keysDown.has('w')) {
+            triggerLeftSideDive(scene);
+            return;
+        }
+        // D + W => right side dive
+        if (keysDown.has('d') && keysDown.has('w')) {
+            triggerRightSideDive(scene);
+            return;
+        }
+        // No combo detected: allow normal W or Z behavior (W is already bound to keeperUpAnim on keydown)
+    }
+
+    /* ---------------- JUMP (W) ---------------- */
+    function keeperUpAnim(scene) {
+        // If a side-dive or up is already active, ignore
+        if (keeperUp.body.enable || keeperLeftD.body.enable || keeperRightD.body.enable) return;
+
+        keeper.setVisible(false);
+        keeper.body.enable = false;
+
+        keeperUp.setVisible(true);
+        keeperUp.x = lastKeeperX;
+        keeperUp.y = 228;
+        keeperUp.body.enable = true;
+
+        // align others' x
+        keeperDown.x = lastKeeperX;
+        keeperLeftD.x = lastKeeperX;
+        keeperRightD.x = lastKeeperX;
+
+        scene.tweens.add({
+            targets: keeperUp,
+            y: 150,
+            duration: 220,
+            ease: "Quad.easeOut",
+            yoyo: true,
+            onComplete: () => {
+                keeperUp.body.enable = false;
+                keeperUp.setVisible(false);
+
+                keeper.setVisible(true);
+                keeper.body.enable = true;
+                keeperUp.y = 228;
+            }
+        });
+    }
+
+    /* ---------------- DIVE (Z) ---------------- */
+    function keeperDownAnim(scene) {
+        if (keeperDown.body.enable || keeperLeftD.body.enable || keeperRightD.body.enable) return;
+
+        keeper.setVisible(false);
+        keeper.body.enable = false;
+
+        keeperDown.setVisible(true);
+        keeperDown.x = lastKeeperX;
+        keeperDown.y = 228;
+        keeperDown.body.enable = true;
+
+        keeperUp.x = lastKeeperX;
+        keeperLeftD.x = lastKeeperX;
+        keeperRightD.x = lastKeeperX;
+
+        scene.tweens.add({
+            targets: keeperDown,
+            y: 300,
+            duration: 220,
+            ease: "Quad.easeOut",
+            yoyo: true,
+            onComplete: () => {
+                keeperDown.body.enable = false;
+                keeperDown.setVisible(false);
+
+                keeper.setVisible(true);
+                keeper.body.enable = true;
+                keeperDown.y = 228;
+            }
+        });
+    }
+
+    /* ---------------- SIDE DIVES (A+W / D+W) ---------------- */
+    const SIDE_DIVE_DISTANCE = 180;
+
+    function triggerLeftSideDive(scene) {
+        // ignore if any overlay active
+        if (keeperLeftD.body.enable || keeperUp.body.enable || keeperDown.body.enable || keeperRightD.body.enable) return;
+
+        keeper.setVisible(false);
+        keeper.body.enable = false;
+
+        keeperLeftD.setVisible(true);
+        keeperLeftD.x = lastKeeperX;
+        keeperLeftD.y = 228;
+        keeperLeftD.body.enable = true;
+
+        let diveTargetX = lastKeeperX - SIDE_DIVE_DISTANCE;
+        diveTargetX = Phaser.Math.Clamp(diveTargetX, 40, BASE_WIDTH - 40);
+
+        scene.tweens.add({
+            targets: keeperLeftD,
+            x: diveTargetX,
+            y: 250,
+            duration: 300,
+            ease: "Cubic.easeOut",
+            yoyo: true,
+            onComplete: () => {
+                keeperLeftD.body.enable = false;
+                keeperLeftD.setVisible(false);
+
+                keeper.x = diveTargetX;
+                keeper.setVisible(true);
+                keeper.body.enable = true;
+                lastKeeperX = diveTargetX;
+            }
+        });
+    }
+
+    function triggerRightSideDive(scene) {
+        if (keeperRightD.body.enable || keeperUp.body.enable || keeperDown.body.enable || keeperLeftD.body.enable) return;
+
+        keeper.setVisible(false);
+        keeper.body.enable = false;
+
+        keeperRightD.setVisible(true);
+        keeperRightD.x = lastKeeperX;
+        keeperRightD.y = 228;
+        keeperRightD.body.enable = true;
+
+        let diveTargetX = lastKeeperX + SIDE_DIVE_DISTANCE;
+        diveTargetX = Phaser.Math.Clamp(diveTargetX, 40, BASE_WIDTH - 40);
+
+        scene.tweens.add({
+            targets: keeperRightD,
+            x: diveTargetX,
+            y: 250,
+            duration: 300,
+            ease: "Cubic.easeOut",
+            yoyo: true,
+            onComplete: () => {
+                keeperRightD.body.enable = false;
+                keeperRightD.setVisible(false);
+
+                keeper.x = diveTargetX;
+                keeper.setVisible(true);
+                keeper.body.enable = true;
+                lastKeeperX = diveTargetX;
+            }
+        });
+    }
+
+    /* ---------------- BALL / SHOT LOGIC ---------------- */
+    function shootNextBall(scene) {
+        if (shotsTaken >= totalShots) {
+            return endGame(scene);
+        }
+
+        resetBall();
+
+        // delay then shoot
+        scene.time.delayedCall(800, () => {
+            fireRandomShot(scene);
+        });
+    }
+
+    function resetBall() {
+        isBallMoving = false;
+        if (ball && ball.body) {
+            ball.body.stop();
+            ball.setPosition(270, 820);
+        }
+        if (ballShadow && ball) {
+            ballShadow.scaleX = 1;
+            ballShadow.scaleY = 0.4;
+            ballShadow.y = ball.y + 40;
+        }
+    }
+
+    function fireRandomShot(scene) {
+        shotsTaken++;
+
+        const lanes = [150, 270, 390];
+        const target = lanes[Math.floor(Math.random() * lanes.length)];
+
+        const speedX = (target - ball.x) * 3;
+        const speedY = -850;
+
+        ball.play("spin");
+        ball.body.setVelocity(speedX, speedY);
+        isBallMoving = true;
+    }
+
+    function handleSave(scene) {
+        if (!isBallMoving) return;
+        isBallMoving = false;
+
+        score++;
+
+        ball.body.setVelocity(0, 450);
+        ball.play("spin");
+
+        scene.tweens.add({
+            targets: ball,
+            scaleX: 0.38,
+            scaleY: 0.55,
+            duration: 80,
+            yoyo: true
+        });
+
+        scene.time.delayedCall(600, () => shootNextBall(scene));
+    }
+
+    function handleGoal(scene) {
+        if (!isBallMoving) return;
+        isBallMoving = false;
+
+        scene.time.delayedCall(500, () => shootNextBall(scene));
+    }
+
+    function endGame(scene) {
+        scene.add.text(270, 420, `GAME OVER\nSaves: ${score}/${totalShots}`, {
+            font: "44px Arial",
+            fill: "#fff",
+            align: "center"
+        }).setOrigin(0.5);
+    }
+} // end startGame()
+
+/* Optionally auto-start */
+// selectPlayer(1);
+
+/* -------------- FACE TRACKING & MAPPING -------------- */
+
+/*
+ Behavior:
+ - Head left/right -> externalKeeperMove("left"/"right")
+ - Head center -> externalKeeperMove("center")
+ - Head up -> externalKeeperUp()
+ - Head down -> externalKeeperDown()
+ - Head up + tilt left -> externalLeftDive()
+ - Head up + tilt right -> externalRightDive()
+
+ Implementation notes:
+ - Uses nose landmark (face[1]) for X/Y (normalized 0..1)
+ - Thresholds tuned for a typical webcam setup — adjust constants if needed.
+ - Single cooldown controls repeat; feel free to tweak cooldownMs.
+*/
+
+let gameSceneRef = null;
+let faceCooldown = false;
+const cooldownMs = 700; // prevents rapid repeated triggers
+
+// Called from Phaser create() to link scene; create() calls window.linkScene(scene)
+window.linkScene = function(scene) {
+  gameSceneRef = scene;
+};
+
+// set up MediaPipe FaceMesh
+const videoEl = document.getElementById("faceCam");
+
+const faceMesh = new FaceMesh({
+  locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}`,
+});
+faceMesh.setOptions({
+  maxNumFaces: 1,
+  refineLandmarks: true,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5,
+});
+faceMesh.onResults(onHeadMove);
+
+const camera = new Camera(videoEl, {
+  onFrame: async () => {
+    await faceMesh.send({ image: videoEl });
+  },
+  width: 320,
+  height: 240,
+});
+camera.start();
+
+// thresholds — tweak if your camera angle differs
+const leftThreshold = 0.40;
+const rightThreshold = 0.60;
+const upThreshold = 0.82;    // nose y < upThreshold => look up
+const downThreshold = 0.92;  // nose y > downThreshold => look down
+
+function onHeadMove(results) {
+  if (!results.multiFaceLandmarks || faceCooldown || !gameSceneRef) return;
+  const face = results.multiFaceLandmarks[0];
+  if (!face || !face[1]) return;
+
+  const noseX = face[1].x; // normalized left(0) to right(1)
+  const noseY = face[1].y; // normalized top(0) to bottom(1)
+
+  // decide horizontal
+  let horiz = "center";
+  if (noseX < leftThreshold) horiz = "right";
+  else if (noseX > rightThreshold) horiz = "left";
+
+  // decide vertical
+  let vert = "center";
+  if (noseY < upThreshold) vert = "up";
+  else if (noseY > downThreshold) vert = "down";
+
+  // If looking up + tilted left/right => side dive
+  if (vert === "up" && horiz === "left") {
+    // left side dive
+    triggerFaceCooldown();
+    if (window.externalLeftDive) window.externalLeftDive();
+    return;
+  }
+  if (vert === "up" && horiz === "right") {
+    triggerFaceCooldown();
+    if (window.externalRightDive) window.externalRightDive();
+    return;
+  }
+
+  // If just up (no tilt) => jump
+  if (vert === "up") {
+    triggerFaceCooldown();
+    if (window.externalKeeperUp) window.externalKeeperUp();
+    return;
+  }
+
+  // If just down => dive
+  if (vert === "down") {
+    triggerFaceCooldown();
+    if (window.externalKeeperDown) window.externalKeeperDown();
+    return;
+  }
+
+  // Otherwise horizontal movement (left/center/right)
+  if (horiz === "left") {
+    triggerFaceCooldown();
+    if (window.externalKeeperMove) window.externalKeeperMove("left");
+    return;
+  }
+  if (horiz === "right") {
+    triggerFaceCooldown();
+    if (window.externalKeeperMove) window.externalKeeperMove("right");
+    return;
+  }
+  // center
+  if (window.externalKeeperMove) window.externalKeeperMove("center");
+}
+
+function triggerFaceCooldown() {
+  faceCooldown = true;
+  setTimeout(() => faceCooldown = false, cooldownMs);
+}
+</script>
+</body>
+</html>
