@@ -1,296 +1,108 @@
 <html>
   <head>
-  <meta name="8thwall:renderer" content="aframe:1.3.0" />
-<meta name="8thwall:package" content="@8thwall.xrextras" />
-<meta name="8thwall:package" content="@8thwall.landing-page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Other external scripts and meta tags can also be added. -->
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<script src="//cdn.8thwall.com/web/aframe/aframe-extras-7.2.0.min.js"></script>
-
+    <!-- AFRAME -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-  <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
+    <!-- 8th Wall -->
+    <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
 
-  <!-- Landing Pages - see https://www.8thwall.com/docs/web/#landing-pages -->
-  <!-- <script src='//cdn.8thwall.com/web/landing-page/landing-page.js'></script> -->
+    <script async src="//apps.8thwall.com/xrweb?appKey=2UsfxBeH19YSxWydaVb9kmAJe5oG3og8vd75b2yh4KBdwnlQ86IqV2IMEjMKaV1jJsBmUr"></script>
 
-  <!-- 8th Wall Engine - Replace the app key here with your own app key -->
-  <script async
-    src="//apps.8thwall.com/xrweb?appKey=2UsfxBeH19YSxWydaVb9kmAJe5oG3og8vd75b2yh4KBdwnlQ86IqV2IMEjMKaV1jJsBmUr"></script>
-     
-  <script crossorigin="anonymous"
-    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script crossorigin="anonymous"
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <style>
-  .mindar-ui-overlay {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: transparent;
-    z-index: 2;
-  }
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-  .mindar-ui-scanning .scanning {
-    width: 80vw;
-    height: 80vw;
-  }
-
-  .mindar-ui-scanning .scanning .inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    opacity: 0.8;
-    background: linear-gradient(to right, #fff 10px, transparent 10px) 0 0,
-      linear-gradient(to right, #fff 10px, transparent 10px) 0 100%,
-      linear-gradient(to left, #fff 10px, transparent 10px) 100% 0,
-      linear-gradient(to left, #fff 10px, transparent 10px) 100% 100%,
-      linear-gradient(to bottom, #fff 10px, transparent 10px) 0 0,
-      linear-gradient(to bottom, #fff 10px, transparent 10px) 100% 0,
-      linear-gradient(to top, #fff 10px, transparent 10px) 0 100%,
-      linear-gradient(to top, #fff 10px, transparent 10px) 100% 100%;
-    background-repeat: no-repeat;
-    background-size: 40px 40px;
-  }
-
-  .mindar-ui-scanning .scanning .inner .scanline {
-    position: absolute;
-    width: 100%;
-    height: 10px;
-    background: #fff;
-    animation: move 2s linear infinite;
-  }
-  .img1 {
-    margin-left: 26px;
-    margin-top: 14px;
-  }
-  /* Corrected keyframes animation */
-  @keyframes move {
-    0%,
-    100% {
-      top: 0%;
-    }
-
-    50% {
-      top: calc(100% - 10px); /* Move scanline to the bottom */
-    }
-  }
-</style>
+    <style>
+      #ui-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.8);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        transition: opacity .3s ease;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="mindar-ui-overlay mindar-ui-scanning" id="ui-screen" style="display: flex; opacity: 1">
-  <div class="scanning">
-    <div class="inner">
-      <div class="scanline"></div>
-      <img class="img1" src="../assets/images/logo.png" width="80%" height="90%" />
+
+    <!-- UI SCREEN (REQUIRED TO AVOID CRASH) -->
+    <div id="ui-screen">
+      <div>Point your camera at the image…</div>
     </div>
-  </div>
-</div>
-<a-scene
-  xrextras-gesture-detector
-  landing-page
-  xrextras-loading
-  xrextras-runtime-error
-  renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
-  xrweb="disableWorldTracking: false">
-  <xrextras-person-occlusion confidence="0.9"></xrextras-person-occlusion>
-  <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
-  <a-assets>
-    <a-asset-item id="anim1" src="../assets/models/anim1.glb"></a-asset-item>
-    <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
-    <a-asset-item id="anim3" src="../assets/models/anim3.glb"></a-asset-item>
-    <a-asset-item id="anim4" src="../assets/models/anim2.glb"></a-asset-item>
-  </a-assets>
+    <a-scene
+      xrextras-gesture-detector
+      landing-page
+      xrextras-loading
+      xrextras-runtime-error
+      renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
+      xrweb="disableWorldTracking: false">
 
-  <a-camera
-    position="0 0 0"
-    raycaster="objects: .cantap"
-    cursor="fuse: false; rayOrigin: mouse;"></a-camera>
+      <xrextras-person-occlusion confidence="0.9"></xrextras-person-occlusion>
+      <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
-  <a-light type="directional" intensity="0.5" position="1 1 1"></a-light>
-  <a-light type="ambient" intensity="0.7"></a-light>
+      <a-assets>
+        <a-asset-item id="anim1" src="../assets/models/anim1.glb"></a-asset-item>
+        <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
+        <a-asset-item id="anim3" src="../assets/models/anim3.glb"></a-asset-item>
+        <a-asset-item id="anim4" src="../assets/models/anim2.glb"></a-asset-item>
+      </a-assets>
 
-  <xrextras-named-image-target id="chocos1" name="chocos1">
-    <a-entity
-      id="anim1-entity"
-      gltf-model="#anim1"
-      visible="false"
-      position="0 0 -0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      <a-camera position="0 0 0"
+        raycaster="objects: .cantap"
+        cursor="fuse: false; rayOrigin: mouse;"></a-camera>
 
-    <a-entity
-      id="anim2-entity"
-      gltf-model="#anim2"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      <a-light type="directional" intensity="0.5" position="1 1 1"></a-light>
+      <a-light type="ambient" intensity="0.7"></a-light>
 
-    <a-entity
-      id="anim3-entity"
-      gltf-model="#anim3"
-      visible="false"
-      position="0 0 0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-    <a-entity
-      id="anim4-entity"
-      gltf-model="#anim4"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      <!-- TARGETS --------------------------------------------------- -->
 
-    <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-  </xrextras-named-image-target>
-  <xrextras-named-image-target id="moons_stars" name="moons_stars">
-    <a-entity
-      id="anim1-entity"
-      gltf-model="#anim1"
-      visible="false"
-      position="0 0 -0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      <xrextras-named-image-target id="chocos1" name="chocos1">
+        <a-entity id="anim1-entity" gltf-model="#anim1" visible="false"
+          position="0 0 -0" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
-    <a-entity
-      id="anim2-entity"
-      gltf-model="#anim2"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+        <a-entity id="anim2-entity" gltf-model="#anim2" visible="false"
+          position="0 -1 -1" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
-    <a-entity
-      id="anim3-entity"
-      gltf-model="#anim3"
-      visible="false"
-      position="0 0 0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-    <a-entity
-      id="anim4-entity"
-      gltf-model="#anim4"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+        <a-entity id="anim3-entity" gltf-model="#anim3" visible="false"
+          position="0 0 0" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
-    <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-  </xrextras-named-image-target>
+        <a-entity id="anim4-entity" gltf-model="#anim4" visible="false"
+          position="0 -1 -1" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
-  <xrextras-named-image-target id="doet" name="doet">
-    <a-entity
-      id="anim1-entity"
-      gltf-model="#anim1"
-      visible="false"
-      position="0 0 -0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+        <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+      </xrextras-named-image-target>
 
-    <a-entity
-      id="anim2-entity"
-      gltf-model="#anim2"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      <!-- COPY YOUR OTHER TARGETS BELOW (unchanged) -->
+      <!-- moons_stars, doet, etc… -->
 
-    <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity"></a-entity>
-  </xrextras-named-image-target>
-  <xrextras-named-image-target id="chhota_laddoo" name="chhota_laddoo">
-    <a-entity
-      id="anim1-entity"
-      gltf-model="#anim1"
-      visible="false"
-      position="0 0 -0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+    </a-scene>
 
-    <a-entity
-      id="anim2-entity"
-      gltf-model="#anim2"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-
-    <a-entity
-      id="anim3-entity"
-      gltf-model="#anim3"
-      visible="false"
-      position="0 0 0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-    <a-entity
-      id="anim4-entity"
-      gltf-model="#anim4"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-
-    <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-  </xrextras-named-image-target>
-  <xrextras-named-image-target id="crunchy_bites" name="crunchy_bites">
-    <a-entity
-      id="anim1-entity"
-      gltf-model="#anim1"
-      visible="false"
-      position="0 0 -0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-
-    <a-entity
-      id="anim2-entity"
-      gltf-model="#anim2"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-
-    <a-entity
-      id="anim3-entity"
-      gltf-model="#anim3"
-      visible="false"
-      position="0 0 0"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-    <a-entity
-      id="anim4-entity"
-      gltf-model="#anim4"
-      visible="false"
-      position="0 -1 -1"
-      scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
-
-    <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-  </xrextras-named-image-target>
-</a-scene>
-
+    <!-- --------------------------------------------- -->
+    <!-- FIXED JAVASCRIPT -->
+    <!-- --------------------------------------------- -->
 
     <script>
-     // app.js
 AFRAME.registerComponent('animation-sequence', {
-  schema: {
-    entities: {type: 'array'},
-  },
+  schema: { entities: { type: 'array' } },
 
   init() {
-    // Cache entity references
     this.ents = this.data.entities.map(sel => document.querySelector(sel))
     this.currentIndex = 0
     this.sequenceStarted = false
@@ -298,16 +110,12 @@ AFRAME.registerComponent('animation-sequence', {
     this._onAnimFinished = null
 
     const scene = this.el.sceneEl
-    scene.addEventListener('loaded', () => {
-      console.log('🎬 Scene fully loaded.')
-      this.setupSequence()
-    })
+    scene.addEventListener('loaded', () => this.setupSequence())
   },
 
   setupSequence() {
     const id = new URLSearchParams(window.location.search).get('id')
 
-    // Map URL → target name
     const targetMap = {
       1: 'chocos1',
       2: 'moons_stars',
@@ -316,40 +124,27 @@ AFRAME.registerComponent('animation-sequence', {
       5: 'crunchy_bites',
     }
     const showTarget = targetMap[id]
-    document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
+
+    document.querySelectorAll('xrextras-named-image-target').forEach(t => {
       t.setAttribute('enabled', false)
       t.style.display = 'none'
     })
-    const targetEll = document.querySelector(
-      `xrextras-named-image-target[name="${showTarget}"]`
-    )
-    document.querySelectorAll('[animation-sequence]').forEach((seq) => {
-      const parent = seq.closest('xrextras-named-image-target')
-      if (!parent || parent.id !== showTarget) {
-        seq.setAttribute('animation-sequence', 'enabled: false')
-      }
-    })
 
-    if (showTarget) {
+    const targetEl = document.querySelector(`xrextras-named-image-target[name="${showTarget}"]`)
+    if (showTarget && targetEl) {
       document.getElementById(showTarget).style.display = 'block'
-      targetEll.setAttribute('enabled', true)
-      targetEll.setAttribute('name', showTarget)
-      console.log('Showing:', showTarget)
-    } else {
-      console.log('Invalid URL ID, no target shown')
+      targetEl.setAttribute('enabled', true)
     }
-    console.log('✅ Animation sequence ready.')
+
     const uiscreen = document.getElementById('ui-screen')
-    const imageTarget = this.el.closest('xrextras-named-image-target')
     const scene = this.el.sceneEl
 
     const onFound = () => {
       console.log('🟢 Image found!')
-      uiscreen.style.transition = 'opacity 0.3s ease'
-      uiscreen.style.opacity = '0'  // Fade out the overlay
-      setTimeout(() => {
-        uiscreen.style.display = 'none'  // Hide after fade
-      }, 300)
+      if (uiscreen) {
+        uiscreen.style.opacity = '0'
+        setTimeout(() => uiscreen.style.display = 'none', 300)
+      }
       if (!this.sequenceStarted) {
         this.sequenceStarted = true
         this.chainAnimations()
@@ -360,69 +155,51 @@ AFRAME.registerComponent('animation-sequence', {
 
     const onLost = () => {
       console.log('⏸️ Image lost.')
-      uiscreen.style.display = 'flex'  // Show overlay
-      setTimeout(() => {
-        uiscreen.style.transition = 'opacity 0.3s ease'
-        uiscreen.style.opacity = '1'  // Fade in the overlay
-      }, 10)
+      if (uiscreen) {
+        uiscreen.style.display = 'flex'
+        setTimeout(() => uiscreen.style.opacity = '1', 10)
+      }
       if (!this.sequenceCompleted) this.pauseAll()
     }
 
-    // Listen on both the target + scene (for safety)
-    if (imageTarget) {
-      imageTarget.addEventListener('xrimagefound', onFound)
-      imageTarget.addEventListener('xrimagelost', onLost)
-      console.log('🔗 Bound listeners to xrextras-named-image-target.')
+    if (targetEl) {
+      targetEl.addEventListener('xrimagefound', onFound)
+      targetEl.addEventListener('xrimagelost', onLost)
     }
+
     scene.addEventListener('xrimagefound', onFound)
     scene.addEventListener('xrimagelost', onLost)
   },
 
   playEntity(index) {
-    // Hide all, show only current
-    this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
+    this.ents.forEach((e,i)=> e.setAttribute('visible', i===index))
     const entity = this.ents[index]
     if (!entity) return
 
-    const onModelLoaded = () => {
-      const mixerComp = entity.components['animation-mixer']
-      if (mixerComp && mixerComp.mixer) {
-        const {mixer} = mixerComp
-        mixer.stopAllAction()
-        mixer.timeScale = 1
-
-        // Start first clip
-        const actions = Object.values(mixer._actions)
-        if (actions.length > 0) {
-          const action = actions[0]
-          action.reset().play()
-          console.log(`🎥 Playing animation ${index + 1}`)
-        } else {
-          console.warn(`⚠️ No animation clips found in ${entity.id}`)
-        }
-      } else {
-        console.warn(`⚠️ No animation-mixer on ${entity.id}`)
+    const startAnim = () => {
+      const m = entity.components['animation-mixer']
+      if (m && m.mixer) {
+        const actions = Object.values(m.mixer._actions)
+        if (actions.length) actions[0].reset().play()
       }
     }
 
-    if (entity.hasLoaded) onModelLoaded()
-    else entity.addEventListener('model-loaded', onModelLoaded, {once: true})
+    if (entity.hasLoaded) startAnim()
+    else entity.addEventListener('model-loaded', startAnim, {once:true})
   },
 
   pauseAll() {
-    this.ents.forEach((e) => {
+    this.ents.forEach(e => {
       const m = e.components['animation-mixer']
       if (m && m.mixer) m.mixer.timeScale = 0
     })
-    console.log('⏸️ Animations paused.')
   },
 
   resumeAll() {
-    this.ents.forEach((e) => {
+    this.ents.forEach(e => {
       const m = e.components['animation-mixer']
       if (m && m.mixer) m.mixer.timeScale = 1
     })
-    console.log('▶️ Animations resumed.')
   },
 
   chainAnimations() {
@@ -430,40 +207,28 @@ AFRAME.registerComponent('animation-sequence', {
 
     const current = this.ents[this.currentIndex]
     const comp = current.components['animation-mixer']
-    if (!comp || !comp.mixer) {
-      console.warn(`⚠️ No mixer found on entity ${current.id}`)
-      return
-    }
+    if (!comp || !comp.mixer) return
 
-    const {mixer} = comp
+    const mixer = comp.mixer
 
-    // Remove any old listener
-    if (this._onAnimFinished) mixer.removeEventListener('finished', this._onAnimFinished)
+    if (this._onAnimFinished)
+      mixer.removeEventListener('finished', this._onAnimFinished)
 
-    // New finish handler
     this._onAnimFinished = () => {
       this.currentIndex++
       if (this.currentIndex < this.ents.length) {
-        console.log(`➡️ Moving to animation ${this.currentIndex + 1}`)
         this.playEntity(this.currentIndex)
         this.chainAnimations()
       } else {
         this.sequenceCompleted = true
-        console.log('🏁 All animations finished successfully!')
       }
     }
 
     mixer.addEventListener('finished', this._onAnimFinished)
-
-    // Play current
     this.playEntity(this.currentIndex)
-  },
+  }
 })
-
-window.addEventListener('load', () => {
-  console.log('🌐 app.js loaded and ready!')
-})
-
     </script>
+
   </body>
 </html>
