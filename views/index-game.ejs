@@ -2,7 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- REQUIRED BY 8TH WALL -->
+    
+    <meta name="8thwall:renderer" content="aframe:1.6.0" />
+    <meta name="8thwall:package" content="@8thwall.xrextras" />
+    <meta name="8thwall:package" content="@8thwall.landing-page" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
 <!-- AFrame -->
 <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
@@ -12,12 +19,16 @@
 
 <!-- XR Extras -->
 <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
+
 <!-- <script src="https://cdn.8thwall.com/web/landing-page/landing-page.js"></script> -->
 
 <!-- XRWEB CLOUD ENGINE -->
 <script async src="https://apps.8thwall.com/xrweb?appKey=2UsfxBeH19YSxWydaVb9kmAJe5oG3og8vd75b2yh4KBdwnlQ86IqV2IMEjMKaV1jJsBmUr"></script>
  
+ <script crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
    
 
     <style>
@@ -58,10 +69,10 @@
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
       <a-assets>
-        <a-asset-item id="anim1" src="../assets/models/anim1.glb"></a-asset-item>
-        <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
-        <a-asset-item id="anim3" src="../assets/models/anim3.glb"></a-asset-item>
-        <a-asset-item id="anim4" src="../assets/models/anim2.glb"></a-asset-item>
+        <a-asset-item id="anim1" src="../assets/models/anim1.glb" crossorigin="anonymous"></a-asset-item>
+        <a-asset-item id="anim2" src="../assets/models/anim2.glb" crossorigin="anonymous"></a-asset-item>
+        <a-asset-item id="anim3" src="../assets/models/anim3.glb" crossorigin="anonymous"></a-asset-item>
+        <a-asset-item id="anim4" src="../assets/models/anim2.glb" crossorigin="anonymous"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0"
