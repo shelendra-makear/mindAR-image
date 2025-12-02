@@ -1,74 +1,67 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<%- include('./includes/header') %>
 
-    <!-- AFRAME -->
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <div class="main-container">
+    <div class="landing-page">
+      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <img src="/assets/images/logo.png" alt="chocos Logo" class="chocos-logo">
+      <img src="/assets/images/monkey.png" alt="monkey img" class="monkey-img">
+      <div class="hand-card-board">
+        <img src="/assets/images/handCardBoard/choco_caramel.png" alt="product img" class="hand-card-board-img">
+      </div>
+      <div class="bottom-container">
 
-    <!-- MINDAR (Image Tracking) -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+        <div class="text-box">
+          <h2>Coco is Here to Upgrade Your Morning!</h2>
+          <p>Scan, watch and learn which breakfast fuels you better</p>
+          <button class="start-btn">Start Experience</button>
+        </div>
 
-    <!-- AFRAME EXTRAS (animation-mixer) -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-  </head>
+      </div>
+    </div>
+ <div class="menu-page">
+      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+     
+          <div class="yellow-card">
 
-  <body>
-    <a-scene
-      mindar-image="imageTargetSrc: assets/images/targets-b.mind; autoStart: true;
-      filterMinCF: 0.0001; filterBeta: 0.01; warmupTolerance: 5; missTolerance: 5;
-    "
-      embedded
-      vr-mode-ui="enabled: false"
-      renderer="precision: highp; antialias: true;"
-      loading-screen="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
-      <a-assets>
-        <a-asset-item id="avatarModel" src="assets/images/anim1.glb"></a-asset-item>
-      </a-assets>
+        <h2>Select your Breakfast</h2>
+        <p>Scroll left or right to select one breakfast</p>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Image Target -->
-      <a-entity id="target1" mindar-image-target="targetIndex: 0">
-        <a-gltf-model
-          id="avatar"
-          src="#avatarModel"
-          position="0 -0.3 0"
-          scale="0.7 0.7 0.7"
-          rotation="0 0 0"
-          animation-mixer="loop: repeat; clampWhenFinished: false;"
-        ></a-gltf-model>
-      </a-entity>
-    </a-scene>
 
-    <script>
-      // Force animation start on iOS and slow devices
-      const target = document.querySelector("#target1");
-      const model = document.querySelector("#avatar");
+<div class="container">
+  <div class="card-carousel">
+    <div class="card" id="1">
+      <img class="image-container" src="https://static.addtoany.com/images/dracaena-cinnabari.jpg">
+      <p>Lorem</p>
+    </div>
+    <div class="card" id="2">
+      <img class="image-container">
+      <p>Lorem</p>
+    </div>
+    <div class="card" id="3">
+       <img class="image-container">
+      <p>Lorem</p>
+    </div>  
+    <div class="card" id="4">
+      <img class="image-container">
+      <p>Lorem</p>
+    </div>
+    <div class="card" id="5">
+       <img class="image-container">
+      <p>Lorem</p>
+    </div>
+  </div>
+  
+</div>
 
-      target.addEventListener("targetFound", () => {
-        console.log("🎯 Target Found → Start Animation");
 
-        try {
-          let mixer = model.components["animation-mixer"];
-          if (mixer) {
-            mixer.stopAction();
-            setTimeout(() => mixer.playAction(), 50); // iOS fix
-          }
-        } catch (e) {
-          console.warn(e);
-        }
-      });
+        <!-- BUTTON -->
+        <button class="start-btn">Start Experience</button>
 
-      target.addEventListener("targetLost", () => {
-        console.log("🛑 Target Lost → Stop Animation");
-        try {
-          model.components["animation-mixer"].stopAction();
-        } catch (e) {
-          console.warn(e);
-        }
-      });
-    </script>
-  </body>
-</html>
+    </div>
+
+    </div>
+
+
+  </div>
+  <%- include('./includes/footer') %>

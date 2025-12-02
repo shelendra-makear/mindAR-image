@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: #000000;
+    font-family: "Raleway";
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: 900;
+    padding: 0.5rem 0rem;
+}
+
+p {
+    width: 85%;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: auto
+}
+
+.main-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+}
+
+.landing-page {
+    position: relative;
+    height: 100dvh;
+    width: 100vw;
+    max-width: 33.75rem;
+    background-image: url(/assets/images/Brown_bg.png);
+    background-size: cover;
+    background-position: top;
+    margin: auto;
+    background-repeat: no-repeat;
+    display: none;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.top-img {
+    width: 100vw;   
+}
+
+.chocos-logo {
+    position: absolute;
+    top: 8%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 60%;
+}
+.monkey-img{   
+    left: -1.5rem;
+    top: 18%;
+    position: absolute;
+    width: 45%;
+}
+.hand-card-board{
+        position: absolute;
+    bottom: 50%;
+    right: 0;
+}
+
+.bottom-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 60%;
+    background-image: url(/assets/images/product_Img.png);
+    background-size: contain;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+}
+
+.start-btn {
+        width: 60%;
+    background: #ff0000;
+    color: #fff;
+    border: 4px solid white;
+    padding: 0.8rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'poppins';
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.text-box {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.product-img{
+    width: 95%;
+    margin-top: -18vh;
+}
+@media only screen and (max-width: 376px) {
+    h2,p{
+        width: 100%;
+        font-size: 0.8rem;
+    }
+    .hand-card-board {
+        bottom: 48%;
+    }
+    .hand-card-board-img{
+        width: 80%;
+    }
+   .bottom-container{
+      background-image: url(/assets/images/Crunchy.png);
+      height: 100%;
+   }
+   .text-box{
+    bottom: 1rem;
+   }
+}
+
+.menu-page {
+    position: relative;
+    height: 100dvh;
+    width: 100vw;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+.yellow-card {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 420px;
+    background: #ffe100;
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    border: 4px solid white;
+    text-align: center;
+}
+
+.yellow-card h2 {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.yellow-card p {
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+
+.container {
+  height: 215px;
+  overflow: hidden;
+}
+
+/* MAIN CAROUSEL */
+.card-carousel {
+  z-index: 1;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 300px;
+  transition: filter .3s ease;
+}
+
+.card-carousel.smooth-return {
+  transition: all .2s ease;
+}
+
+/* CARD STYLE */
+.card-carousel .card {
+  background: whitesmoke;
+  width: 20%;
+  min-width: 110px;
+  padding: 0.5rem;
+  position: absolute;
+  top: 0;
+  margin: 0 auto;
+  color: rgba(0,0,0,.5);
+  transition: transform .25s, left .25s, right .25s, opacity .25s;
+  box-shadow: 0px 5px 5px rgba(0,0,0,0.3);
+  border-radius: 1em;
+  filter: brightness(.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Important so right/left works */
+  left: auto;
+  right: auto;
+}
+
+/* ACTIVE CENTER CARD */
+.card.highlight {
+  filter: brightness(1);
+}
+
+/* IMAGE CIRCLE */
+.image-container {
+  width: 6rem;
+  height: 6rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 100%;
+  margin-bottom: 1em;
+}
