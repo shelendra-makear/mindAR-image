@@ -296,35 +296,51 @@ AFRAME.registerComponent('animation-sequence', {
     scene.addEventListener('xrimagelost', onLost)
   },
 
-  playEntity(index) {
-    this.ents.forEach((e,i)=> e.setAttribute('visible', i===index))
+ playEntity(index) {
+    // Hide all, show only current
+    this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
     const entity = this.ents[index]
     if (!entity) return
 
-    const startAnim = () => {
-      const m = entity.components['animation-mixer']
-      if (m && m.mixer) {
-        const actions = Object.values(m.mixer._actions)
-        if (actions.length) actions[0].reset().play()
+    const onModelLoaded = () => {
+      const mixerComp = entity.components['animation-mixer']
+      if (mixerComp && mixerComp.mixer) {
+        const {mixer} = mixerComp
+        mixer.stopAllAction()
+        mixer.timeScale = 1
+
+        // Start first clip
+        const actions = Object.values(mixer._actions)
+        if (actions.length > 0) {
+          const action = actions[0]
+          action.reset().play()
+          console.log(`🎥 Playing animation ${index + 1}`)
+        } else {
+          console.warn(`⚠️ No animation clips found in ${entity.id}`)
+        }
+      } else {
+        console.warn(`⚠️ No animation-mixer on ${entity.id}`)
       }
     }
 
-    if (entity.hasLoaded) startAnim()
-    else entity.addEventListener('model-loaded', startAnim, {once:true})
+    if (entity.hasLoaded) onModelLoaded()
+    else entity.addEventListener('model-loaded', onModelLoaded, {once: true})
   },
 
   pauseAll() {
-    this.ents.forEach(e => {
+    this.ents.forEach((e) => {
       const m = e.components['animation-mixer']
       if (m && m.mixer) m.mixer.timeScale = 0
     })
+    console.log('⏸️ Animations paused.')
   },
 
   resumeAll() {
-    this.ents.forEach(e => {
+    this.ents.forEach((e) => {
       const m = e.components['animation-mixer']
       if (m && m.mixer) m.mixer.timeScale = 1
     })
+    console.log('▶️ Animations resumed.')
   },
 
   chainAnimations() {
@@ -332,26 +348,34 @@ AFRAME.registerComponent('animation-sequence', {
 
     const current = this.ents[this.currentIndex]
     const comp = current.components['animation-mixer']
-    if (!comp || !comp.mixer) return
+    if (!comp || !comp.mixer) {
+      console.warn(`⚠️ No mixer found on entity ${current.id}`)
+      return
+    }
 
-    const mixer = comp.mixer
+    const {mixer} = comp
 
-    if (this._onAnimFinished)
-      mixer.removeEventListener('finished', this._onAnimFinished)
+    // Remove any old listener
+    if (this._onAnimFinished) mixer.removeEventListener('finished', this._onAnimFinished)
 
+    // New finish handler
     this._onAnimFinished = () => {
       this.currentIndex++
       if (this.currentIndex < this.ents.length) {
+        console.log(`➡️ Moving to animation ${this.currentIndex + 1}`)
         this.playEntity(this.currentIndex)
         this.chainAnimations()
       } else {
         this.sequenceCompleted = true
+        console.log('🏁 All animations finished successfully!')
       }
     }
 
     mixer.addEventListener('finished', this._onAnimFinished)
+
+    // Play current
     this.playEntity(this.currentIndex)
-  }
+  },
 })
     </script>
 
