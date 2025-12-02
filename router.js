@@ -17,10 +17,10 @@ const limiter = rateLimit({
 })
 
 router.get('/', (req, res) => {
-    res.render('index-game')
+    res.render('index')
 })
 router.get('/game', (req, res) => {
-    res.render('index')
+    res.render('index-game')
 })
 
 module.exports = router;
