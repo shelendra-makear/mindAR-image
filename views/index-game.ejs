@@ -13,13 +13,14 @@
 
 <!-- AFrame -->
 <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-
+ <!-- AFRAME EXTRAS (animation-mixer) -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
 <!-- XR Extras -->
 <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
 
 <!-- Animation Mixer -->
-<script src="https://cdn.jsdelivr.net/npm/aframe-animation-mixer@6.0.0/dist/aframe-animation-mixer.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/aframe-animation-mixer@6.0.0/dist/aframe-animation-mixer.min.js"></script> -->
 
 
 <!-- XRWEB CLOUD ENGINE -->
@@ -69,10 +70,10 @@
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
       <a-assets>
-        <a-asset-item id="anim1" src="../assets/models/anim1.glb" crossorigin="anonymous"></a-asset-item>
-        <a-asset-item id="anim2" src="../assets/models/anim2.glb" crossorigin="anonymous"></a-asset-item>
-        <a-asset-item id="anim3" src="../assets/models/anim3.glb" crossorigin="anonymous"></a-asset-item>
-        <a-asset-item id="anim4" src="../assets/models/anim2.glb" crossorigin="anonymous"></a-asset-item>
+        <a-asset-item id="anim1" src="../assets/models/anim1.glb" ></a-asset-item>
+        <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
+        <a-asset-item id="anim3" src="../assets/models/anim3.glb" ></a-asset-item>
+        <a-asset-item id="anim4" src="../assets/models/anim2.glb" ></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0"
@@ -84,7 +85,7 @@
 
       <!-- TARGETS --------------------------------------------------- -->
 
-      <xrextras-named-image-target id="chocos1" name="chocos1">
+      <!-- <xrextras-named-image-target id="chocos1" name="chocos1">
         <a-entity id="anim1-entity" gltf-model="#anim1" visible="false"
           position="0 0 -0" scale="0.7 0.7 0.7"
           animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
@@ -102,7 +103,7 @@
           animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
         <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-      </xrextras-named-image-target>
+      </xrextras-named-image-target> -->
       <xrextras-named-image-target id="moons_stars" name="moons_stars">
     <a-entity
       id="anim1-entity-ms"
@@ -110,7 +111,7 @@
       visible="false"
       position="0 0 -0"
       scale="0.7 0.7 0.7"
-      animation-mixer></a-entity>
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
       id="anim2-entity-ms"
@@ -118,7 +119,7 @@
       visible="false"
       position="0 -1 -1"
       scale="0.7 0.7 0.7"
-      animation-mixer></a-entity>
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
       id="anim3-entity-ms"
@@ -126,20 +127,20 @@
       visible="false"
       position="0 0 0"
       scale="0.7 0.7 0.7"
-      animation-mixer></a-entity>
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
     <a-entity
       id="anim4-entity-ms"
       gltf-model="#anim4"
       visible="false"
       position="0 -1 -1"
       scale="0.7 0.7 0.7"
-      animation-mixer></a-entity>
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
       animation-sequence="entities: #anim1-entity-ms, #anim2-entity-ms, #anim3-entity-ms, #anim4-entity-ms"></a-entity>
   </xrextras-named-image-target>
 
-  <xrextras-named-image-target id="doet" name="doet">
+  <!-- <xrextras-named-image-target id="doet" name="doet">
     <a-entity
       id="anim1-entity-doet"
       gltf-model="#anim1"
@@ -227,7 +228,7 @@
 
     <a-entity
       animation-sequence="entities: #anim1-entity-bites, #anim2-entity-bites, #anim3-entity-bites, #anim4-entity-bites"></a-entity>
-  </xrextras-named-image-target>
+  </xrextras-named-image-target> -->
 
       <!-- COPY YOUR OTHER TARGETS BELOW (unchanged) -->
       <!-- moons_stars, doet, etc… -->
