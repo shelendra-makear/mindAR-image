@@ -65,7 +65,7 @@
       renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
       xrweb="disableWorldTracking: false">
 
-      <xrextras-person-occlusion confidence="0.9"></xrextras-person-occlusion>
+      <xrextras-person-occlusion></xrextras-person-occlusion>
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
       <a-assets>
@@ -105,7 +105,7 @@
       </xrextras-named-image-target>
       <xrextras-named-image-target id="moons_stars" name="moons_stars">
     <a-entity
-      id="anim1-entity"
+      id="anim1-entity-ms"
       gltf-model="#anim1"
       visible="false"
       position="0 0 -0"
@@ -113,7 +113,7 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim2-entity"
+      id="anim2-entity-ms"
       gltf-model="#anim2"
       visible="false"
       position="0 -1 -1"
@@ -121,14 +121,14 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim3-entity"
+      id="anim3-entity-ms"
       gltf-model="#anim3"
       visible="false"
       position="0 0 0"
       scale="0.7 0.7 0.7"
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
     <a-entity
-      id="anim4-entity"
+      id="anim4-entity-ms"
       gltf-model="#anim4"
       visible="false"
       position="0 -1 -1"
@@ -136,12 +136,12 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+      animation-sequence="entities: #anim1-entity-ms, #anim2-entity-ms, #anim3-entity-ms, #anim4-entity-ms"></a-entity>
   </xrextras-named-image-target>
 
   <xrextras-named-image-target id="doet" name="doet">
     <a-entity
-      id="anim1-entity"
+      id="anim1-entity-doet"
       gltf-model="#anim1"
       visible="false"
       position="0 0 -0"
@@ -149,18 +149,18 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim2-entity"
+      id="anim2-entity-doet"
       gltf-model="#anim2"
       visible="false"
       position="0 -1 -1"
       scale="0.7 0.7 0.7"
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
-    <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity"></a-entity>
+    <a-entity animation-sequence="entities: #anim1-entity-doet, #anim2-entity-doet"></a-entity>
   </xrextras-named-image-target>
   <xrextras-named-image-target id="chhota_laddoo" name="chhota_laddoo">
     <a-entity
-      id="anim1-entity"
+      id="anim1-entity-laddoo"
       gltf-model="#anim1"
       visible="false"
       position="0 0 -0"
@@ -168,7 +168,7 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim2-entity"
+      id="anim2-entity-laddoo"
       gltf-model="#anim2"
       visible="false"
       position="0 -1 -1"
@@ -176,14 +176,14 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim3-entity"
+      id="anim3-entity-laddoo"
       gltf-model="#anim3"
       visible="false"
       position="0 0 0"
       scale="0.7 0.7 0.7"
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
     <a-entity
-      id="anim4-entity"
+      id="anim4-entity-laddoo"
       gltf-model="#anim4"
       visible="false"
       position="0 -1 -1"
@@ -191,11 +191,11 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+      animation-sequence="entities: #anim1-entity-laddoo, #anim2-entity-laddoo, #anim3-entity-laddoo, #anim4-entity-laddoo"></a-entity>
   </xrextras-named-image-target>
   <xrextras-named-image-target id="crunchy_bites" name="crunchy_bites">
     <a-entity
-      id="anim1-entity"
+      id="anim1-entity-bites"
       gltf-model="#anim1"
       visible="false"
       position="0 0 -0"
@@ -203,7 +203,7 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim2-entity"
+      id="anim2-entity-bites"
       gltf-model="#anim2"
       visible="false"
       position="0 -1 -1"
@@ -211,14 +211,14 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      id="anim3-entity"
+      id="anim3-entity-bites"
       gltf-model="#anim3"
       visible="false"
       position="0 0 0"
       scale="0.7 0.7 0.7"
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
     <a-entity
-      id="anim4-entity"
+      id="anim4-entity-bites"
       gltf-model="#anim4"
       visible="false"
       position="0 -1 -1"
@@ -226,7 +226,7 @@
       animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
 
     <a-entity
-      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+      animation-sequence="entities: #anim1-entity-bites, #anim2-entity-bites, #anim3-entity-bites, #anim4-entity-bites"></a-entity>
   </xrextras-named-image-target>
 
       <!-- COPY YOUR OTHER TARGETS BELOW (unchanged) -->
@@ -415,9 +415,7 @@ AFRAME.registerComponent('animation-sequence', {
   },
 })
 
-window.addEventListener('load', () => {
-  console.log('🌐 app.js loaded and ready!')
-})
+
     </script>
 
   </body>
