@@ -32,16 +32,49 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
 
 
 
+const cardList = [
+  { id: 1, img: "../assets/images/menu_bg.png", text: "Lorem" },
+  { id: 2, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 3, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 4, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 5, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 6, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 7, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 8, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 9, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 10, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 11, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 12, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 13, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 14, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 15, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 16, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 17, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 18, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 19, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
+  { id: 20, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" }
+];
 
-
-
-  
 const cardsContainer = document.querySelector(".card-carousel");
-const cardsController = document.querySelector(".card-controller");
 
-// ---------------- DRAG EVENT ----------------
+// Generate cards dynamically
+cardList.forEach(card => {
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+  cardDiv.id = card.id;
+
+  cardDiv.innerHTML = `
+      <img class="image-container" src="${card.img}">
+      <p>${card.text}</p>
+  `;
+
+  cardsContainer.appendChild(cardDiv);
+});
+
+
+
 class DraggingEvent {
-  constructor(target = undefined) {
+  constructor(target) {
     this.target = target;
   }
 
@@ -53,21 +86,21 @@ class DraggingEvent {
       handler = callback(e);
 
       window.addEventListener("mousemove", handler);
-      window.addEventListener("mouseup", clearDragging);
+      window.addEventListener("mouseup", clear);
     });
 
     this.target.addEventListener("touchstart", e => {
       handler = callback(e);
 
       window.addEventListener("touchmove", handler);
-      window.addEventListener("touchend", clearDragging);
+      window.addEventListener("touchend", clear);
     });
 
-    function clearDragging() {
+    function clear() {
       window.removeEventListener("mousemove", handler);
-      window.removeEventListener("mouseup", clearDragging);
+      window.removeEventListener("mouseup", clear);
       window.removeEventListener("touchmove", handler);
-      window.removeEventListener("touchend", clearDragging);
+      window.removeEventListener("touchend", clear);
       handler(null);
     }
   }
@@ -86,23 +119,25 @@ class DraggingEvent {
   }
 }
 
-// ---------------- CAROUSEL CLASS ----------------
+/* ============================================
+   CAROUSEL CLASS
+============================================ */
 class CardCarousel extends DraggingEvent {
   constructor(container, controller) {
     super(container);
+
     this.container = container;
     this.controller = controller;
 
     this.cards = [...container.querySelectorAll(".card")];
-    this.total = this.cards.length;
+    this.cards.forEach((c, i) => (c.dataset.index = i));
 
+    this.total = this.cards.length;
     this.centerIndex = 0;
     this.visibleRange = 2;
-
     this.lastOffset = 0;
 
     this.build();
-
     super.getDistance(this.moveCards.bind(this));
   }
 
@@ -112,6 +147,16 @@ class CardCarousel extends DraggingEvent {
 
   build() {
     this.updatePositions(0);
+    this.setActiveCard();
+  }
+
+  setActiveCard() {
+    this.cards.forEach(card => card.classList.remove("center-box-shadow"));
+    const activeCardBox = this.cards[this.centerIndex];
+    if (activeCardBox) activeCardBox.classList.add("center-box-shadow");
+     this.cards.forEach(card => card.classList.remove("active"));
+    const activeCard = this.cards[this.centerIndex];
+    if (activeCard) activeCard.classList.add("active");
   }
 
   updatePositions(offset) {
@@ -139,14 +184,15 @@ class CardCarousel extends DraggingEvent {
 
     card.style.pointerEvents = "auto";
 
-    let scale = 1 - Math.abs(round) * 0.25;
+    let scale = 0.9 - Math.abs(round) * 0.25;
     if (scale < 0) scale = 0;
+    
 
-    card.style.transform = `scale(${scale})`;
     card.style.opacity = 1;
+    card.style.transform = `scale(${scale})`;
 
-    const centerPos = 35;
-    const step = 17.5;
+    const centerPos = 32;
+    const step = 16;
 
     if (round < 0) {
       card.style.left = `${centerPos - Math.abs(round) * step}%`;
@@ -155,10 +201,14 @@ class CardCarousel extends DraggingEvent {
       card.style.right = `${centerPos - round * step}%`;
       card.style.left = "";
     } else {
-      card.style.left = `${centerPos}%`;
-      card.style.right = "";
+      card.style.left = "0%";
+      card.style.right = "0%";
     }
-
+if (Math.abs(round) === 2) {
+    card.style.opacity = 0.5;      // -2 and +2
+  } else {
+    card.style.opacity = 1;        // center, -1, +1
+  }
     card.style.zIndex = 20 - Math.abs(round);
   }
 
@@ -179,6 +229,7 @@ class CardCarousel extends DraggingEvent {
 
     this.container.classList.add("smooth-return");
     this.updatePositions(0);
+    this.setActiveCard();
 
     setTimeout(() => {
       this.container.classList.remove("smooth-return");
@@ -186,7 +237,19 @@ class CardCarousel extends DraggingEvent {
   }
 }
 
-new CardCarousel(cardsContainer, cardsController);
+// const cardsContainer = document.querySelector(".card-carousel");
+const cardsController = document.querySelector(".card-controller");
+const carousel = new CardCarousel(cardsContainer, cardsController);
 
+/* ============================================
+   GET ACTIVE CARD ON BUTTON CLICK
+============================================ */
+document.getElementById("getActive").addEventListener("click", () => {
+  const active = document.querySelector(".card.active");
 
+  const index = active.dataset.index;
+  const img = active.querySelector("img").src;
+
+  alert(`Active Card Index: ${index}\nImage: ${img}`);
+});
 }

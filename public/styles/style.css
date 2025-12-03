@@ -88,7 +88,7 @@ p {
     background: #ff0000;
     color: #fff;
     border: 4px solid white;
-    padding: 0.8rem;
+    padding: 0.5rem;
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
@@ -132,7 +132,7 @@ p {
     position: relative;
     height: 100dvh;
     width: 100vw;
-    display: block;
+    display: none;
     visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -141,12 +141,18 @@ p {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 420px;
-    background: #ffe100;
+    height: max-content;
+    background-image:url('../assets/images/menu_bg.png');
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
-    border: 4px solid white;
+     border-width: 4px 4px 0px 4px;
+  border-style: solid;
+  border-color: white;
     text-align: center;
+    padding: 1rem 0;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
 }
 
 .yellow-card h2 {
@@ -156,12 +162,13 @@ p {
 
 .yellow-card p {
     font-size: 13px;
-    margin-top: 6px;
+    margin-bottom: 0.6rem;
+
 }
 
 
 .container {
-  height: 215px;
+  height: 120px;
   overflow: hidden;
 }
 
@@ -183,8 +190,8 @@ p {
 .card-carousel .card {
   background: whitesmoke;
   width: 20%;
-  min-width: 110px;
-  padding: 0.5rem;
+  min-width: 90px;
+  /* padding: 0.5rem; */
   position: absolute;
   top: 0;
   margin: 0 auto;
@@ -210,10 +217,186 @@ p {
 
 /* IMAGE CIRCLE */
 .image-container {
-  width: 6rem;
-  height: 6rem;
-  background-size: cover;
-  background-position: center;
-  border-radius: 100%;
-  margin-bottom: 1em;
+  width: 5rem;
+    height: 5rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 100%;
+    margin-bottom: 0.5em;
+     margin-top: 0.5em;
+}
+
+ .active-box{
+    height: 128px;
+    width: 20%;
+    min-width: 95px;
+    margin: -0.2rem auto;
+    position: absolute;
+    top: 0;
+   color: rgb(255 255 255 / 50%);    
+    border-radius: 1em;
+    filter: brightness(.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: auto;
+    right: auto;
+    pointer-events: auto;
+    opacity: 1;
+    transform: scale(0.9);
+    left: 0%;
+    right: 0%;
+    z-index: 20;
+    border: 4px solid rgb(235 222 0 / 50%);
+    box-shadow: 0 0 0 3px #ff0000, 0 4px 8px rgba(0, 0, 0, 0.3) ;
+}
+.center-box-shadow{
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
+}
+
+
+.comparison-page{
+  position: relative;
+    height: 100dvh;
+    width: 100vw;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.compare-card {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: max-content;
+    background-image:url('../assets/images/menu_bg.png');
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+     border-width: 4px 4px 0px 4px;
+  border-style: solid;
+  border-color: white;
+    text-align: center;
+    padding: 1rem 0;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+        padding: 0rem 1rem;
+}
+.compare-box {
+  height: 200px;
+  overflow-x: scroll;
+  width: 100%;
+  white-space: nowrap; 
+  scrollbar-width: auto;
+  scrollbar-color: #ff0000 #000000;
+}
+
+.compare-box::-webkit-scrollbar {
+  height: 100%;
+}
+
+.compare-box::-webkit-scrollbar-thumb {
+  background-color: #ff0000;
+  border-radius: 10px;
+}
+
+.compare-box::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.item {
+  width: 250px;
+  height: 120px;
+  display: inline-block;
+  background: #fff;
+  margin-right: 20px;
+}
+
+
+
+/* TOP SECTION */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ margin-bottom: 0.8rem;
+}
+
+.food {
+  text-align: center;
+}
+
+.food img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+  object-fit: cover;
+}
+
+.food p {
+     margin-top: -1rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: 1px solid #FF3B3B;
+    color: #FF3B3B;
+    background: #dcd0d0;
+}
+
+/* VS BOX */
+.vs-box {
+  background: #fff3c5;
+  border: 3px solid #8e5f20;
+  border-radius: 12px;
+  padding: 5px 12px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* TABLE */
+.table-box {
+  margin-top: 0px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+ border: 1px solid black;
+}
+
+.table-box .col p,
+.table-box .center-col p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.center-col {
+  background: #ffe75e;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-weight: bold;
+   border: 1px solid black;
+       margin: -1rem;
+}
+
+.retry-btn{
+        position: absolute;
+    z-index: 8888;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+        width: 60%;
+    background: #ff0000;
+    color: #fff;
+    border: 4px solid white;
+    padding: 0.5rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'poppins';
+    font-weight: bold;
+    margin-top: 0.5rem;
 }
