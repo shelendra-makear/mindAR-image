@@ -1,4 +1,12 @@
+
 export default function script() {
+window.addEventListener("xrloaded", () => {
+     const landingPage = document.querySelector(".landing-page");
+     landingPage.style.display = "block";
+}
+
+);
+
 const BGimages = [
     "assets/images/BGimages/Chhota_Bheem_bg.png",
    "assets/images/BGimages/Brown_bg.png",
@@ -25,11 +33,9 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
   if (landing) {
     landing.style.backgroundImage = `url('${randomImage}')`;
   }
+ 
 
-
-
-
-
+ 
 
 
 const cardList = [
@@ -244,12 +250,5 @@ const carousel = new CardCarousel(cardsContainer, cardsController);
 /* ============================================
    GET ACTIVE CARD ON BUTTON CLICK
 ============================================ */
-document.getElementById("getActive").addEventListener("click", () => {
-  const active = document.querySelector(".card.active");
 
-  const index = active.dataset.index;
-  const img = active.querySelector("img").src;
-
-  alert(`Active Card Index: ${index}\nImage: ${img}`);
-});
 }

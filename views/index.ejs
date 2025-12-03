@@ -13,7 +13,7 @@
         <div class="text-box">
           <h2>Coco is Here to Upgrade Your Morning!</h2>
           <p>Scan, watch and learn which breakfast fuels you better</p>
-          <button class="start-btn">Start Experience</button>
+          <button class="start-btn" id="startBtn">Start Experience</button>
         </div>
 
       </div>
@@ -124,9 +124,194 @@
 </div>
 </div>
 
-        
+        <div class="popup-overlay" id="popupOverlay">
+  <div class="popup-box">
+    <h3>Want to compare another breakfast?</h3>
+
+    <div class="popup-buttons">
+      <button id="popupNo" class="popup-btn no">No</button>
+      <button id="popupYes" class="popup-btn yes">Yes</button>      
+    </div>
+  </div>
+</div>
         
     </div>
+  
+   
+       <a-scene id="scene"
+      xrextras-gesture-detector
+     xrextras-loading="   
+  loadImage: #myCustomImage"   xrextras-runtime-error
+      renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
+      xrweb="disableWorldTracking: false">
 
-  </div>
+      <xrextras-person-occlusion></xrextras-person-occlusion>
+      <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
+
+      <a-assets>
+        <a-asset-item id="anim1" src="../assets/models/anim1.glb" ></a-asset-item>
+        <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
+        <a-asset-item id="anim3" src="../assets/models/anim3.glb" ></a-asset-item>
+        <a-asset-item id="anim4" src="../assets/models/anim2.glb" ></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0"
+        raycaster="objects: .cantap"
+        cursor="fuse: false; rayOrigin: mouse;"></a-camera>
+
+      <a-light type="directional" intensity="0.5" position="1 1 1"></a-light>
+      <a-light type="ambient" intensity="0.7"></a-light>
+
+      <!-- TARGETS --------------------------------------------------- -->
+
+      <xrextras-named-image-target id="chocos1" name="chocos1">
+        <a-entity id="anim1-entity" gltf-model="#anim1" visible="false"
+          position="0 0 -0" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+        <a-entity id="anim2-entity" gltf-model="#anim2" visible="false"
+          position="0 -1 -1" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+        <a-entity id="anim3-entity" gltf-model="#anim3" visible="false"
+          position="0 0 0" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+        <a-entity id="anim4-entity" gltf-model="#anim4" visible="false"
+          position="0 -1 -1" scale="0.7 0.7 0.7"
+          animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+        <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+      </xrextras-named-image-target>
+      <xrextras-named-image-target id="moons_stars" name="moons_stars">
+    <a-entity
+      id="anim1-entity"
+      gltf-model="#anim1"
+      visible="false"
+      position="0 0 -0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim2-entity"
+      gltf-model="#anim2"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim3-entity"
+      gltf-model="#anim3"
+      visible="false"
+      position="0 0 0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+    <a-entity
+      id="anim4-entity"
+      gltf-model="#anim4"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
+  </xrextras-named-image-target>
+
+  <!-- <xrextras-named-image-target id="doet" name="doet">
+    <a-entity
+      id="anim1-entity-doet"
+      gltf-model="#anim1"
+      visible="false"
+      position="0 0 -0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim2-entity-doet"
+      gltf-model="#anim2"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity animation-sequence="entities: #anim1-entity-doet, #anim2-entity-doet"></a-entity>
+  </xrextras-named-image-target>
+  <xrextras-named-image-target id="chhota_laddoo" name="chhota_laddoo">
+    <a-entity
+      id="anim1-entity-laddoo"
+      gltf-model="#anim1"
+      visible="false"
+      position="0 0 -0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim2-entity-laddoo"
+      gltf-model="#anim2"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim3-entity-laddoo"
+      gltf-model="#anim3"
+      visible="false"
+      position="0 0 0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+    <a-entity
+      id="anim4-entity-laddoo"
+      gltf-model="#anim4"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      animation-sequence="entities: #anim1-entity-laddoo, #anim2-entity-laddoo, #anim3-entity-laddoo, #anim4-entity-laddoo"></a-entity>
+  </xrextras-named-image-target>
+  <xrextras-named-image-target id="crunchy_bites" name="crunchy_bites">
+    <a-entity
+      id="anim1-entity-bites"
+      gltf-model="#anim1"
+      visible="false"
+      position="0 0 -0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim2-entity-bites"
+      gltf-model="#anim2"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      id="anim3-entity-bites"
+      gltf-model="#anim3"
+      visible="false"
+      position="0 0 0"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+    <a-entity
+      id="anim4-entity-bites"
+      gltf-model="#anim4"
+      visible="false"
+      position="0 -1 -1"
+      scale="0.7 0.7 0.7"
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+
+    <a-entity
+      animation-sequence="entities: #anim1-entity-bites, #anim2-entity-bites, #anim3-entity-bites, #anim4-entity-bites"></a-entity>
+  </xrextras-named-image-target> -->
+
+      <!-- COPY YOUR OTHER TARGETS BELOW (unchanged) -->
+      <!-- moons_stars, doet, etc… -->
+
+    </a-scene>
+ </div>
   <%- include('./includes/footer') %>
