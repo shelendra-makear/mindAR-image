@@ -81,8 +81,8 @@ p {
     left: 0;
     right: 0;
     width: 100vw;
-    height: 60%;
-    background-image: url(/assets/images/product_Img.png);
+    height: 100%;
+    background-image: url(/assets/images/Crunchy.png);
     background-size: contain;
     background-position: bottom center;
     background-repeat: no-repeat;
