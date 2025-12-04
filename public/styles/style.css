@@ -484,3 +484,22 @@ p {
     box-shadow: 0px 4.16px 4.16px 0px rgba(0, 0, 0, 0.35);
 
 }
+ #ui-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.8);
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        transition: opacity .3s ease;
+      }
+      .pp{
+        color: white;
+
+      }

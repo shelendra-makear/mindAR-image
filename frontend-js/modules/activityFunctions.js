@@ -1,6 +1,7 @@
 import { hideElement, showElement } from "./utils";
 import { cardList } from "./script";
 export default function activityscript() {
+    const uiScreen = document.getElementById("ui-screen");
     const startBtn = document.getElementById("startBtn");
     const menuPage = document.querySelector(".menu-page");
     const getActiveBtn = document.getElementById("getActive");
@@ -12,6 +13,7 @@ export default function activityscript() {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
+        uiScreen.style.display = "flex";
     });
 
 
