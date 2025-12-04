@@ -79,6 +79,9 @@ cardList.forEach(card => {
 
 
 
+/* ============================================
+   DRAG EVENT
+============================================ */
 class DraggingEvent {
   constructor(target) {
     this.target = target;
@@ -129,19 +132,18 @@ class DraggingEvent {
    CAROUSEL CLASS
 ============================================ */
 class CardCarousel extends DraggingEvent {
-  constructor(container, controller) {
+  constructor(container) {
     super(container);
 
     this.container = container;
-    this.controller = controller;
-
     this.cards = [...container.querySelectorAll(".card")];
-    this.cards.forEach((c, i) => (c.dataset.index = i));
 
     this.total = this.cards.length;
     this.centerIndex = 0;
     this.visibleRange = 2;
     this.lastOffset = 0;
+
+    this.cards.forEach((c, i) => (c.dataset.index = i));
 
     this.build();
     super.getDistance(this.moveCards.bind(this));
@@ -157,12 +159,12 @@ class CardCarousel extends DraggingEvent {
   }
 
   setActiveCard() {
-    this.cards.forEach(card => card.classList.remove("center-box-shadow"));
-    const activeCardBox = this.cards[this.centerIndex];
-    if (activeCardBox) activeCardBox.classList.add("center-box-shadow");
-     this.cards.forEach(card => card.classList.remove("active"));
-    const activeCard = this.cards[this.centerIndex];
-    if (activeCard) activeCard.classList.add("active");
+    this.cards.forEach(card => card.classList.remove("active", "center-box-shadow"));
+    const active = this.cards[this.centerIndex];
+    if (active) {
+      active.classList.add("active");
+      active.classList.add("center-box-shadow");
+    }
   }
 
   updatePositions(offset) {
@@ -170,8 +172,7 @@ class CardCarousel extends DraggingEvent {
 
     for (let i = 0; i < this.total; i++) {
       const dist =
-        ((i - this.centerIndex - offset + this.total + this.total / 2) %
-          this.total) -
+        ((i - this.centerIndex - offset + this.total + this.total / 2) % this.total) -
         this.total / 2;
 
       this.updateCard(this.cards[i], dist);
@@ -190,13 +191,14 @@ class CardCarousel extends DraggingEvent {
 
     card.style.pointerEvents = "auto";
 
-    let scale = 0.9 - Math.abs(round) * 0.25;
+    /* SCALE */
+    let scale = 1 - Math.abs(round) * 0.22;
     if (scale < 0) scale = 0;
-    
 
-    card.style.opacity = 1;
-    card.style.transform = `scale(${scale})`;
+    /* ARC MOVEMENT (CIRCLE PATH) */
+    card.style.top = "0px"; 
 
+    /* POSITION LEFT/RIGHT */
     const centerPos = 32;
     const step = 16;
 
@@ -210,11 +212,18 @@ class CardCarousel extends DraggingEvent {
       card.style.left = "0%";
       card.style.right = "0%";
     }
-if (Math.abs(round) === 2) {
-    card.style.opacity = 0.5;      // -2 and +2
-  } else {
-    card.style.opacity = 1;        // center, -1, +1
-  }
+
+    /* OPACITY FOR -2 AND +2 */
+    if (Math.abs(round) === 2) {
+      card.style.opacity = 0.5;
+    } else {
+      card.style.opacity = 1;
+    }
+
+    /* APPLY TRANSFORM */
+    card.style.transform = `scale(${scale})`;
+
+    /* LAYER ORDER */
     card.style.zIndex = 20 - Math.abs(round);
   }
 
@@ -243,12 +252,8 @@ if (Math.abs(round) === 2) {
   }
 }
 
-// const cardsContainer = document.querySelector(".card-carousel");
-const cardsController = document.querySelector(".card-controller");
-const carousel = new CardCarousel(cardsContainer, cardsController);
+/* INIT */
+const carousel = new CardCarousel(cardsContainer);
 
-/* ============================================
-   GET ACTIVE CARD ON BUTTON CLICK
-============================================ */
 
 }

@@ -174,8 +174,8 @@ p {
 
 
 .container {
-  height: 120px;
-  overflow: hidden;
+  height: 130px;
+  /* overflow: hidden; */
 }
 
 /* MAIN CAROUSEL */
@@ -215,7 +215,15 @@ p {
   left: auto;
   right: auto;
 }
-
+.card {
+  position: absolute;
+  transition: 
+    transform 0.25s ease,
+    left 0.25s ease,
+    right 0.25s ease,
+    top 0.25s ease,
+    opacity 0.25s ease;
+}
 /* ACTIVE CENTER CARD */
 .card.highlight {
   filter: brightness(1);
@@ -233,10 +241,10 @@ p {
 }
 
  .active-box{
-    height: 128px;
+      height: 140px;
     width: 20%;
-    min-width: 95px;
-    margin: -0.2rem auto;
+    min-width: 105px;
+    margin: -0.6rem auto;
     position: absolute;
     top: 0;
    color: rgb(255 255 255 / 50%);    
