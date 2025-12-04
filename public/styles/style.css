@@ -353,13 +353,15 @@ p {
 
 .food p {
      /* margin-top: -1rem; */
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 600;
   border: 1px solid #FF3B3B;
     color: #FF3B3B;
     background: #dcd0d0;
 }
-
+.right-food p,.left-food P{
+  width: 7rem;
+}
 /* VS BOX */
 .vs-box {
   background: #fff3c5;
