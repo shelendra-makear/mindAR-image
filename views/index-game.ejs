@@ -32,13 +32,14 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
    
 
+  <link rel="stylesheet" href="/styles/style.css" />
     <style>
       #ui-screen {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 1vh;
         background: rgba(0,0,0,0.8);
         z-index: 9999;
         display: flex;
@@ -57,7 +58,143 @@
     <div id="ui-screen">
       <div>Point your camera at the image…</div>
     </div>
+  <div class="main-container">
+    <div class="landing-page">
+      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <img src="/assets/images/logo.png" alt="chocos Logo" class="chocos-logo">
+      <img src="/assets/images/monkey.png" alt="monkey img" class="monkey-img">
+      <div class="hand-card-board">
+        <img src="/assets/images/handCardBoard/choco_caramel.png" alt="product img" class="hand-card-board-img">
+      </div>
+      <div class="bottom-container">
 
+        <div class="text-box">
+          <h2>Coco is Here to Upgrade Your Morning!</h2>
+          <p>Scan, watch and learn which breakfast fuels you better</p>
+          <button class="start-btn" id="startBtn">Start Experience</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="menu-page">
+      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <div class="yellow-card">
+        <h2>Select your Breakfast</h2>
+        <p>Scroll left or right to select one breakfast</p>
+        <div class="container">
+          <div class="card-carousel">
+            <div class="active-box">
+            </div>
+            <!-- <div class="card " id="1">
+      <img class="image-container" src="../assets/images/Breakfast/poha.png">
+      <p>Poha</p>
+    </div>
+    <div class="card" id="2">
+      <img class="image-container" src="../assets/images/Breakfast/paratha.png">
+      <p>paratha</p>
+    </div>
+    <div class="card" id="3">
+       <img class="image-container" src="../assets/images/Breakfast/icon.png">
+      <p>Lorem</p>
+    </div>  
+    <div class="card" id="4">
+      <img class="image-container"  src="../assets/images/Breakfast/paratha.png">
+      <p>Lorem</p>
+    </div>
+    <div class="card" id="5">
+       <img class="image-container"  src="../assets/images/Breakfast/icon.png">
+      <p>Lorem</p>
+    </div>
+    <div class="card" id="6">
+       <img class="image-container" src="../assets/images/Breakfast/paratha.png">
+      <p>Lodddrem</p>
+    </div> -->
+          </div>
+        </div>
+        <!-- BUTTON -->
+        <button class="start-btn" id="getActive">Start Experience</button>
+      </div>
+    </div>
+    <div class="comparison-page">
+      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <div class="compare-card">
+        <h2>Comparison Proteins</h2>
+
+          <div class="top-row">
+            <div class="food left-food">
+              <img  src="../assets/images/Breakfast/poha.png" />
+              <p>Poha</p>
+            </div>
+
+            <div class="vs-box"> <img  src="../assets/images/Breakfast/poha.png" /></div>
+
+            <div class="food right-food">
+              <img src="../assets/images/Breakfast/icon.png" />
+              <p>Chocos</p>
+            </div>
+          </div>
+<div class="compare-box">
+  <div class="table-box">
+    
+    <div class="col left-col">
+      <p>127 kcal</p>
+      <p>3.1 gm</p>
+      <p>3.8 gm</p>
+      <p>21.6 gm</p>
+      <p>127 kcal</p>
+        <p>127 kcal</p>
+      <p>3.1 gm</p>
+      <p>3.8 gm</p>
+      <p>21.6 gm</p>
+      <p>127 kcal</p>
+    </div>
+
+    <div class="center-col">
+      <p>Energy</p>
+      <p>Protein</p>
+      <p>Fat</p>
+      <p>Carbs</p>
+      <p>Energy</p>
+      <p>Energy</p>
+      <p>Protein</p>
+      <p>Fat</p>
+      <p>Carbs</p>
+      <p>Energy</p>
+    </div>
+
+    <div class="col right-col">
+      <p>127 kcal</p>
+      <p>3.1 gm</p>
+      <p>3.8 gm</p>
+      <p>21.6 gm</p>
+      <p>127 kcal</p>
+       <p>127 kcal</p>
+      <p>3.1 gm</p>
+      <p>3.8 gm</p>
+      <p>21.6 gm</p>
+      <p>127 kcal</p>
+    </div>
+    
+  </div>
+
+   <button class="retry-btn" id="">Retry Experience</button>
+
+</div>
+</div>
+
+        <div class="popup-overlay" id="popupOverlay">
+  <div class="popup-box">
+    <h3>Want to compare another breakfast?</h3>
+
+    <div class="popup-buttons">
+      <button id="popupNo" class="popup-btn no">No</button>
+      <button id="popupYes" class="popup-btn yes">Yes</button>      
+    </div>
+  </div>
+</div>
+        
+    </div>
+  
     <a-scene
       xrextras-gesture-detector
       landing-page
@@ -234,7 +371,7 @@
       <!-- moons_stars, doet, etc… -->
 
     </a-scene>
-
+</div>
     <!-- --------------------------------------------- -->
     <!-- FIXED JAVASCRIPT -->
     <!-- --------------------------------------------- -->
@@ -418,6 +555,6 @@ AFRAME.registerComponent('animation-sequence', {
 
 
     </script>
-
+<script src="/main-bundled.js"></script>
   </body>
 </html>
