@@ -1,4 +1,5 @@
 import { hideElement, showElement } from "./utils";
+import { cardList } from "./script";
 export default function activityscript() {
     const startBtn = document.getElementById("startBtn");
     const menuPage = document.querySelector(".menu-page");
@@ -18,10 +19,36 @@ export default function activityscript() {
          showElement(comparisonPage, 0, "block")
         const active = document.querySelector(".card.active");
         const index = active.dataset.index;
-        const img = active.querySelector("img").src;
+        const selected = cardList[index];
 
-        console.log(`Active Card Index: ${index}\nImage: ${img}`);
-        hideElement(menuPage, 500);
+    // update top-row left side (selected item)
+    const leftFood = document.querySelector(".top-row .food");
+    leftFood.querySelector("img").src = selected.img;
+    leftFood.querySelector("p").textContent = selected.text;
+
+    
+
+    // UPDATE ONLY LEFT COLUMN
+    const leftCol = document.querySelectorAll(".compare-box .col:first-child p");
+
+    const leftValues = [
+        selected.Energy,
+        selected.Protein,
+        selected.Fat,
+        selected.Carbs,
+        selected.Energy,
+        selected.Energy,
+        selected.Protein,
+        selected.Fat,
+        selected.Carbs,
+        selected.Energy,
+    ];
+
+    leftValues.forEach((v, i) => {
+        leftCol[i].textContent = v;
+    });
+
+    hideElement(menuPage, 500);
        
 });
 

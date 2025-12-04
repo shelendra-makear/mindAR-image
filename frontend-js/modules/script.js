@@ -1,4 +1,26 @@
-
+export const cardList = [
+  
+  { id: 1, img: "../assets/images/menu_bg.png", text: "Lorem 1", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
+  { id: 2, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 2", Energy: "127 kcal", Protein: "3.2 gm", Fat: "3.7 gm", Carbs: "20.1 gm" },
+  { id: 3, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 3", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
+  { id: 4, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 4", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
+  { id: 5, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 5", Energy: "130 kcal", Protein: "3.0 gm", Fat: "4.0 gm", Carbs: "21.0 gm" },
+  { id: 6, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 6", Energy: "131 kcal", Protein: "3.4 gm", Fat: "3.5 gm", Carbs: "19.8 gm" },
+  { id: 7, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 7", Energy: "132 kcal", Protein: "3.6 gm", Fat: "3.7 gm", Carbs: "22.0 gm" },
+  { id: 8, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 8", Energy: "133 kcal", Protein: "3.2 gm", Fat: "3.8 gm", Carbs: "21.3 gm" },
+  { id: 9, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 9", Energy: "134 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "20.2 gm" },
+  { id: 10, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 10", Energy: "135 kcal", Protein: "3.3 gm", Fat: "4.1 gm", Carbs: "19.5 gm" },
+  { id: 11, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 11", Energy: "136 kcal", Protein: "3.0 gm", Fat: "3.6 gm", Carbs: "22.8 gm" },
+  { id: 12, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 12", Energy: "137 kcal", Protein: "3.4 gm", Fat: "3.9 gm", Carbs: "23.1 gm" },
+  { id: 13, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 13", Energy: "138 kcal", Protein: "3.2 gm", Fat: "3.7 gm", Carbs: "20.7 gm" },
+  { id: 14, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 14", Energy: "139 kcal", Protein: "3.5 gm", Fat: "3.8 gm", Carbs: "21.4 gm" },
+  { id: 15, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 15", Energy: "140 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.9 gm" },
+  { id: 16, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 16", Energy: "141 kcal", Protein: "3.1 gm", Fat: "3.5 gm", Carbs: "21.2 gm" },
+  { id: 17, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 17", Energy: "142 kcal", Protein: "3.7 gm", Fat: "4.0 gm", Carbs: "20.9 gm" },
+  { id: 18, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 18", Energy: "143 kcal", Protein: "3.4 gm", Fat: "3.8 gm", Carbs: "19.6 gm" },
+  { id: 19, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 19", Energy: "144 kcal", Protein: "3.2 gm", Fat: "3.9 gm", Carbs: "22.3 gm" },
+  { id: 20, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem 20", Energy: "145 kcal", Protein: "3.1 gm", Fat: "3.7 gm", Carbs: "21.9 gm" }
+];
 export default function script() {
 window.addEventListener("xrloaded", () => {
      const landingPage = document.querySelector(".landing-page");
@@ -38,28 +60,9 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
  
 
 
-const cardList = [
-  { id: 1, img: "../assets/images/menu_bg.png", text: "Lorem" },
-  { id: 2, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 3, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 4, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 5, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 6, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 7, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 8, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 9, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 10, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 11, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 12, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 13, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 14, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 15, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 16, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 17, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 18, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 19, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" },
-  { id: 20, img: "https://static.addtoany.com/images/dracaena-cinnabari.jpg", text: "Lorem" }
-];
+
+
+
 
 const cardsContainer = document.querySelector(".card-carousel");
 
