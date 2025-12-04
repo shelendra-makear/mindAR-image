@@ -1,5 +1,5 @@
 import { hideElement, showElement } from "./utils";
-import { cardList } from "./script";
+import { cardList,kelloggList } from "./script";
 export default function activityscript() {
     const uiScreen = document.getElementById("ui-screen");
     const startBtn = document.getElementById("startBtn");
@@ -49,6 +49,54 @@ export default function activityscript() {
     leftValues.forEach((v, i) => {
         leftCol[i].textContent = v;
     });
+
+
+
+    const idParam = new URLSearchParams(window.location.search).get("id");
+
+if (!idParam) {
+    console.error("❌ URL missing ?id=");
+    return;
+}
+
+const ids = Number(idParam);
+const selectedurl = kelloggList.find(item => item.id === ids);
+console.log("Selected item from URL id:", selectedurl);
+// update top-row left side
+const rightFood = document.querySelector(".top-row .right-food");
+
+if (rightFood) {
+    rightFood.querySelector("img").src = selectedurl.img;
+    rightFood.querySelector("p").textContent = selectedurl.text;
+}
+
+// LEFT COLUMN
+const rightCol = document.querySelectorAll(".compare-box .right-col p");
+
+if (rightCol.length === 0) {
+    console.warn("⚠️ Left column elements NOT found in DOM");
+    return;
+}
+
+const rightValues = [
+    selectedurl.Energy,
+    selectedurl.Protein,
+    selectedurl.Fat,
+    selectedurl.Carbs,
+    selectedurl.Energy,
+    selectedurl.Energy,
+    selectedurl.Protein,
+    selectedurl.Fat,
+    selectedurl.Carbs,
+    selectedurl.Energy,
+];
+
+rightValues.forEach((v, i) => {
+        rightCol[i].textContent = v;
+    });
+
+
+
 
     hideElement(menuPage, 500);
        

@@ -1,3 +1,12 @@
+
+export const kelloggList = [
+  
+  { id: 1, img: "../assets/images/kellog_icon/chocos1.png", text: "chocos", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
+  { id: 2, img: "../assets/images/kellog_icon/moons_stars.png", text: "Moons Stars", Energy: "172 kcal", Protein: "5.2 gm", Fat: "2.7 gm", Carbs: "19.1 gm" },
+  { id: 3, img: "../assets/images/kellog_icon/doet.png", text: "Doet", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
+  { id: 4, img: "../assets/images/kellog_icon/chhota_laddoo.png", text: "Chhota Laddoo", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
+  { id: 5, img: "../assets/images/kellog_icon/crunchy_bites.png", text: "Crunchy Bites", Energy: "130 kcal", Protein: "3.0 gm", Fat: "4.0 gm", Carbs: "21.0 gm" }
+];
 export const cardList = [
   
   { id: 1, img: "../assets/images/icons/icon1.png", text: "Lorem 1", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
