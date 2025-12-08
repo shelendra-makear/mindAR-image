@@ -1,4 +1,19 @@
 <%- include('./includes/header') %>
+
+<div class="background-image">
+  <img class="logo-background-image" src="/assets/images/kelloggs_logo.png">
+  <div class="experience-link">
+    <h4>
+      Almost there....<br>
+      Use your phone's camera to scan
+    </h4>
+    <img src="assets/images/qr-code-img.png" alt="qr-code-img" style="border-radius: 25px;">
+    <h4>
+      or visit<br>
+      https://kelloggs_logo.com/
+    </h4>
+  </div>
+</div>
 <div id="ui-screen">
       <div class="pp">Point your camera at the image…</div>
     </div>
@@ -70,7 +85,7 @@
               <p>Poha</p>
             </div>
 
-            <div class="vs-box"> <img  src="../assets/images/Breakfast/poha.png" /></div>
+            <div class="vs-box"> <img  src="../assets/images/v-s.png" /></div>
 
             <div class="food right-food">
               <img src="../assets/images/Breakfast/icon.png" />
@@ -145,7 +160,8 @@
      xrextras-loading="   
   loadImage: #myCustomImage"   xrextras-runtime-error
       renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
-      xrweb="disableWorldTracking: false">
+      xrweb="disableWorldTracking: false"
+          vr-mode-ui="enabled: false">
 
       <xrextras-person-occlusion></xrextras-person-occlusion>
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>

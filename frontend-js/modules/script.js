@@ -63,6 +63,7 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
   const landing = document.querySelector(".landing-page");
   if (landing) {
     landing.style.backgroundImage = `url('${randomImage}')`;
+ 
   }
  
 

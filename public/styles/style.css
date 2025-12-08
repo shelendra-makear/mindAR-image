@@ -364,9 +364,9 @@ p {
 }
 /* VS BOX */
 .vs-box {
-  background: #fff3c5;
-  border: 3px solid #8e5f20;
-  border-radius: 12px;
+  /* background: #fff3c5;
+  border: 3px solid #8e5f20; */
+  /* border-radius: 12px; */
   padding: 5px 12px;
   font-size: 20px;
   font-weight: 700;
@@ -374,7 +374,7 @@ p {
 .vs-box img {
       width: 4rem;
     height: 4rem;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     /* border: 5px solid #ffffff; */
     object-fit: cover;
 }
@@ -505,3 +505,47 @@ p {
         color: white;
 
       }
+
+.background-image {
+    display: none;
+       background: linear-gradient(to bottom, #362564, #2787c9);
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 9999;
+    justify-content: flex-start;
+    align-items: center;
+    /* margin-right: 12%; */
+}
+
+
+.background-image .experience-link {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    text-align: center;
+    margin-left: 12%;
+}
+.background-image .experience-link .aashirvaad-center-logo {
+    position: unset;
+    margin: auto;
+}
+
+.logo-background-image {
+    position: absolute;
+    width: 440px;
+    top: 0px;
+    right: 0px;
+}
+
+@media only screen and (min-width: 768px) {
+    .background-image {
+        display: flex;
+    }
+
+    .main {
+        display: none;
+    }
+}
+
