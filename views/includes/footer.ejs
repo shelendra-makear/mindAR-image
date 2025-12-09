@@ -99,6 +99,18 @@ AFRAME.registerComponent('animation-sequence', {
     const entity = this.ents[index]
     if (!entity) return
 
+
+      // ⭐ SHOW ELEMENT WHEN INDEX = 2
+  if (index === 2) {  
+    const specialElement = document.querySelector(".yellow-card");
+    if (specialElement) {
+      specialElement.style.display = "block";
+      console.log("🎉 Display block activated at animation index 2");
+    }
+  }
+
+  
+
     const onModelLoaded = () => {
       const mixerComp = entity.components['animation-mixer']
       if (mixerComp && mixerComp.mixer) {

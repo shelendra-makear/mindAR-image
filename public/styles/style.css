@@ -159,6 +159,7 @@ p {
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
+    display: none
 }
 
 .yellow-card h2 {
@@ -196,7 +197,7 @@ p {
 .card-carousel .card {
   background: whitesmoke;
   width: 20%;
-  min-width: 90px;
+  min-width: 80px;
   /* padding: 0.5rem; */
   position: absolute;
   top: 0;
@@ -231,8 +232,8 @@ p {
 
 /* IMAGE CIRCLE */
 .image-container {
-  width: 5rem;
-    height: 5rem;
+  width: 4rem;
+    height: 4rem;
     background-size: cover;
     background-position: center;
     border-radius: 100%;
@@ -241,9 +242,9 @@ p {
 }
 
  .active-box{
-      height: 140px;
+      height: 125px;
     width: 20%;
-    min-width: 105px;
+    min-width: 90px;
     margin: -0.6rem auto;
     position: absolute;
     top: 0;

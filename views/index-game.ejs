@@ -1,54 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+
 
 <!-- ⛔ MUST BE FIRST FOR SPLASH SCREEN TO WORK -->
-<script async src="https://apps.8thwall.com/xrweb?appKey=2UsfxBeH19YSxWydaVb9kmAJe5oG3og8vd75b2yh4KBdwnlQ86IqV2IMEjMKaV1jJsBmUr"></script>
 
-<!-- REQUIRED BY 8TH WALL -->
-<meta name="8thwall:renderer" content="aframe:1.6.0" />
-<meta name="8thwall:package" content="@8thwall.xrextras" />
-<meta name="8thwall:package" content="@8thwall.landing-page" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
 
-<!-- AFRAME -->
-<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+<link rel="stylesheet" href="../styles/old.css" />
 
-<!-- AFRAME EXTRAS -->
-<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
-<!-- XR EXTRAS -->
-<script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
-
-<!-- LANDING PAGE -->
-<script src="https://cdn.8thwall.com/web/landing-page/latest/landing-page.js"></script>
-<link rel="stylesheet" href="https://cdn.8thwall.com/web/landing-page/latest/landing-page.css" />
-
-<!-- OPTIONAL LIBRARIES -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-<link rel="stylesheet" href="/styles/style.css" />
-
-<style>
-  #ui-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 1vh;
-    background: rgba(0,0,0,0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 20px;
-    transition: opacity .3s ease;
-  }
-</style>
 </head>
 
 <body>
@@ -56,106 +16,60 @@
 <div id="landing-page" class="xrweb-landing-page"></div>
 
 <!-- UI SCREEN -->
-<div id="ui-screen">
-  <div>Point your camera at the image…</div>
-</div>
+<h1>CSS only carousel using <code>::scroll-*</code> [demo 2]</h1>
+<p class="msg-supports">Sorry, your browser doesn't support <code>::scroll-*</code></p>
 
-<div class="main-container">
+<section class="carousel">
 
-  <!-- A-SCENE -->
-  <a-scene
-    landing-page
-    xrextras-loading
-    xrextras-gesture-detector
-    vr-mode-ui="enabled: false"
-    xrextras-runtime-error
-    renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
-    xrweb="disableWorldTracking:false"
-  >
+  <div class="scroll-start">
+    <h2>Raymond McKenzie</h2>
+    <p>CEO</p>
+    <div class="img"><img src="https://i.pravatar.cc/400?img=53" /></div>
+  </div>
 
-    <xrextras-person-occlusion></xrextras-person-occlusion>
-    <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
+  <div>
+    <h2>Elizabeth Turner</h2>
+    <p>Marketing Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=5" /></div>
+  </div>
 
-    <!-- ASSETS -->
-    <a-assets>
-      <a-asset-item id="anim1" src="../assets/models/anim1.glb"></a-asset-item>
-      <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
-      <a-asset-item id="anim3" src="../assets/models/anim3.glb"></a-asset-item>
-      <a-asset-item id="anim4" src="../assets/models/anim2.glb"></a-asset-item>
-    </a-assets>
+  <div>
+    <h2>Suzanne Yorke</h2>
+    <p>Creative Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=44" /></div>
+  </div>
+<div>
+    <h2>Elizabeth Turner</h2>
+    <p>Marketing Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=5" /></div>
+  </div>
+  <div>
+    <h2>Simon Hadley</h2>
+    <p>Social Media & Networking</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=12" /></div>
+  </div>
+<div>
+    <h2>Elizabeth Turner</h2>
+    <p>Marketing Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=5" /></div>
+  </div>
+  <div>
+    <h2>Harriet Johnson</h2>
+    <p>Front-End Developer</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=27" /></div>
+  </div>
+<div>
+    <h2>Elizabeth Turner</h2>
+    <p>Marketing Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=5" /></div>
+  </div>
+  <div>
+    <h2>Elizabeth Turner</h2>
+    <p>Marketing Director</p>
+    <div class="img"><img src="https://i.pravatar.cc/300?img=5" /></div>
+  </div>
+</section>
 
-    <a-camera position="0 0 0"
-      raycaster="objects: .cantap"
-      cursor="fuse:false; rayOrigin: mouse"></a-camera>
-
-    <a-light type="directional" intensity="0.5" position="1 1 1"></a-light>
-    <a-light type="ambient" intensity="0.7"></a-light>
-
-    <!-- IMAGE TARGET 1 -->
-    <xrextras-named-image-target id="chocos1" name="chocos1">
-      <a-entity id="anim1-entity" gltf-model="#anim1" visible="false"
-        position="0 0 0" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim2-entity" gltf-model="#anim2" visible="false"
-        position="0 -1 -1" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim3-entity" gltf-model="#anim3" visible="false"
-        position="0 0 0" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim4-entity" gltf-model="#anim4" visible="false"
-        position="0 -1 -1" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-    </xrextras-named-image-target>
-
-    <!-- IMAGE TARGET 2 -->
-    <xrextras-named-image-target id="moons_stars" name="moons_stars">
-      <a-entity id="anim1-entity" gltf-model="#anim1" visible="false"
-        position="0 0 0" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim2-entity" gltf-model="#anim2" visible="false"
-        position="0 -1 -1" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim3-entity" gltf-model="#anim3" visible="false"
-        position="0 0 0" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity id="anim4-entity" gltf-model="#anim4" visible="false"
-        position="0 -1 -1" scale="0.7 0.7 0.7"
-        animation-mixer="clip:*; loop:once; clampWhenFinished:true"></a-entity>
-
-      <a-entity animation-sequence="entities: #anim1-entity, #anim2-entity, #anim3-entity, #anim4-entity"></a-entity>
-    </xrextras-named-image-target>
-
-  </a-scene>
-</div>
-
-<!-- ENABLE SPLASH + LANDING + XR EXTRAS -->
-<script>
-  // ⭐ DEFAULT 8TH WALL SPLASH SCREEN (required order fix)
-  XR8.addCameraPipelineModule(XR8.Pipelines.SPLASH_SCREEN);
-
-  // ⭐ Landing Page
-  XR8.addCameraPipelineModule(LandingPage.pipelineModule());
-
-  // ⭐ Optional XR Extras
-  XR8.addCameraPipelineModule(XRExtras.Loading.pipelineModule());
-  XR8.addCameraPipelineModule(XRExtras.Threejs.pipelineModule());
-  XR8.addCameraPipelineModule(XRExtras.RuntimeError.pipelineModule());
-</script>
-
-<!-- ANIMATION SEQUENCE LOGIC (Your Original Code) -->
-<script>
-/* ... YOUR ENTIRE animation-sequence JS (unchanged) ... */
-</script>
-
-<script src="/main-bundled.js"></script>
 
 </body>
 </html>
