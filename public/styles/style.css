@@ -7,11 +7,16 @@
     text-align: center;
     color: #000000;
     font-family: "Raleway";
+   
 }
 /* .xrextras-loading {
   display: none !important;
 } */
-
+#myCustomImages{
+   background-color: #101118;
+       width: 100vw;
+    height: 100dvh;
+}
 h2 {
     font-size: 1rem;
     font-weight: 900;
@@ -32,7 +37,15 @@ p {
     width: 100vw;
     height: 100dvh;
     z-index: 2;
+    display: none;
 
+}
+.main-top-img {
+    width: 100vw;
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .landing-page   {
     position: absolute;
@@ -550,3 +563,20 @@ p {
     }
 }
 
+.buttons-share-page{
+   position: relative;
+    height: 100dvh;
+    width: 100vw;
+    display: none;
+    visibility: visible;
+    opacity: 1;
+     transition: all 500ms ease-in-out;
+    z-index: 8;
+}
+.share-card{
+  display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1;
+    gap: 10px;
+}

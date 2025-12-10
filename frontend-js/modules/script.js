@@ -33,7 +33,9 @@ export const cardList = [
 export default function script() {
 window.addEventListener("xrloaded", () => {
      const landingPage = document.querySelector(".landing-page");
+     const mainContainerage = document.querySelector(".main-container");
      landingPage.style.display = "block";
+      mainContainerage.style.display = "block";
 }
 
 );

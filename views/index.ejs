@@ -17,9 +17,12 @@
 <div id="ui-screen">
       <div class="pp">Point your camera at the image…</div>
     </div>
+<div id="myCustomImages" ></div>
+    
   <div class="main-container">
+     <img class="main-top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
     <div class="landing-page">
-      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <img src="/assets/images/logo.png" alt="chocos Logo" class="chocos-logo">
       <img src="/assets/images/monkey.png" alt="monkey img" class="monkey-img">
       <div class="hand-card-board">
@@ -36,7 +39,7 @@
       </div>
     </div>
     <div class="menu-page">
-      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <div class="yellow-card">
         <h2>Select your Breakfast</h2>
         <p>Scroll left or right to select one breakfast</p>
@@ -75,7 +78,7 @@
       </div>
     </div>
     <div class="comparison-page">
-      <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png">
+      <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <div class="compare-card">
         <h2>Comparison Proteins</h2>
 
@@ -153,17 +156,38 @@
 </div>
         
     </div>
+    <div class="buttons-share-page">
+      <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
+      <div class="share-card">
+        <h2>Share your Experience</h2>
+        <div class="share-buttons">
+          <button class="share-btn whatsapp-btn">Share on WhatsApp</button>
+          <button class="share-btn facebook-btn">Share on Facebook</button>
+          <button class="share-btn twitter-btn">Share on Twitter</button>
+        </div>
+        <button class="retry-btn" id="retryBtn">Retry Experience</button>
+        
+    </div>
   
-   
+   </div>
        <a-scene id="scene"
       xrextras-gesture-detector
      xrextras-loading="   
   loadImage: #myCustomImage"   xrextras-runtime-error
       renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
-      xrweb="disableWorldTracking: false"
+     xrweb="
+    allowedDevices: any;
+    defaultEnvironmentFogIntensity: 0.5; 
+    defaultEnvironmentFloorTexture: #groundTex; 
+    defaultEnvironmentFloorColor: #FFF;
+    defaultEnvironmentSkyBottomColor: #B4C4CC; 
+    defaultEnvironmentSkyTopColor: #5ac8fa;
+    defaultEnvironmentSkyGradientStrength: 0.5;"
           vr-mode-ui="enabled: false">
 
-      <xrextras-person-occlusion></xrextras-person-occlusion>
+       <xrextras-loading></xrextras-loading>
+
+    <xrextras-person-occlusion></xrextras-person-occlusion>
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
       <a-assets>
