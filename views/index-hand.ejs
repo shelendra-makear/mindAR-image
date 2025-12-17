@@ -2,26 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Left Arm Color Overlay</title>
+<title>Back Camera – Arm Overlay</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-  }
-  video, canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  canvas {
-    z-index: 10;
-  }
+  body { margin: 0; overflow: hidden; background: black; }
+  video, canvas { position: absolute; top: 0; left: 0; }
+  canvas { z-index: 10; }
 </style>
 
-<!-- MediaPipe -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
@@ -35,7 +24,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// -------------------- HANDS --------------------
+// ---------------- HANDS ----------------
 const hands = new Hands({
   locateFile: file =>
     `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
@@ -48,7 +37,7 @@ hands.setOptions({
   minTrackingConfidence: 0.7
 });
 
-// -------------------- POSE --------------------
+// ---------------- POSE ----------------
 const pose = new Pose({
   locateFile: file =>
     `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
@@ -61,14 +50,13 @@ pose.setOptions({
   minTrackingConfidence: 0.7
 });
 
-// -------------------- RESULTS --------------------
 let handResults = null;
 let poseResults = null;
 
 hands.onResults(res => handResults = res);
 pose.onResults(res => poseResults = res);
 
-// -------------------- CAMERA --------------------
+// ---------------- BACK CAMERA ----------------
 const camera = new Camera(video, {
   onFrame: async () => {
     await hands.send({ image: video });
@@ -76,11 +64,13 @@ const camera = new Camera(video, {
     draw();
   },
   width: 640,
-  height: 480
+  height: 480,
+  facingMode: { exact: "environment" }   // ✅ BACK CAMERA
 });
+
 camera.start();
 
-// -------------------- DRAW --------------------
+// ---------------- DRAW ----------------
 function draw() {
   if (!handResults || !poseResults) return;
 
@@ -93,13 +83,12 @@ function draw() {
   let leftHand = null;
   let rightHand = null;
 
-  // Identify hands
   handResults.multiHandedness.forEach((hand, i) => {
     if (hand.label === "Left") leftHand = handResults.multiHandLandmarks[i];
     if (hand.label === "Right") rightHand = handResults.multiHandLandmarks[i];
   });
 
-  // CONDITION: left + right hand visible
+  // CONDITION
   if (!leftHand || !rightHand) return;
 
   const leftThumb = leftHand[4];
@@ -108,7 +97,6 @@ function draw() {
 
   if (!leftThumb || !leftWrist || !leftElbow) return;
 
-  // ---------------- ARM COLOR OVERLAY ----------------
   drawArmOverlay(
     leftElbow.x * canvas.width,
     leftElbow.y * canvas.height,
@@ -117,16 +105,16 @@ function draw() {
   );
 }
 
-// -------------------- OVERLAY FUNCTION --------------------
+// ---------------- ARM OVERLAY ----------------
 function drawArmOverlay(x1, y1, x2, y2) {
   const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-  gradient.addColorStop(0, "rgba(0, 255, 255, 0.6)");
-  gradient.addColorStop(1, "rgba(0, 120, 255, 0.2)");
+  gradient.addColorStop(0, "rgba(0,255,255,0.6)");
+  gradient.addColorStop(1, "rgba(0,120,255,0.2)");
 
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
-  ctx.lineWidth = 40;             // ARM WIDTH
+  ctx.lineWidth = 40;
   ctx.lineCap = "round";
   ctx.strokeStyle = gradient;
   ctx.stroke();
