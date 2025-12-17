@@ -25,6 +25,8 @@ router.get('/', (req, res) => {
     res.render('index', { id });
 })
 
-
+router.get('/game', limiter, (req, res) => {
+    res.render('index-hand');
+})
 
 module.exports = router;

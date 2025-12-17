@@ -84,7 +84,7 @@ p {
 }
 .hand-card-board{
         position: absolute;
-    bottom: 50%;
+    bottom: 40dvh;
     right: 0;
 }
 

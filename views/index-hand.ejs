@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Left Arm Color Overlay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+  }
+  video, canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  canvas {
+    z-index: 10;
+  }
+</style>
+
+<!-- MediaPipe -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+</head>
+
+<body>
+<video id="video" autoplay playsinline></video>
+<canvas id="canvas"></canvas>
+
+<script >const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// -------------------- HANDS --------------------
+const hands = new Hands({
+  locateFile: file =>
+    `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+});
+
+hands.setOptions({
+  maxNumHands: 2,
+  modelComplexity: 1,
+  minDetectionConfidence: 0.7,
+  minTrackingConfidence: 0.7
+});
+
+// -------------------- POSE --------------------
+const pose = new Pose({
+  locateFile: file =>
+    `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
+});
+
+pose.setOptions({
+  modelComplexity: 1,
+  smoothLandmarks: true,
+  minDetectionConfidence: 0.7,
+  minTrackingConfidence: 0.7
+});
+
+// -------------------- RESULTS --------------------
+let handResults = null;
+let poseResults = null;
+
+hands.onResults(res => handResults = res);
+pose.onResults(res => poseResults = res);
+
+// -------------------- CAMERA --------------------
+const camera = new Camera(video, {
+  onFrame: async () => {
+    await hands.send({ image: video });
+    await pose.send({ image: video });
+    draw();
+  },
+  width: 640,
+  height: 480
+});
+camera.start();
+
+// -------------------- DRAW --------------------
+function draw() {
+  if (!handResults || !poseResults) return;
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!handResults.multiHandLandmarks) return;
+
+  let leftHand = null;
+  let rightHand = null;
+
+  // Identify hands
+  handResults.multiHandedness.forEach((hand, i) => {
+    if (hand.label === "Left") leftHand = handResults.multiHandLandmarks[i];
+    if (hand.label === "Right") rightHand = handResults.multiHandLandmarks[i];
+  });
+
+  // CONDITION: left + right hand visible
+  if (!leftHand || !rightHand) return;
+
+  const leftThumb = leftHand[4];
+  const leftWrist = leftHand[0];
+  const leftElbow = poseResults.poseLandmarks?.[13];
+
+  if (!leftThumb || !leftWrist || !leftElbow) return;
+
+  // ---------------- ARM COLOR OVERLAY ----------------
+  drawArmOverlay(
+    leftElbow.x * canvas.width,
+    leftElbow.y * canvas.height,
+    leftWrist.x * canvas.width,
+    leftWrist.y * canvas.height
+  );
+}
+
+// -------------------- OVERLAY FUNCTION --------------------
+function drawArmOverlay(x1, y1, x2, y2) {
+  const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+  gradient.addColorStop(0, "rgba(0, 255, 255, 0.6)");
+  gradient.addColorStop(1, "rgba(0, 120, 255, 0.2)");
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.lineWidth = 40;             // ARM WIDTH
+  ctx.lineCap = "round";
+  ctx.strokeStyle = gradient;
+  ctx.stroke();
+}
+</script>
+</body>
+</html>
