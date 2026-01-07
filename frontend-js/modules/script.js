@@ -245,7 +245,7 @@ class CardCarousel extends DraggingEvent {
   moveCards(data) {
     if (!data) return this.snap();
 
-    const offset = data.x / 150;
+    const offset = data.x / 220;
     this.updatePositions(offset);
   }
 
