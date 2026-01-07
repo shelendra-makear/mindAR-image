@@ -187,7 +187,7 @@ class CardCarousel extends DraggingEvent {
 
     for (let i = 0; i < this.total; i++) {
       const dist =
-        ((i - this.centerIndex - offset + this.total + this.total / 2) % this.total) -
+        ((i - this.centerIndex + offset + this.total + this.total / 2) % this.total) -
         this.total / 2;
 
       this.updateCard(this.cards[i], dist);
