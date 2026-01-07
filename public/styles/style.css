@@ -206,6 +206,7 @@ p {
 }
 .card {
   position: absolute;
+   z-index: 10;
   top: 0;
   left: 50%;
   transform-origin: center center;
@@ -254,13 +255,33 @@ p {
      margin-top: 0.5em;
 }
 
- .active-box{
+.active-box {
+   position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 90px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  border-radius: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 1;
+}
+.active-box {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+ .active-boxstyle{
       height: 125px;
     width: 20%;
     min-width: 90px;
     margin: -0.6rem auto;
     position: absolute;
-    top: 14dvh;
+    top: 0;
    color: rgb(255 255 255 / 50%);    
     border-radius: 1em;
     filter: brightness(.9);
