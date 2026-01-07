@@ -76,46 +76,38 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
 
 
 
-const cardsContainer = document.querySelector(".card-carousel");
+const container = document.querySelector(".card-carousel");
 
-// Generate cards dynamically
-cardList.forEach(card => {
-  const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card");
-  cardDiv.id = card.id;
-
-  cardDiv.innerHTML = `
-      <img class="image-container" src="${card.img}">
-      <p>${card.text}</p>
+cardList.forEach((card, i) => {
+  const el = document.createElement("div");
+  el.className = "card";
+   el.dataset.index = i;
+  el.innerHTML = `
+    <img src="${card.img}" />
+    <p>${card.text}</p>
   `;
-
-  cardsContainer.appendChild(cardDiv);
+  container.appendChild(el);
 });
 
-
-
-/* ============================================
-   DRAG EVENT
-============================================ */
+/* ===============================
+   DRAG HANDLER
+================================ */
 class DraggingEvent {
   constructor(target) {
     this.target = target;
   }
 
-  event(callback) {
+  event(cb) {
     let handler;
 
     this.target.addEventListener("mousedown", e => {
-      e.preventDefault();
-      handler = callback(e);
-
+      handler = cb(e);
       window.addEventListener("mousemove", handler);
       window.addEventListener("mouseup", clear);
     });
 
     this.target.addEventListener("touchstart", e => {
-      handler = callback(e);
-
+      handler = cb(e);
       window.addEventListener("touchmove", handler);
       window.addEventListener("touchend", clear);
     });
@@ -129,39 +121,35 @@ class DraggingEvent {
     }
   }
 
-  getDistance(callback) {
-    function start(e1) {
-      let startX = e1.touches ? e1.touches[0].clientX : e1.clientX;
-
-      return function (e2) {
-        if (!e2) return callback(null);
-        const nowX = e2.touches ? e2.touches[0].clientX : e2.clientX;
-        callback({ x: nowX - startX });
+  getDistance(cb) {
+    this.event(start => {
+      const startX = start.touches ? start.touches[0].clientX : start.clientX;
+      return move => {
+        if (!move) return cb(null);
+        const x = move.touches ? move.touches[0].clientX : move.clientX;
+        cb({ x: x - startX });
       };
-    }
-    this.event(start);
+    });
   }
 }
 
-/* ============================================
-   CAROUSEL CLASS
-============================================ */
+/* ===============================
+   CAROUSEL
+================================ */
 class CardCarousel extends DraggingEvent {
   constructor(container) {
     super(container);
 
     this.container = container;
-    this.cards = [...container.querySelectorAll(".card")];
-
+    this.cards = [...container.children];
     this.total = this.cards.length;
+
     this.centerIndex = 0;
     this.visibleRange = 2;
     this.lastOffset = 0;
 
-    this.cards.forEach((c, i) => (c.dataset.index = i));
-
     this.build();
-    super.getDistance(this.moveCards.bind(this));
+    this.getDistance(this.move.bind(this));
   }
 
   wrap(i) {
@@ -169,106 +157,89 @@ class CardCarousel extends DraggingEvent {
   }
 
   build() {
-    this.updatePositions(0);
-    this.setActiveCard();
+    this.update(0);
+    this.setActive();
   }
 
-  setActiveCard() {
-    this.cards.forEach(card => card.classList.remove("active", "center-box-shadow"));
-    const active = this.cards[this.centerIndex];
-    if (active) {
-      active.classList.add("active");
-      active.classList.add("center-box-shadow");
-    }
+  setActive() {
+    this.cards.forEach(c => c.classList.remove("active"));
+    this.cards[this.centerIndex]?.classList.add("active");
   }
 
-  updatePositions(offset) {
+  update(offset) {
     this.lastOffset = offset;
 
     for (let i = 0; i < this.total; i++) {
       const dist =
-        ((i - this.centerIndex + offset + this.total + this.total / 2) % this.total) -
+        ((i - this.centerIndex + offset + this.total + this.total / 2) %
+          this.total) -
         this.total / 2;
 
       this.updateCard(this.cards[i], dist);
     }
   }
+updateCard(card, dist) {
+  const round = Math.round(dist);
 
-  updateCard(card, dist) {
-    const round = Math.round(dist);
-
-    if (Math.abs(round) > this.visibleRange) {
-      card.style.opacity = 0;
-      card.style.transform = "scale(0)";
-      card.style.pointerEvents = "none";
-      return;
-    }
-
-    card.style.pointerEvents = "auto";
-
-    /* SCALE */
-    let scale = 1 - Math.abs(round) * 0.22;
-    if (scale < 0) scale = 0;
-
-    /* ARC MOVEMENT (CIRCLE PATH) */
-    card.style.top = "0px"; 
-
-    /* POSITION LEFT/RIGHT */
-    const centerPos = 32;
-    const step = 16;
-
-    if (round < 0) {
-      card.style.left = `${centerPos - Math.abs(round) * step}%`;
-      card.style.right = "";
-    } else if (round > 0) {
-      card.style.right = `${centerPos - round * step}%`;
-      card.style.left = "";
-    } else {
-      card.style.left = "0%";
-      card.style.right = "0%";
-    }
-
-    /* OPACITY FOR -2 AND +2 */
-    if (Math.abs(round) === 2) {
-      card.style.opacity = 0.5;
-    } else {
-      card.style.opacity = 1;
-    }
-
-    /* APPLY TRANSFORM */
-    card.style.transform = `scale(${scale})`;
-
-    /* LAYER ORDER */
-    card.style.zIndex = 20 - Math.abs(round);
+  if (Math.abs(round) > this.visibleRange) {
+    card.style.opacity = 0;
+    card.style.transform = "translateX(-50%) scale(0)";
+    return;
   }
 
-  moveCards(data) {
-    if (!data) return this.snap();
+  /* NON-LINEAR SPACING MAP */
+  const spacingMap = {
+    0: 0,
+    1: 80,
+    2: 140
+  };
 
-    const offset = data.x / 220;
-    this.updatePositions(offset);
+  const x =
+    round < 0
+      ? -spacingMap[Math.abs(round)]
+      : spacingMap[Math.abs(round)];
+
+  /* SCALE */
+  const scaleMap = {
+    0: 1,
+    1: 0.7,
+    2: 0.5
+  };
+
+  card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
+  card.style.zIndex = 10 - Math.abs(round);
+
+  card.style.transform = `
+    translateX(calc(-50% + ${x}px))
+    scale(${scaleMap[Math.abs(round)]})
+  `;
+}
+
+
+  move(data) {
+    if (!data) return this.snap();
+    this.update(data.x / 220);
   }
 
   snap() {
     const offset = this.lastOffset;
 
     if (offset > 0.5) this.centerIndex = this.wrap(this.centerIndex - 1);
-    else if (offset < -0.5) this.centerIndex = this.wrap(this.centerIndex + 1);
-
-    this.lastOffset = 0;
+    if (offset < -0.5) this.centerIndex = this.wrap(this.centerIndex + 1);
 
     this.container.classList.add("smooth-return");
-    this.updatePositions(0);
-    this.setActiveCard();
+    this.update(0);
+    this.setActive();
 
     setTimeout(() => {
       this.container.classList.remove("smooth-return");
-    }, 250);
+    }, 300);
   }
 }
 
-/* INIT */
-const carousel = new CardCarousel(cardsContainer);
-
+/* ===============================
+   INIT
+================================ */
+new CardCarousel(container);
 
 }
