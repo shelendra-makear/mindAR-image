@@ -197,15 +197,23 @@ p {
   z-index: 1;
   position: relative;
   margin: 0 auto;
-  width: 100%;
-  min-width: 300px;
+  width: 90%;
+  min-width: 280px;
   transition: filter .3s ease;
 }
-
-.card-carousel.smooth-return {
-  transition: all .2s ease;
+.card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin: center center;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  will-change: transform;
 }
 
+.card-carousel.smooth-return .card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.35s ease;
+}
 /* CARD STYLE */
 .card-carousel .card {
   background: whitesmoke;
@@ -229,15 +237,7 @@ p {
   left: auto;
   right: auto;
 }
-.card {
-  position: absolute;
-  transition: 
-    transform 0.25s ease,
-    left 0.25s ease,
-    right 0.25s ease,
-    top 0.25s ease,
-    opacity 0.25s ease;
-}
+
 /* ACTIVE CENTER CARD */
 .card.highlight {
   filter: brightness(1);
