@@ -13,7 +13,7 @@ export default function activityscript() {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
-        uiScreen.style.display = "flex";
+        uiScreen.style.display = "none";
     });
 
 
