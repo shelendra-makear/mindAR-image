@@ -84,7 +84,7 @@ p {
 }
 .hand-card-board{
         position: absolute;
-    bottom: 40dvh;
+    bottom: 48dvh;
     right: 0;
 }
 
@@ -96,7 +96,7 @@ p {
     width: 100vw;
     height: 100%;
     background-image: url(/assets/images/Crunchy.png);
-    background-size: contain;
+    background-size: cover;
     background-position: bottom center;
     background-repeat: no-repeat;
 }
@@ -263,7 +263,8 @@ p {
   height: 120px;
   transform: translate(-50%, -50%);
   border-radius: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgb(255, 0, 0);
+   box-shadow: 0 0 0 2px #ff0000, 0 4px 8px rgba(0, 0, 0, 0.3) ;
   background: transparent;
   z-index: 8;
   pointer-events: none;
