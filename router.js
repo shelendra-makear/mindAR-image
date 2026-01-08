@@ -45,5 +45,8 @@ router.get('/:target', (req, res) => {
   return res.redirect('/moons_stars')
 })
 
-
+router.get('/', (req, res) => {
+  
+  return res.redirect('/moons_stars')
+})
 module.exports = router;
