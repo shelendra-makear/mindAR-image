@@ -19,79 +19,159 @@ AFRAME.registerComponent('animation-sequence', {
     })
   },
 
+  // setupSequence() {
+  //   const id = new URLSearchParams(window.location.search).get('id')
+
+  //   // Map URL → target name
+  //   const targetMap = {
+  //     1: 'chocos1',
+  //     2: 'moons_stars',
+  //     3: 'doet',
+  //     4: 'chhota_laddoo',
+  //     5: 'crunchy_bites',
+  //   }
+  //   const showTarget = targetMap[id]
+  //   document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
+  //     t.setAttribute('enabled', false)
+  //     t.style.display = 'none'
+  //   })
+  //   const targetEll = document.querySelector(
+  //     `xrextras-named-image-target[name="${showTarget}"]`
+  //   )
+  //   document.querySelectorAll('[animation-sequence]').forEach((seq) => {
+  //     const parent = seq.closest('xrextras-named-image-target')
+  //     if (!parent || parent.id !== showTarget) {
+  //       seq.setAttribute('animation-sequence', 'enabled: false')
+  //     }
+  //   })
+
+  //   if (showTarget) {
+  //     document.getElementById(showTarget).style.display = 'block'
+  //     targetEll.setAttribute('enabled', true)
+  //     targetEll.setAttribute('name', showTarget)
+  //     console.log('Showing:', showTarget)
+  //   } else {
+  //     console.log('Invalid URL ID, no target shown')
+  //   }
+  //   console.log('✅ Animation sequence ready.')
+  //   const uiscreen = document.getElementById('ui-screen')
+  //   const imageTarget = this.el.closest('xrextras-named-image-target')
+  //   const scene = this.el.sceneEl
+
+  //   const onFound = () => {
+  //     console.log('🟢 Image found!')
+  //     uiscreen.style.transition = 'opacity 0.3s ease'
+  //     uiscreen.style.opacity = '0'  // Fade out the overlay
+  //     setTimeout(() => {
+  //       uiscreen.style.display = 'none'  // Hide after fade
+  //     }, 300)
+  //     if (!this.sequenceStarted) {
+  //       this.sequenceStarted = true
+  //       this.chainAnimations()
+  //     } else if (!this.sequenceCompleted) {
+  //       this.resumeAll()
+  //     }
+  //   }
+
+  //   const onLost = () => {
+  //     console.log('⏸️ Image lost.')
+  //     uiscreen.style.display = 'flex'  // Show overlay
+  //     setTimeout(() => {
+  //       uiscreen.style.transition = 'opacity 0.3s ease'
+  //       uiscreen.style.opacity = '1'  // Fade in the overlay
+  //     }, 10)
+  //     if (!this.sequenceCompleted) this.pauseAll()
+  //   }
+
+  //   // Listen on both the target + scene (for safety)
+  //   if (imageTarget) {
+  //     imageTarget.addEventListener('xrimagefound', onFound)
+  //     imageTarget.addEventListener('xrimagelost', onLost)
+  //     console.log('🔗 Bound listeners to xrextras-named-image-target.')
+  //   }
+  //   scene.addEventListener('xrimagefound', onFound)
+  //   scene.addEventListener('xrimagelost', onLost)
+  // },
+
   setupSequence() {
-    const id = new URLSearchParams(window.location.search).get('id')
+  // 🔥 Read target from URL path ( /chocos1 )
+  const showTarget = window.location.pathname.replace('/', '')
 
-    // Map URL → target name
-    const targetMap = {
-      1: 'chocos1',
-      2: 'moons_stars',
-      3: 'doet',
-      4: 'chhota_laddoo',
-      5: 'crunchy_bites',
+  const validTargets = [
+    'chocos1',
+    'moons_stars',
+    'doet',
+    'chhota_laddoo',
+    'crunchy_bites',
+  ]
+
+  // Hide all targets
+  document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
+    t.setAttribute('enabled', false)
+    t.style.display = 'none'
+  })
+
+  // Disable animation sequences for other targets
+  document.querySelectorAll('[animation-sequence]').forEach((seq) => {
+    const parent = seq.closest('xrextras-named-image-target')
+    if (!parent || parent.id !== showTarget) {
+      seq.setAttribute('animation-sequence', 'enabled: false')
     }
-    const showTarget = targetMap[id]
-    document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
-      t.setAttribute('enabled', false)
-      t.style.display = 'none'
-    })
-    const targetEll = document.querySelector(
-      `xrextras-named-image-target[name="${showTarget}"]`
-    )
-    document.querySelectorAll('[animation-sequence]').forEach((seq) => {
-      const parent = seq.closest('xrextras-named-image-target')
-      if (!parent || parent.id !== showTarget) {
-        seq.setAttribute('animation-sequence', 'enabled: false')
-      }
-    })
+  })
 
-    if (showTarget) {
-      document.getElementById(showTarget).style.display = 'block'
-      targetEll.setAttribute('enabled', true)
-      targetEll.setAttribute('name', showTarget)
-      console.log('Showing:', showTarget)
-    } else {
-      console.log('Invalid URL ID, no target shown')
+  // Enable only matched target
+  if (validTargets.includes(showTarget)) {
+    const targetEl = document.getElementById(showTarget)
+    if (targetEl) {
+      targetEl.style.display = 'block'
+      targetEl.setAttribute('enabled', true)
+      console.log('🎯 Showing target:', showTarget)
     }
-    console.log('✅ Animation sequence ready.')
-    const uiscreen = document.getElementById('ui-screen')
-    const imageTarget = this.el.closest('xrextras-named-image-target')
-    const scene = this.el.sceneEl
+  } else {
+    console.warn('❌ Invalid URL target:', showTarget)
+  }
 
-    const onFound = () => {
-      console.log('🟢 Image found!')
+  console.log('✅ Animation sequence ready.')
+
+  const uiscreen = document.getElementById('ui-screen')
+  const imageTarget = this.el.closest('xrextras-named-image-target')
+  const scene = this.el.sceneEl
+
+  const onFound = () => {
+    console.log('🟢 Image found!')
+    uiscreen.style.transition = 'opacity 0.3s ease'
+    uiscreen.style.opacity = '0'
+    setTimeout(() => {
+      uiscreen.style.display = 'none'
+    }, 300)
+
+    if (!this.sequenceStarted) {
+      this.sequenceStarted = true
+      this.chainAnimations()
+    } else if (!this.sequenceCompleted) {
+      this.resumeAll()
+    }
+  }
+
+  const onLost = () => {
+    console.log('⏸️ Image lost.')
+    uiscreen.style.display = 'flex'
+    setTimeout(() => {
       uiscreen.style.transition = 'opacity 0.3s ease'
-      uiscreen.style.opacity = '0'  // Fade out the overlay
-      setTimeout(() => {
-        uiscreen.style.display = 'none'  // Hide after fade
-      }, 300)
-      if (!this.sequenceStarted) {
-        this.sequenceStarted = true
-        this.chainAnimations()
-      } else if (!this.sequenceCompleted) {
-        this.resumeAll()
-      }
-    }
+      uiscreen.style.opacity = '1'
+    }, 10)
 
-    const onLost = () => {
-      console.log('⏸️ Image lost.')
-      uiscreen.style.display = 'flex'  // Show overlay
-      setTimeout(() => {
-        uiscreen.style.transition = 'opacity 0.3s ease'
-        uiscreen.style.opacity = '1'  // Fade in the overlay
-      }, 10)
-      if (!this.sequenceCompleted) this.pauseAll()
-    }
+    if (!this.sequenceCompleted) this.pauseAll()
+  }
 
-    // Listen on both the target + scene (for safety)
-    if (imageTarget) {
-      imageTarget.addEventListener('xrimagefound', onFound)
-      imageTarget.addEventListener('xrimagelost', onLost)
-      console.log('🔗 Bound listeners to xrextras-named-image-target.')
-    }
-    scene.addEventListener('xrimagefound', onFound)
-    scene.addEventListener('xrimagelost', onLost)
-  },
+  if (imageTarget) {
+    imageTarget.addEventListener('xrimagefound', onFound)
+    imageTarget.addEventListener('xrimagelost', onLost)
+  }
+
+  scene.addEventListener('xrimagefound', onFound)
+  scene.addEventListener('xrimagelost', onLost)
+},
 
   playEntity(index) {
     // Hide all, show only current

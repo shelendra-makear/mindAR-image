@@ -16,17 +16,34 @@ const limiter = rateLimit({
     }
 })
 
-router.get('/', (req, res) => {
-     const id = req.query.id;
 
-    if (!id) {
-        return res.redirect('/?id=2');
-    }
-    res.render('index', { id });
+const idMap = {
+  1: 'chocos1',
+  2: 'moons_stars',
+  3: 'doet',
+  4: 'chhota_laddoo',
+  5: 'crunchy_bites',
+}
+
+const validTargets = Object.values(idMap)
+
+
+
+/**
+ * CLEAN URL
+ * /chocos1
+ * /moons_stars
+ * /doet
+ */
+router.get('/:target', (req, res) => {
+  const { target } = req.params
+
+  if (validTargets.includes(target)) {
+    return res.render('index', { target })
+  }
+
+  return res.redirect('/moons_stars')
 })
 
-router.get('/game', limiter, (req, res) => {
-    res.render('index-hand');
-})
 
 module.exports = router;

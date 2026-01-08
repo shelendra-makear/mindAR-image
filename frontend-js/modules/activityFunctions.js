@@ -52,16 +52,34 @@ export default function activityscript() {
 
 
 
-    const idParam = new URLSearchParams(window.location.search).get("id");
+//     const idParam =  window.location.pathname.replace('/', '')
 
-if (!idParam) {
-    console.error("❌ URL missing ?id=");
+// if (!idParam) {
+//     console.error("❌ URL missing ?id=");
+//     return;
+// }
+
+// const ids = Number(idParam);
+// const selectedurl = kelloggList.find(item => item.id === ids);
+// console.log("Selected item from URL id:", selectedurl);
+// GET SLUG FROM URL → /doet
+const slug = window.location.pathname.split("/").filter(Boolean).pop();
+
+if (!slug) {
+    console.error("❌ URL slug missing");
     return;
 }
 
-const ids = Number(idParam);
-const selectedurl = kelloggList.find(item => item.id === ids);
-console.log("Selected item from URL id:", selectedurl);
+// FIND ITEM BY SLUG
+const selectedurl = kelloggList.find(item => item.slug === slug);
+
+if (!selectedurl) {
+    console.error("❌ No item found for slug:", slug);
+    return;
+}
+
+console.log("✅ Selected item from URL:", selectedurl);
+
 // update top-row left side
 const rightFood = document.querySelector(".top-row .right-food");
 
