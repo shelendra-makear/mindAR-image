@@ -27,6 +27,11 @@ getActiveBtn.addEventListener("click", () => {
   const index = active.dataset.index;
   const selected = cardList[index];
 
+  const breakfastName = document.getElementById("BreakfastName");
+  const breakfastTableName = document.getElementById("BreakfastTableName");
+  if (breakfastTableName && selected?.text) breakfastTableName.textContent = selected.text;
+  if (breakfastName && selected?.text) breakfastName.textContent = selected.text;
+
   // Update left top image
   const leftFood = document.querySelector(".top-food img");
   if (leftFood) leftFood.src = selected.img;
@@ -54,7 +59,8 @@ getActiveBtn.addEventListener("click", () => {
 
   const selectedurl = kelloggList.find(item => item.slug === slug);
   if (!selectedurl) return;
-
+const kelloggsTableName = document.getElementById("kelloggsTableName");
+  if (kelloggsTableName && selectedurl?.slug) kelloggsTableName.textContent = selectedurl.slug;
   // Update right column
   const rightCol = document.querySelectorAll(".table-box .right-col p");
 

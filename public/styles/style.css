@@ -434,7 +434,7 @@ p {
 .table-box .col p,
 .table-box .center-col p {
   margin: 5px 0;
-  font-size: 16px;
+  font-size: 0.8rem;
 }
 .table-box p{
   color: white;
@@ -454,6 +454,7 @@ p {
 }
 .center-col h3,.left-col h3,.right-col h3{
   color: white;
+  font-size: 1.1rem;
 }
 .retry-btn{
         /* position: absolute;
@@ -652,7 +653,7 @@ p {
     display: flex;
     color: white;
 }
-.comparison-card-heading h2{
+.comparison-card-heading h2,.comparison-card-heading span{
       color: white;
     font-size: 1.2rem;
     padding-top: 2dvh;
@@ -665,7 +666,7 @@ p {
     margin: auto;
         width: 80%;
     background: rgba(254, 237, 1, 1);
-    color: #fff;
+    color: rgba(127, 0, 20, 1);
     border: 2px solid white;
     padding: 0.5rem;
     border-radius: 30px;
