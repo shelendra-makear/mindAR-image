@@ -2,14 +2,14 @@
 export const kelloggList = [
   
   { id: 1,slug: "chocos1", img: "../assets/images/kellog_icon/chocos1.png", text: "chocos", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
-  { id: 2,slug: "moons_stars", img: "../assets/images/kellog_icon/moons_stars.png", text: "Moons Stars", Energy: "172 kcal", Protein: "5.2 gm", Fat: "2.7 gm", Carbs: "19.1 gm" },
+  { id: 2,slug: "moons_stars", img: "../assets/images/kellog_icon/moons_stars.png", text: "Moons Stars", Energy: "172 kcal", Protein: "5.2 gm", Fat: "2.7 gm", Carbs: "19.1 gm", Calcium: "100 mg", Iron: "4.5 mg" },
   { id: 3,slug: "doet", img: "../assets/images/kellog_icon/doet.png", text: "Doet", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
   { id: 4,slug: "chhota_laddoo", img: "../assets/images/kellog_icon/chhota_laddoo.png", text: "Chhota Laddoo", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
   { id: 5,slug:"crunchy_bites" , img: "../assets/images/kellog_icon/crunchy_bites.png", text: "Crunchy Bites", Energy: "130 kcal", Protein: "3.0 gm", Fat: "4.0 gm", Carbs: "21.0 gm" }
 ];
 export const cardList = [
   
-  { id: 1, img: "../assets/images/icons/icon1.png", text: "Lorem 1", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
+  { id: 1, img: "../assets/images/icons/icon1.png", text: "Lorem 1", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm", Calcium: "100 mg", Iron: "4.5 mg" },
   { id: 2, img: "../assets/images/icons/icon2.png", text: "Lorem 2", Energy: "127 kcal", Protein: "3.2 gm", Fat: "3.7 gm", Carbs: "20.1 gm" },
   { id: 3, img: "../assets/images/icons/icon3.png", text: "Lorem 3", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
   { id: 4, img: "../assets/images/icons/icon4.png", text: "Lorem 4", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
@@ -84,14 +84,11 @@ cardList.forEach((card, i) => {
    el.dataset.index = i;
   el.innerHTML = `
     <img src="${card.img}" />
-    <p>${card.text}</p>
+    <p style="padding-bottom: 0.5rem;">${card.text}</p>
   `;
   container.appendChild(el);
 });
 
-/* ===============================
-   DRAG HANDLER
-================================ */
 class DraggingEvent {
   constructor(target) {
     this.target = target;
@@ -133,9 +130,7 @@ class DraggingEvent {
   }
 }
 
-/* ===============================
-   CAROUSEL
-================================ */
+
 class CardCarousel extends DraggingEvent {
   constructor(container) {
     super(container);
@@ -237,9 +232,7 @@ updateCard(card, dist) {
   }
 }
 
-/* ===============================
-   INIT
-================================ */
+
 new CardCarousel(container);
 
 }

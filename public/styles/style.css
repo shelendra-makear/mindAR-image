@@ -5,7 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     text-align: center;
-    color: #000000;
+    color: rgba(122, 22, 0, 1);
     font-family: "Raleway";
    
 }
@@ -24,7 +24,7 @@ h2 {
 }
 
 p {
-    width: 85%;
+    width: 90%;
     font-size: 1rem;
     font-weight: 600;
     margin: auto
@@ -41,7 +41,7 @@ p {
 
 }
 .main-top-img {
-    width: 100vw;
+    width: 30vw;
     z-index: 99;
     position: absolute;
     top: 0;
@@ -105,7 +105,7 @@ p {
         width: 60%;
     background: #ff0000;
     color: #fff;
-    border: 4px solid white;
+    border: 2px solid white;
     padding: 0.5rem;
     border-radius: 30px;
     font-size: 1rem;
@@ -113,6 +113,9 @@ p {
     font-family: 'poppins';
     font-weight: bold;
     margin-top: 0.5rem;
+    box-shadow: 0px 3.97px 3.97px 0px rgba(0, 0, 0, 0.35);
+
+
 }
 
 .text-box {
@@ -161,14 +164,15 @@ p {
     bottom: 0;
     width: 90%;
     height: max-content;
-    background-image:url('../assets/images/menu_bg.png');
+    background-color: rgba(251, 229, 0, 1);
+    /* background-image:url('../assets/images/menu_bg.png'); */
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
      border-width: 4px 4px 0px 4px;
   border-style: solid;
   border-color: white;
     text-align: center;
-    padding: 1rem 0;
+    padding: 0rem 0 1rem 0;
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
@@ -176,22 +180,26 @@ p {
         left: 0;
     margin: auto;
         right: 0;
+        box-shadow: 7.46px 15.86px 3.73px 0px rgba(0, 0, 0, 0.25);
+
 }
 
-.yellow-card h2 {
-    font-size: 22px;
-    margin-top: 10px;
+.menu-card-heading h2 {
+    font-size: 1.2rem;
+    padding-top: 2dvh;
+    color: #ffffff;
 }
 
-.yellow-card p {
+.menu-card-heading p {
     font-size: 13px;
     margin-bottom: 0.6rem;
+        color: #ffffff;
 
 }
 
 
 .container {
-  height: 130px;
+  /* height: 20dvh; */
   /* overflow: hidden; */
 }
 
@@ -200,9 +208,11 @@ p {
   z-index: 1;
   position: relative;
   margin: 0 auto;
-  width: 90%;
-  min-width: 280px;
+  width: 100%;
+  min-width: 300px;
   transition: filter .3s ease;
+  height: 116.35px;
+  margin-bottom: 1rem;
 }
 .card {
   position: absolute;
@@ -219,8 +229,8 @@ p {
               z-index 0s;
   will-change: transform, opacity, left, right, top;
   background: whitesmoke;
-      width: 20%;
-    min-width: 80px;
+      width: 25%;
+    min-width: 88px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
         border-radius: 1em;
 }
@@ -254,7 +264,9 @@ p {
     margin-bottom: 0.5em;
      margin-top: 0.5em;
 }
-
+.active{
+   border: 4px solid rgb(255, 0, 0);
+}
 .active-box {
    position: absolute;
   left: 50%;
@@ -320,42 +332,33 @@ p {
 .compare-card {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 90%;
     height: max-content;
-    background-image:url('../assets/images/menu_bg.png');
+    /* background-image:url('../assets/images/menu_bg.png'); */
+    background-color: rgba(251, 229, 0, 1);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
      border-width: 4px 4px 0px 4px;
   border-style: solid;
   border-color: white;
     text-align: center;
-    padding: 1rem 0;
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
-        padding: 0rem 1rem;
+    padding: 0rem 0 1rem 0;
 }
 .compare-box {
-  height: 200px;
-  overflow-x: scroll;
-  width: 100%;
-  white-space: nowrap; 
-  scrollbar-width: auto;
-  scrollbar-color: #ff0000 #000000;
+     width: 95%;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
-.compare-box::-webkit-scrollbar {
-  height: 100%;
-}
 
-.compare-box::-webkit-scrollbar-thumb {
-  background-color: #ff0000;
-  border-radius: 10px;
-}
-
-.compare-box::-webkit-scrollbar-track {
-  background: #000000;
-}
 
 .item {
   width: 250px;
@@ -378,10 +381,13 @@ p {
 .food {
   text-align: center;
 }
-
+.top-food{
+      width: 50%;
+    margin-top: 2dvh;
+}
 .food img {
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   border: 5px solid #ffffff;
   object-fit: cover;
@@ -417,12 +423,12 @@ p {
 /* TABLE */
 .table-box {
   margin-top: 0px;
-  background: #fff;
+  background: rgba(214, 21, 63, 1);
   border-radius: 16px;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   justify-content: space-between;
- border: 1px solid black;
+ border: 1px solid white;
 }
 
 .table-box .col p,
@@ -430,19 +436,28 @@ p {
   margin: 5px 0;
   font-size: 16px;
 }
-
-.center-col {
-  background: #ffe75e;
-  padding: 8px 12px;
-  border-radius: 14px;
+.table-box p{
+  color: white;
+}
+.left-col,.right-col{
+   padding: 8px 12px;
   font-weight: bold;
-   border: 1px solid black;
-       margin: -1rem;
+}
+.left-col {
+    border-right: 1px solid white;
 }
 
+.center-col {  
+  padding: 8px 12px;
+  font-weight: bold;
+   border-right: 1px solid white;     
+}
+.center-col h3,.left-col h3,.right-col h3{
+  color: white;
+}
 .retry-btn{
-        position: absolute;
-    z-index: 8888;
+        /* position: absolute;
+    z-index: 8888; */
     bottom: 1rem;
     left: 0;
     right: 0;
@@ -450,7 +465,7 @@ p {
         width: 60%;
     background: #ff0000;
     color: #fff;
-    border: 4px solid white;
+    border: 2px solid white;
     padding: 0.5rem;
     border-radius: 30px;
     font-size: 1rem;
@@ -478,13 +493,16 @@ p {
 /* ===== POPUP BOX ===== */
 .popup-box {
   background: #FEED01;
-  padding: 25px;
-  width: 80%;
+  padding: 25px 15px;
+  width: 85%;
   max-width: 330px;
   border-radius: 20px;
   text-align: center;
   animation: popIn 0.3s ease;
 }
+.popup-box h3 {
+  font-size: 1rem;
+  }
 
 @keyframes popIn {
   0% { transform: scale(0.7); opacity: 0; }
@@ -596,9 +614,91 @@ p {
     z-index: 8;
 }
 .share-card{
-  display: flex;
+     display: flex;
     flex-direction: column;
     padding: 10px;
     flex: 1;
     gap: 10px;
+    position: absolute;
+    top: 70%;
+    /* bottom: 0; */
+    margin: auto;
+    left: 0;
+    right: 0;
 }
+
+.menu-card-heading{
+  background-image: url('/assets/images/heading.png');  
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height:15dvh;
+    margin-bottom: 10px;
+        border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+}
+
+.comparison-card-heading{
+  background-image: url('/assets/images/heading.png');  
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height:15dvh;
+    margin-bottom: 10px;
+        border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    display: flex;
+    color: white;
+}
+.comparison-card-heading h2{
+      color: white;
+    font-size: 1.2rem;
+    padding-top: 2dvh;
+        width: 50%;
+}
+.instagram-btn{
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+        width: 80%;
+    background: rgba(254, 237, 1, 1);
+    color: #fff;
+    border: 2px solid white;
+    padding: 0.5rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'poppins';
+    font-weight: bold;
+    margin-top: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+        gap: 5px;
+}
+  .web-btn{
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+        width: 80%;
+    background:rgba(226, 0, 26, 1);
+    color: #fff;
+    border: 2px solid white;
+    padding: 0.5rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'poppins';
+    font-weight: bold;
+    margin-top: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+        gap: 5px;
+
+}
+  

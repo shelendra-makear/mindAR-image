@@ -41,11 +41,12 @@
     <div class="menu-page">
       <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <div class="yellow-card" style="display: block;">
+        <div class="menu-card-heading">
         <h2>Select your Breakfast</h2>
         <p>Scroll left or right to select one breakfast</p>
+        </div>
         <div class="container">
-           <div class="active-box">
-            </div>
+        
           <div class="card-carousel">
            
             <!-- <div class="card " id="1">
@@ -75,16 +76,22 @@
           </div>
         </div>
         <!-- BUTTON -->
-        <button class="start-btn" id="getActive">Start Experience</button>
+        <button class="start-btn" id="getActive">Proceed</button>
       </div>
     </div>
     <div class="comparison-page">
       <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <div class="compare-card">
-        <h2>Comparison Proteins</h2>
-
+        <div class="comparison-card-heading">
+        <h2>Comparison<br> Chart : Poha</h2>
+        <div class="top-food food">
+              <img src="../assets/images/Breakfast/icon.png" />
+            
+            </div>
+</div>
           <div class="top-row">
-            <div class="food left-food">
+            <p>Multi Grain Chocos is high in protein. Poha on the other hand is rich in energy and low in carbs.</p>
+            <!-- <div class="food left-food">
               <img  src="../assets/images/Breakfast/poha.png" />
               <p>Poha</p>
             </div>
@@ -94,55 +101,48 @@
             <div class="food right-food">
               <img src="../assets/images/Breakfast/icon.png" />
               <p>Chocos</p>
-            </div>
+            </div> -->
           </div>
 <div class="compare-box">
   <div class="table-box">
-    
+     <div class="center-col">
+      <h3>Nutrient</h3>
+      <p>Energy</p>
+      <p>Protein</p>
+      <p>Carbs</p>
+      <p>Fat</p>
+      <p>Calcium</p>
+      <p>Iron</p>
+     
+    </div>
     <div class="col left-col">
-      <p>127 kcal</p>
-      <p>3.1 gm</p>
-      <p>3.8 gm</p>
-      <p>21.6 gm</p>
-      <p>127 kcal</p>
-        <p>127 kcal</p>
-      <p>3.1 gm</p>
-      <p>3.8 gm</p>
-      <p>21.6 gm</p>
-      <p>127 kcal</p>
+       <h3>Nutrient</h3>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>     
     </div>
 
-    <div class="center-col">
-      <p>Energy</p>
-      <p>Protein</p>
-      <p>Fat</p>
-      <p>Carbs</p>
-      <p>Energy</p>
-      <p>Energy</p>
-      <p>Protein</p>
-      <p>Fat</p>
-      <p>Carbs</p>
-      <p>Energy</p>
-    </div>
+   
 
     <div class="col right-col">
-      <p>127 kcal</p>
-      <p>3.1 gm</p>
-      <p>3.8 gm</p>
-      <p>21.6 gm</p>
-      <p>127 kcal</p>
-       <p>127 kcal</p>
-      <p>3.1 gm</p>
-      <p>3.8 gm</p>
-      <p>21.6 gm</p>
-      <p>127 kcal</p>
+       <h3>Nutrient</h3>
+    <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
     </div>
     
   </div>
 
-   <button class="retry-btn" id="">Retry Experience</button>
+ 
 
 </div>
+  <button class="retry-btn" id="">Proceed</button>
 </div>
 
         <div class="popup-overlay" id="popupOverlay">
@@ -150,8 +150,9 @@
     <h3>Want to compare another breakfast?</h3>
 
     <div class="popup-buttons">
+       <button id="popupYes" class="popup-btn yes">Yes</button>      
       <button id="popupNo" class="popup-btn no">No</button>
-      <button id="popupYes" class="popup-btn yes">Yes</button>      
+     
     </div>
   </div>
 </div>
@@ -160,17 +161,17 @@
     <div class="buttons-share-page">
       <!-- <img class="top-img" alt="Top Image" src="/assets/images/kelloggs_logo.png"> -->
       <div class="share-card">
-        <h2>Share your Experience</h2>
+       
         <div class="share-buttons">
-          <button class="share-btn whatsapp-btn">Share on WhatsApp</button>
-          <button class="share-btn facebook-btn">Share on Facebook</button>
-          <button class="share-btn twitter-btn">Share on Twitter</button>
+          <button class="share-btn instagram-btn">  <img src="/assets/images/instagram-icon.png" alt="Instagram" />Join the Breakfast Club</button>
+          <button class="share-btn web-btn">  <img src="/assets/images/web-icon.png" alt="web" />Know More About Nutrition</button>
         </div>
-        <button class="retry-btn" id="retryBtn">Retry Experience</button>
+       
         
     </div>
   
    </div>
+   
        <a-scene id="scene"
       xrextras-gesture-detector
      xrextras-loading="   

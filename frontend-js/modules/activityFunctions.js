@@ -6,6 +6,7 @@ export default function activityscript() {
     const menuPage = document.querySelector(".menu-page");
     const getActiveBtn = document.getElementById("getActive");
     const comparisonPage = document.querySelector(".comparison-page");
+   const buttonsSharePage = document.querySelector(".buttons-share-page");
 
 
 
@@ -16,108 +17,61 @@ export default function activityscript() {
         uiScreen.style.display = "none";
     });
 
+getActiveBtn.addEventListener("click", () => {
+  showElement(comparisonPage, 0, "block");
 
-    getActiveBtn.addEventListener("click", () => {
-         showElement(comparisonPage, 0, "block")
-        const active = document.querySelector(".card.active");
-        const index = active.dataset.index;
-        const selected = cardList[index];
+  // ACTIVE CARD (LEFT SIDE)
+  const active = document.querySelector(".card.active");
+  if (!active) return;
 
-    // update top-row left side (selected item)
-    const leftFood = document.querySelector(".top-row .food");
-    leftFood.querySelector("img").src = selected.img;
-    leftFood.querySelector("p").textContent = selected.text;
+  const index = active.dataset.index;
+  const selected = cardList[index];
 
-    
+  // Update left top image
+  const leftFood = document.querySelector(".top-food img");
+  if (leftFood) leftFood.src = selected.img;
 
-    // UPDATE ONLY LEFT COLUMN
-    const leftCol = document.querySelectorAll(".compare-box .col:first-child p");
+  // LEFT COLUMN VALUES
+  const leftCol = document.querySelectorAll(".table-box .left-col p");
 
-    const leftValues = [
-        selected.Energy,
-        selected.Protein,
-        selected.Fat,
-        selected.Carbs,
-        selected.Energy,
-        selected.Energy,
-        selected.Protein,
-        selected.Fat,
-        selected.Carbs,
-        selected.Energy,
-    ];
+  const leftValues = [
+    selected.Energy,
+    selected.Protein,
+    selected.Carbs,
+    selected.Fat,
+    selected.Calcium,
+    selected.Iron,
+  ];
 
-    leftValues.forEach((v, i) => {
-        leftCol[i].textContent = v;
-    });
+  leftValues.forEach((val, i) => {
+    if (leftCol[i]) leftCol[i].textContent = val;
+  });
 
 
 
-//     const idParam =  window.location.pathname.replace('/', '')
+  const slug = window.location.pathname.split("/").filter(Boolean).pop();
+  if (!slug) return;
 
-// if (!idParam) {
-//     console.error("❌ URL missing ?id=");
-//     return;
-// }
+  const selectedurl = kelloggList.find(item => item.slug === slug);
+  if (!selectedurl) return;
 
-// const ids = Number(idParam);
-// const selectedurl = kelloggList.find(item => item.id === ids);
-// console.log("Selected item from URL id:", selectedurl);
-// GET SLUG FROM URL → /doet
-const slug = window.location.pathname.split("/").filter(Boolean).pop();
+  // Update right column
+  const rightCol = document.querySelectorAll(".table-box .right-col p");
 
-if (!slug) {
-    console.error("❌ URL slug missing");
-    return;
-}
-
-// FIND ITEM BY SLUG
-const selectedurl = kelloggList.find(item => item.slug === slug);
-
-if (!selectedurl) {
-    console.error("❌ No item found for slug:", slug);
-    return;
-}
-
-console.log("✅ Selected item from URL:", selectedurl);
-
-// update top-row left side
-const rightFood = document.querySelector(".top-row .right-food");
-
-if (rightFood) {
-    rightFood.querySelector("img").src = selectedurl.img;
-    rightFood.querySelector("p").textContent = selectedurl.text;
-}
-
-// LEFT COLUMN
-const rightCol = document.querySelectorAll(".compare-box .right-col p");
-
-if (rightCol.length === 0) {
-    console.warn("⚠️ Left column elements NOT found in DOM");
-    return;
-}
-
-const rightValues = [
+  const rightValues = [
     selectedurl.Energy,
     selectedurl.Protein,
-    selectedurl.Fat,
     selectedurl.Carbs,
-    selectedurl.Energy,
-    selectedurl.Energy,
-    selectedurl.Protein,
     selectedurl.Fat,
-    selectedurl.Carbs,
-    selectedurl.Energy,
-];
+    selectedurl.Calcium,
+    selectedurl.Iron,
+  ];
 
-rightValues.forEach((v, i) => {
-        rightCol[i].textContent = v;
-    });
+  rightValues.forEach((val, i) => {
+    if (rightCol[i]) rightCol[i].textContent = val;
+  });
 
-
-
-
-    hideElement(menuPage, 500);
-       
+  hideElement(menuPage, 500);
 });
 
 
@@ -143,7 +97,10 @@ rightValues.forEach((v, i) => {
 
   // NO → Close popup only
   popupNo.addEventListener("click", () => {
-    popupOverlay.style.display = "none";
+    // popupOverlay.style.display = "none";
+    showElement(buttonsSharePage, 0, "flex");
+    hideElement(comparisonPage, 500);
+    hideElement(popupOverlay, 300);
   });
 
 
