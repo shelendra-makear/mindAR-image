@@ -105,6 +105,22 @@ AFRAME.registerComponent('animation-sequence', {
     'crunchy_bites',
   ]
 
+  
+  
+  
+  if (!showTarget) {
+  console.error("❌ Target not found in URL");
+} else if (!validTargets.includes(showTarget)) {
+  console.error("❌ Invalid target:", showTarget);
+} else {
+  console.log("✅ Valid Target:", showTarget);
+
+  // SHOW IMAGE
+  const imgEl = document.getElementById("target-img");
+  if (imgEl) {
+    imgEl.src = `/assets/images/targets/${showTarget}.png`; // change png/jpg as needed
+  }
+}
   // Hide all targets
   document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
     t.setAttribute('enabled', false)

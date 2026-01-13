@@ -1,11 +1,12 @@
 
+
 export const kelloggList = [
   
-  { id: 1,slug: "chocos1", img: "../assets/images/kellog_icon/chocos1.png", text: "chocos", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
-  { id: 2,slug: "moons_stars", img: "../assets/images/kellog_icon/moons_stars.png", text: "Moons Stars", Energy: "172 kcal", Protein: "5.2 gm", Fat: "2.7 gm", Carbs: "19.1 gm", Calcium: "100 mg", Iron: "4.5 mg" },
-  { id: 3,slug: "doet", img: "../assets/images/kellog_icon/doet.png", text: "Doet", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
-  { id: 4,slug: "chhota_laddoo", img: "../assets/images/kellog_icon/chhota_laddoo.png", text: "Chhota Laddoo", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
-  { id: 5,slug:"crunchy_bites" , img: "../assets/images/kellog_icon/crunchy_bites.png", text: "Crunchy Bites", Energy: "130 kcal", Protein: "3.0 gm", Fat: "4.0 gm", Carbs: "21.0 gm" }
+  { id: 1,slug: "chocos1", name: "Chocos 1", img: "../assets/images/kellog_icon/chocos1.png", text: "chocos", Energy: "126 kcal", Protein: "3.1 gm", Fat: "3.8 gm", Carbs: "21.6 gm" },
+  { id: 2,slug: "moons_stars",name: "Moons stars", img: "../assets/images/kellog_icon/moons_stars.png", text: "Moons Stars", Energy: "172 kcal", Protein: "5.2 gm", Fat: "2.7 gm", Carbs: "19.1 gm", Calcium: "100 mg", Iron: "4.5 mg" },
+  { id: 3,slug: "doet", name: "Doet", img: "../assets/images/kellog_icon/doet.png", text: "Doet", Energy: "128 kcal", Protein: "3.3 gm", Fat: "3.6 gm", Carbs: "22.5 gm" },
+  { id: 4,slug: "chhota_laddoo", name: "Chhota Laddoo", img: "../assets/images/kellog_icon/chhota_laddoo.png", text: "Chhota Laddoo", Energy: "129 kcal", Protein: "3.1 gm", Fat: "3.9 gm", Carbs: "23.0 gm" },
+  { id: 5,slug:"crunchy_bites" , name: "Crunchy Bites", img: "../assets/images/kellog_icon/crunchy_bites.png", text: "Crunchy Bites", Energy: "130 kcal", Protein: "3.0 gm", Fat: "4.0 gm", Carbs: "21.0 gm" }
 ];
 export const cardList = [
   

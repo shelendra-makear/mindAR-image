@@ -60,7 +60,7 @@ getActiveBtn.addEventListener("click", () => {
   const selectedurl = kelloggList.find(item => item.slug === slug);
   if (!selectedurl) return;
 const kelloggsTableName = document.getElementById("kelloggsTableName");
-  if (kelloggsTableName && selectedurl?.slug) kelloggsTableName.textContent = selectedurl.slug;
+  if (kelloggsTableName && selectedurl?.name) kelloggsTableName.textContent = selectedurl.name;
   // Update right column
   const rightCol = document.querySelectorAll(".table-box .right-col p");
 

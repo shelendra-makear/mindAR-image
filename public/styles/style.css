@@ -41,7 +41,7 @@ p {
 
 }
 .main-top-img {
-    width: 30vw;
+    width: 36vw;
     z-index: 99;
     position: absolute;
     top: 0;
@@ -148,7 +148,12 @@ p {
     bottom: 1rem;
    }
 }
-
+@media only screen and (max-width: 346px) {
+    .bottom-container {
+        background-image: url(/assets/images/Crunchy.png);
+        height: 111%;
+    }
+}
 .menu-page {
     position: relative;
     height: 100dvh;
@@ -454,7 +459,7 @@ p {
 }
 .center-col h3,.left-col h3,.right-col h3{
   color: white;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 .retry-btn{
         /* position: absolute;
@@ -555,12 +560,22 @@ p {
         color: white;
         font-size: 20px;
         transition: opacity .3s ease;
+        flex-direction: column;
       }
       .pp{
         color: white;
 
       }
-
+      .scan-box{
+            width: 70%;
+    padding: 15px;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+      margin-bottom: 3dvh;
+      }
+.target-img{
+  width: 70%;
+    filter: brightness(0.5);
+}
 .background-image {
     display: none;
        background: linear-gradient(to bottom, #362564, #2787c9);
