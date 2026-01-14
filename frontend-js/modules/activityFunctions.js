@@ -20,24 +20,19 @@ export default function activityscript() {
 getActiveBtn.addEventListener("click", () => {
   showElement(comparisonPage, 0, "block");
 
-  // ACTIVE CARD (LEFT SIDE)
   const active = document.querySelector(".card.active");
   if (!active) return;
 
   const index = active.dataset.index;
   const selected = cardList[index];
 
-  const breakfastName = document.getElementById("BreakfastName");
+  // LEFT NAME
   const breakfastTableName = document.getElementById("BreakfastTableName");
   if (breakfastTableName && selected?.text) breakfastTableName.textContent = selected.text;
-  if (breakfastName && selected?.text) breakfastName.textContent = selected.text;
 
-  // Update left top image
-  const leftFood = document.querySelector(".top-food img");
-  if (leftFood) leftFood.src = selected.img;
-
-  // LEFT COLUMN VALUES
-  const leftCol = document.querySelectorAll(".table-box .left-col p");
+  // LEFT COLUMN ELEMENT
+  const leftCol = document.querySelector(".table-box .left-col");
+  if (!leftCol) return;
 
   const leftValues = [
     selected.Energy,
@@ -48,21 +43,28 @@ getActiveBtn.addEventListener("click", () => {
     selected.Iron,
   ];
 
-  leftValues.forEach((val, i) => {
-    if (leftCol[i]) leftCol[i].textContent = val;
+  // remove old p
+  leftCol.querySelectorAll("p").forEach(p => p.remove());
+
+  // create new p
+  leftValues.forEach(val => {
+    const p = document.createElement("p");
+    p.textContent = val ?? "-";
+    leftCol.appendChild(p);
   });
 
-
-
+  // RIGHT SIDE
   const slug = window.location.pathname.split("/").filter(Boolean).pop();
   if (!slug) return;
 
   const selectedurl = kelloggList.find(item => item.slug === slug);
   if (!selectedurl) return;
-const kelloggsTableName = document.getElementById("kelloggsTableName");
-  if (kelloggsTableName && selectedurl?.name) kelloggsTableName.textContent = selectedurl.name;
-  // Update right column
-  const rightCol = document.querySelectorAll(".table-box .right-col p");
+
+  const kelloggsTableName = document.getElementById("kelloggsTableName");
+  if (kelloggsTableName) kelloggsTableName.textContent = selectedurl.name;
+
+  const rightCol = document.querySelector(".table-box .right-col");
+  if (!rightCol) return;
 
   const rightValues = [
     selectedurl.Energy,
@@ -73,12 +75,19 @@ const kelloggsTableName = document.getElementById("kelloggsTableName");
     selectedurl.Iron,
   ];
 
-  rightValues.forEach((val, i) => {
-    if (rightCol[i]) rightCol[i].textContent = val;
+  // remove old p
+  rightCol.querySelectorAll("p").forEach(p => p.remove());
+
+  // create new p
+  rightValues.forEach(val => {
+    const p = document.createElement("p");
+    p.textContent = val ?? "-";
+    rightCol.appendChild(p);
   });
 
   hideElement(menuPage, 500);
 });
+
 
 
  const retryBtn = document.querySelector(".retry-btn");
