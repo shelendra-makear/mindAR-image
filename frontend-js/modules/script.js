@@ -132,6 +132,106 @@ class DraggingEvent {
 }
 
 
+// class CardCarousel extends DraggingEvent {
+//   constructor(container) {
+//     super(container);
+
+//     this.container = container;
+//     this.cards = [...container.children];
+//     this.total = this.cards.length;
+
+//     this.centerIndex = 0;
+//     this.visibleRange = 2;
+//     this.lastOffset = 0;
+
+//     this.build();
+//     this.getDistance(this.move.bind(this));
+//   }
+
+//   wrap(i) {
+//     return (i + this.total) % this.total;
+//   }
+
+//   build() {
+//     this.update(0);
+//     this.setActive();
+//   }
+
+//   setActive() {
+//     this.cards.forEach(c => c.classList.remove("active"));
+//     this.cards[this.centerIndex]?.classList.add("active");
+//   }
+
+//   update(offset) {
+//     this.lastOffset = offset;
+
+//     for (let i = 0; i < this.total; i++) {
+//       const dist =
+//         ((i - this.centerIndex + offset + this.total + this.total / 2) %
+//           this.total) -
+//         this.total / 2;
+
+//       this.updateCard(this.cards[i], dist);
+//     }
+//   }
+// updateCard(card, dist) {
+//   const round = Math.round(dist);
+
+//   if (Math.abs(round) > this.visibleRange) {
+//     card.style.opacity = 0;
+//     card.style.transform = "translateX(-50%) scale(0)";
+//     return;
+//   }
+
+//   /* NON-LINEAR SPACING MAP */
+//   const spacingMap = {
+//     0: 0,
+//     1: 80,
+//     2: 140
+//   };
+
+//   const x =
+//     round < 0
+//       ? -spacingMap[Math.abs(round)]
+//       : spacingMap[Math.abs(round)];
+
+//   /* SCALE */
+//   const scaleMap = {
+//     0: 1,
+//     1: 0.7,
+//     2: 0.5
+//   };
+
+//   card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
+//   card.style.zIndex = 10 - Math.abs(round);
+
+//   card.style.transform = `
+//     translateX(calc(-50% + ${x}px))
+//     scale(${scaleMap[Math.abs(round)]})
+//   `;
+// }
+
+
+//   move(data) {
+//     if (!data) return this.snap();
+//     this.update(data.x / 220);
+//   }
+
+//   snap() {
+//     const offset = this.lastOffset;
+
+//     if (offset > 0.5) this.centerIndex = this.wrap(this.centerIndex - 1);
+//     if (offset < -0.5) this.centerIndex = this.wrap(this.centerIndex + 1);
+
+//     this.container.classList.add("smooth-return");
+//     this.update(0);
+//     this.setActive();
+
+//     setTimeout(() => {
+//       this.container.classList.remove("smooth-return");
+//     }, 300);
+//   }
+// }
 class CardCarousel extends DraggingEvent {
   constructor(container) {
     super(container);
@@ -146,6 +246,11 @@ class CardCarousel extends DraggingEvent {
 
     this.build();
     this.getDistance(this.move.bind(this));
+
+    // ✅ CLICK EVENT
+    this.cards.forEach((card, i) => {
+      card.addEventListener("click", () => this.onCardClick(i));
+    });
   }
 
   wrap(i) {
@@ -174,43 +279,38 @@ class CardCarousel extends DraggingEvent {
       this.updateCard(this.cards[i], dist);
     }
   }
-updateCard(card, dist) {
-  const round = Math.round(dist);
 
-  if (Math.abs(round) > this.visibleRange) {
-    card.style.opacity = 0;
-    card.style.transform = "translateX(-50%) scale(0)";
-    return;
+  updateCard(card, dist) {
+    const round = Math.round(dist);
+
+    if (Math.abs(round) > this.visibleRange) {
+      card.style.opacity = 0;
+      card.style.transform = "translateX(-50%) scale(0)";
+      return;
+    }
+
+    const spacingMap = {
+      0: 0,
+      1: 80,
+      2: 140
+    };
+
+    const x = round < 0 ? -spacingMap[Math.abs(round)] : spacingMap[Math.abs(round)];
+
+    const scaleMap = {
+      0: 1,
+      1: 0.7,
+      2: 0.5
+    };
+
+    card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
+    card.style.zIndex = 10 - Math.abs(round);
+
+    card.style.transform = `
+      translateX(calc(-50% + ${x}px))
+      scale(${scaleMap[Math.abs(round)]})
+    `;
   }
-
-  /* NON-LINEAR SPACING MAP */
-  const spacingMap = {
-    0: 0,
-    1: 80,
-    2: 140
-  };
-
-  const x =
-    round < 0
-      ? -spacingMap[Math.abs(round)]
-      : spacingMap[Math.abs(round)];
-
-  /* SCALE */
-  const scaleMap = {
-    0: 1,
-    1: 0.7,
-    2: 0.5
-  };
-
-  card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
-  card.style.zIndex = 10 - Math.abs(round);
-
-  card.style.transform = `
-    translateX(calc(-50% + ${x}px))
-    scale(${scaleMap[Math.abs(round)]})
-  `;
-}
-
 
   move(data) {
     if (!data) return this.snap();
@@ -222,6 +322,31 @@ updateCard(card, dist) {
 
     if (offset > 0.5) this.centerIndex = this.wrap(this.centerIndex - 1);
     if (offset < -0.5) this.centerIndex = this.wrap(this.centerIndex + 1);
+
+    this.container.classList.add("smooth-return");
+    this.update(0);
+    this.setActive();
+
+    setTimeout(() => {
+      this.container.classList.remove("smooth-return");
+    }, 300);
+  }
+
+  // ✅ CLICK LOGIC (handles 1→2 and 20→1 properly)
+  onCardClick(clickedIndex) {
+    if (clickedIndex === this.centerIndex) return;
+
+    // find shortest direction (circular)
+    const forward = (clickedIndex - this.centerIndex + this.total) % this.total;
+    const backward = (this.centerIndex - clickedIndex + this.total) % this.total;
+
+    if (forward < backward) {
+      // move forward (next)
+      this.centerIndex = this.wrap(this.centerIndex + forward);
+    } else {
+      // move backward (prev)
+      this.centerIndex = this.wrap(this.centerIndex - backward);
+    }
 
     this.container.classList.add("smooth-return");
     this.update(0);
