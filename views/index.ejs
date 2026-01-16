@@ -186,7 +186,8 @@
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
 
       <a-assets>
-        <a-asset-item id="anim1" src="../assets/models/anim1.glb" ></a-asset-item>
+        <audio id="anim1Audio" src="../assets/audio/v1 option 2 .mp3" preload="auto"></audio>
+        <a-asset-item id="anim1" src="../assets/models/removed.glb" ></a-asset-item>
         <a-asset-item id="anim2" src="../assets/models/anim2.glb"></a-asset-item>
         <a-asset-item id="anim3" src="../assets/models/anim3.glb" ></a-asset-item>
         <a-asset-item id="anim4" src="../assets/models/anim2.glb" ></a-asset-item>
@@ -227,7 +228,8 @@
       visible="false"
       position="0 0 -0"
       scale="0.7 0.7 0.7"
-      animation-mixer="clip: *; loop: once; clampWhenFinished: true"></a-entity>
+      animation-mixer="clip: *; loop: once; clampWhenFinished: true"
+       sound="src: #anim1Audio; autoplay: false; loop: false; volume: 1"></a-entity>
 
     <a-entity
       id="anim2-entity"

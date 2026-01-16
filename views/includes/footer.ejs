@@ -194,7 +194,16 @@ AFRAME.registerComponent('animation-sequence', {
     this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
     const entity = this.ents[index]
     if (!entity) return
-
+if (index === 0) {
+      const soundComp = entity.components.sound
+      if (soundComp) {
+        soundComp.stopSound() // restart sound
+        soundComp.playSound()
+        console.log("🔊 anim1 audio started")
+      } else {
+        console.warn("⚠️ No sound component found on anim1")
+      }
+    }
 
       // ⭐ SHOW ELEMENT WHEN INDEX = 2
   if (index === 2) {  
