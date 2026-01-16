@@ -77,59 +77,59 @@ const handCardBoardImg = document.querySelector(".hand-card-board-img");
 
 
 
-const container = document.querySelector(".card-carousel");
+// const container = document.querySelector(".card-carousel");
 
-cardList.forEach((card, i) => {
-  const el = document.createElement("div");
-  el.className = "card";
-   el.dataset.index = i;
-  el.innerHTML = `
-    <img src="${card.img}" />
-    <p style="padding-bottom: 0.5rem;">${card.text}</p>
-  `;
-  container.appendChild(el);
-});
+// cardList.forEach((card, i) => {
+//   const el = document.createElement("div");
+//   el.className = "card";
+//    el.dataset.index = i;
+//   el.innerHTML = `
+//     <img src="${card.img}" />
+//     <p style="padding-bottom: 0.5rem;">${card.text}</p>
+//   `;
+//   container.appendChild(el);
+// });
 
-class DraggingEvent {
-  constructor(target) {
-    this.target = target;
-  }
+// class DraggingEvent {
+//   constructor(target) {
+//     this.target = target;
+//   }
 
-  event(cb) {
-    let handler;
+//   event(cb) {
+//     let handler;
 
-    this.target.addEventListener("mousedown", e => {
-      handler = cb(e);
-      window.addEventListener("mousemove", handler);
-      window.addEventListener("mouseup", clear);
-    });
+//     this.target.addEventListener("mousedown", e => {
+//       handler = cb(e);
+//       window.addEventListener("mousemove", handler);
+//       window.addEventListener("mouseup", clear);
+//     });
 
-    this.target.addEventListener("touchstart", e => {
-      handler = cb(e);
-      window.addEventListener("touchmove", handler);
-      window.addEventListener("touchend", clear);
-    });
+//     this.target.addEventListener("touchstart", e => {
+//       handler = cb(e);
+//       window.addEventListener("touchmove", handler);
+//       window.addEventListener("touchend", clear);
+//     });
 
-    function clear() {
-      window.removeEventListener("mousemove", handler);
-      window.removeEventListener("mouseup", clear);
-      window.removeEventListener("touchmove", handler);
-      window.removeEventListener("touchend", clear);
-      handler(null);
-    }
-  }
+//     function clear() {
+//       window.removeEventListener("mousemove", handler);
+//       window.removeEventListener("mouseup", clear);
+//       window.removeEventListener("touchmove", handler);
+//       window.removeEventListener("touchend", clear);
+//       handler(null);
+//     }
+//   }
 
-  getDistance(cb) {
-    this.event(start => {
-      const startX = start.touches ? start.touches[0].clientX : start.clientX;
-      return move => {
-        if (!move) return cb(null);
-        const x = move.touches ? move.touches[0].clientX : move.clientX;
-        cb({ x: x - startX });
-      };
-    });
-  }
-}
+//   getDistance(cb) {
+//     this.event(start => {
+//       const startX = start.touches ? start.touches[0].clientX : start.clientX;
+//       return move => {
+//         if (!move) return cb(null);
+//         const x = move.touches ? move.touches[0].clientX : move.clientX;
+//         cb({ x: x - startX });
+//       };
+//     });
+//   }
+// }
 
 
 // class CardCarousel extends DraggingEvent {
@@ -232,6 +232,195 @@ class DraggingEvent {
 //     }, 300);
 //   }
 // }
+// class CardCarousel extends DraggingEvent {
+//   constructor(container) {
+//     super(container);
+
+//     this.container = container;
+//     this.cards = [...container.children];
+//     this.total = this.cards.length;
+
+//     this.centerIndex = 0;
+//     this.visibleRange = 2;
+//     this.lastOffset = 0;
+
+//     this.build();
+//     this.getDistance(this.move.bind(this));
+
+//     // ✅ CLICK EVENT
+//     this.cards.forEach((card, i) => {
+//       card.addEventListener("click", () => this.onCardClick(i));
+//     });
+//   }
+
+//   wrap(i) {
+//     return (i + this.total) % this.total;
+//   }
+
+//   build() {
+//     this.update(0);
+//     this.setActive();
+//   }
+
+//   setActive() {
+//     this.cards.forEach(c => c.classList.remove("active"));
+//     this.cards[this.centerIndex]?.classList.add("active");
+//   }
+
+//   update(offset) {
+//     this.lastOffset = offset;
+
+//     for (let i = 0; i < this.total; i++) {
+//       const dist =
+//         ((i - this.centerIndex + offset + this.total + this.total / 2) %
+//           this.total) -
+//         this.total / 2;
+
+//       this.updateCard(this.cards[i], dist);
+//     }
+//   }
+
+//   updateCard(card, dist) {
+//     const round = Math.round(dist);
+
+//     if (Math.abs(round) > this.visibleRange) {
+//       card.style.opacity = 0;
+//       card.style.transform = "translateX(-50%) scale(0)";
+//       return;
+//     }
+
+//     const spacingMap = {
+//       0: 0,
+//       1: 80,
+//       2: 140
+//     };
+
+//     const x = round < 0 ? -spacingMap[Math.abs(round)] : spacingMap[Math.abs(round)];
+
+//     const scaleMap = {
+//       0: 1,
+//       1: 0.7,
+//       2: 0.5
+//     };
+
+//     card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
+//     card.style.zIndex = 10 - Math.abs(round);
+
+//     card.style.transform = `
+//       translateX(calc(-50% + ${x}px))
+//       scale(${scaleMap[Math.abs(round)]})
+//     `;
+//   }
+
+//   move(data) {
+//     if (!data) return this.snap();
+//     this.update(data.x / 220);
+//   }
+
+//   snap() {
+//     const offset = this.lastOffset;
+
+//     if (offset > 0.5) this.centerIndex = this.wrap(this.centerIndex - 1);
+//     if (offset < -0.5) this.centerIndex = this.wrap(this.centerIndex + 1);
+
+//     this.container.classList.add("smooth-return");
+//     this.update(0);
+//     this.setActive();
+
+//     setTimeout(() => {
+//       this.container.classList.remove("smooth-return");
+//     }, 300);
+//   }
+
+//   // ✅ CLICK LOGIC (handles 1→2 and 20→1 properly)
+//   onCardClick(clickedIndex) {
+//     if (clickedIndex === this.centerIndex) return;
+
+//     // find shortest direction (circular)
+//     const forward = (clickedIndex - this.centerIndex + this.total) % this.total;
+//     const backward = (this.centerIndex - clickedIndex + this.total) % this.total;
+
+//     if (forward < backward) {
+//       // move forward (next)
+//       this.centerIndex = this.wrap(this.centerIndex + forward);
+//     } else {
+//       // move backward (prev)
+//       this.centerIndex = this.wrap(this.centerIndex - backward);
+//     }
+
+//     this.container.classList.add("smooth-return");
+//     this.update(0);
+//     this.setActive();
+
+//     setTimeout(() => {
+//       this.container.classList.remove("smooth-return");
+//     }, 300);
+//   }
+// }
+
+
+const container = document.querySelector(".card-carousel");
+
+cardList.forEach((card, i) => {
+  const el = document.createElement("div");
+  el.className = "card";
+  el.dataset.index = i;
+  el.innerHTML = `
+    <img src="${card.img}" />
+    <p style="padding-bottom: 0.5rem;">${card.text}</p>
+  `;
+  container.appendChild(el);
+});
+
+class DraggingEvent {
+  constructor(target) {
+    this.target = target;
+    this.isTouchDragging = false;
+  }
+
+  event(cb) {
+    let handler;
+
+    this.target.addEventListener("mousedown", (e) => {
+      this.isTouchDragging = false;
+      handler = cb(e);
+      window.addEventListener("mousemove", handler);
+      window.addEventListener("mouseup", clear);
+    });
+
+    this.target.addEventListener("touchstart", (e) => {
+      this.isTouchDragging = true;
+      handler = cb(e);
+      window.addEventListener("touchmove", handler, { passive: false });
+      window.addEventListener("touchend", clear);
+    }, { passive: false });
+
+    const clear = () => {
+      window.removeEventListener("mousemove", handler);
+      window.removeEventListener("mouseup", clear);
+      window.removeEventListener("touchmove", handler);
+      window.removeEventListener("touchend", clear);
+      handler(null);
+    };
+  }
+
+  getDistance(cb) {
+    this.event((start) => {
+      const startX = start.touches ? start.touches[0].clientX : start.clientX;
+
+      return (move) => {
+        if (!move) return cb(null);
+
+        // stop scroll while dragging
+        if (move.cancelable) move.preventDefault();
+
+        const x = move.touches ? move.touches[0].clientX : move.clientX;
+        cb({ x: x - startX });
+      };
+    });
+  }
+}
+
 class CardCarousel extends DraggingEvent {
   constructor(container) {
     super(container);
@@ -247,9 +436,18 @@ class CardCarousel extends DraggingEvent {
     this.build();
     this.getDistance(this.move.bind(this));
 
-    // ✅ CLICK EVENT
+    // ✅ click + tap support
     this.cards.forEach((card, i) => {
       card.addEventListener("click", () => this.onCardClick(i));
+
+      card.addEventListener(
+        "touchend",
+        (e) => {
+          e.preventDefault();
+          this.onCardClick(i);
+        },
+        { passive: false }
+      );
     });
   }
 
@@ -263,7 +461,7 @@ class CardCarousel extends DraggingEvent {
   }
 
   setActive() {
-    this.cards.forEach(c => c.classList.remove("active"));
+    this.cards.forEach((c) => c.classList.remove("active"));
     this.cards[this.centerIndex]?.classList.add("active");
   }
 
@@ -289,18 +487,21 @@ class CardCarousel extends DraggingEvent {
       return;
     }
 
+    // NON-LINEAR SPACING
     const spacingMap = {
       0: 0,
       1: 80,
-      2: 140
+      2: 140,
     };
 
-    const x = round < 0 ? -spacingMap[Math.abs(round)] : spacingMap[Math.abs(round)];
+    const x =
+      round < 0 ? -spacingMap[Math.abs(round)] : spacingMap[Math.abs(round)];
 
+    // SCALE
     const scaleMap = {
       0: 1,
       1: 0.7,
-      2: 0.5
+      2: 0.5,
     };
 
     card.style.opacity = Math.abs(round) === 2 ? 0.5 : 1;
@@ -314,7 +515,11 @@ class CardCarousel extends DraggingEvent {
 
   move(data) {
     if (!data) return this.snap();
-    this.update(data.x / 220);
+
+    // ✅ slow touch swipe speed
+    const speed = this.isTouchDragging ? 450 : 220;
+
+    this.update(data.x / speed);
   }
 
   snap() {
@@ -332,19 +537,18 @@ class CardCarousel extends DraggingEvent {
     }, 300);
   }
 
-  // ✅ CLICK LOGIC (handles 1→2 and 20→1 properly)
+  // ✅ click card → move to that card (circular shortest path)
   onCardClick(clickedIndex) {
     if (clickedIndex === this.centerIndex) return;
 
-    // find shortest direction (circular)
-    const forward = (clickedIndex - this.centerIndex + this.total) % this.total;
-    const backward = (this.centerIndex - clickedIndex + this.total) % this.total;
+    const forward =
+      (clickedIndex - this.centerIndex + this.total) % this.total;
+    const backward =
+      (this.centerIndex - clickedIndex + this.total) % this.total;
 
     if (forward < backward) {
-      // move forward (next)
       this.centerIndex = this.wrap(this.centerIndex + forward);
     } else {
-      // move backward (prev)
       this.centerIndex = this.wrap(this.centerIndex - backward);
     }
 
@@ -358,7 +562,7 @@ class CardCarousel extends DraggingEvent {
   }
 }
 
-
 new CardCarousel(container);
+
 
 }

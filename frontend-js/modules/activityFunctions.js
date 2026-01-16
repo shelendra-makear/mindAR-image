@@ -9,12 +9,15 @@ export default function activityscript() {
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
 
+const scene = document.getElementById("scene");
 
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
+        scene.style.display = "block";
         uiScreen.style.display = "flex";
+
     });
 
 getActiveBtn.addEventListener("click", () => {
