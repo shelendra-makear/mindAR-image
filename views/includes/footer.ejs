@@ -194,7 +194,7 @@ AFRAME.registerComponent('animation-sequence', {
     this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
     const entity = this.ents[index]
     if (!entity) return
-if (index === 1) {
+if (index === 0) {
       const soundComp = entity.components.sound
       if (soundComp) {
         soundComp.stopSound() // restart sound
@@ -206,7 +206,7 @@ if (index === 1) {
     }
 
       // ⭐ SHOW ELEMENT WHEN INDEX = 2
-  if (index === 2) {  
+  if (index === 1) {  
     const specialElement = document.querySelector(".yellow-card");
     if (specialElement) {
       specialElement.style.display = "block";
