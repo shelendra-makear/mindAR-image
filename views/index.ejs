@@ -166,7 +166,7 @@
    </div>
    
        <a-scene  id="scene"
-  style="display:none;"
+  style="display:block;"
   xrextras-loading
   xrextras-runtime-error
   renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
@@ -184,7 +184,7 @@
         <a-asset-item id="anim4" src="../assets/models/anim2.glb" ></a-asset-item>
       </a-assets>
 
-      <a-camera id="camera" position="0 0 0"
+      <a-camera id="cam" position="0 0 0"
         raycaster="objects: .cantap"
         cursor="fuse: false; rayOrigin: mouse;"></a-camera>
 

@@ -9,7 +9,15 @@ export default function activityscript() {
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
 const scene = document.querySelector("a-scene");
+  window.addEventListener("load", () => {
+  
 
+      // Pause camera feed initially
+      if (window.XR8) {
+        console.log("Pausing XR8 on load");
+        XR8.pause();
+      }
+    });
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
