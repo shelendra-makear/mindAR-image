@@ -30,6 +30,9 @@ const app = {
  if (window.XR8) {
         XR8.resume();
       }
+      
+      app.cameraopen = true;
+      console.log("Camera Open:", app.cameraopen);
     });
 
 getActiveBtn.addEventListener("click", () => {
