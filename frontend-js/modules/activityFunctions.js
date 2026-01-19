@@ -8,23 +8,26 @@ export default function activityscript() {
     const comparisonPage = document.querySelector(".comparison-page");
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
-
- window.addEventListener("load", () => {
+  const pauseTimer = setInterval(() => {
     if (window.XR8) {
       XR8.pause();
-      console.log("⏸️ Camera paused on load");
+      console.log("⏸️ Camera paused (XR8 ready)");
+      clearInterval(pauseTimer);
     }
-  });
+  }, 100);
+
+
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
         uiScreen.style.display = "flex";
+        
           // ✅ Start Camera now
-    if (window.XR8) {
-      XR8.resume();
-      console.log("▶️ Camera started on Start button click");
-    }
+   if (window.XR8) {
+    XR8.resume();
+    console.log("▶️ Camera started");
+  }
     });
 
 getActiveBtn.addEventListener("click", () => {

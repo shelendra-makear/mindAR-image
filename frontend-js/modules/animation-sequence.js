@@ -218,6 +218,7 @@ export default function registerAnimationSequence() {
     },
 
     init() {
+       
       this.ents = this.data.entities.map((sel) => document.querySelector(sel));
       this.currentIndex = 0;
       this.sequenceStarted = false;
@@ -227,6 +228,7 @@ export default function registerAnimationSequence() {
       const scene = this.el.sceneEl;
 
       scene.addEventListener("loaded", () => {
+        
         console.log("🎬 Scene fully loaded.");
         this.setupSequence();
       });
