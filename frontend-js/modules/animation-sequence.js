@@ -228,11 +228,7 @@ export default function registerAnimationSequence() {
       const scene = this.el.sceneEl;
 
       scene.addEventListener("loaded", () => {
-        if (window.XR8) {
-      XR8.pause();
-      console.log("⏸️ Camera paused (XR8 ready)");
-      clearInterval(pauseTimer);
-    }
+      
         console.log("🎬 Scene fully loaded.");
         this.setupSequence();
       });

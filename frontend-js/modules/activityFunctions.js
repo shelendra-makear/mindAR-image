@@ -8,26 +8,15 @@ export default function activityscript() {
     const comparisonPage = document.querySelector(".comparison-page");
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
-  const pauseTimer = setInterval(() => {
-    if (window.XR8) {
-      XR8.pause();
-      console.log("⏸️ Camera paused (XR8 ready)");
-      clearInterval(pauseTimer);
-    }
-  }, 100);
-
+const scene = document.querySelector("a-scene");
 
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
         uiScreen.style.display = "flex";
-        
-          // ✅ Start Camera now
-   if (window.XR8) {
-    XR8.resume();
-    console.log("▶️ Camera started");
-  }
+        scene.style.display = "block";
+ 
     });
 
 getActiveBtn.addEventListener("click", () => {
