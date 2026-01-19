@@ -8,31 +8,14 @@ export default function activityscript() {
     const comparisonPage = document.querySelector(".comparison-page");
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
-const scene = document.querySelector("a-scene");
-const app = {
-      cameraopen: false
-    };
-   window.addEventListener("load", () => {
-      
-      if (window.XR8) {
-        XR8.pause();
-      }
 
-      app.cameraopen = false;
-      console.log("Camera Open:", app.cameraopen);
-    });
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
         hideElement(landingPage, 500);
         showElement(menuPage, 0, "block")
         uiScreen.style.display = "flex";
-        scene.style.display = "block";
- if (window.XR8) {
-        XR8.resume();
-      }
-      
-      app.cameraopen = true;
-      console.log("Camera Open:", app.cameraopen);
+
+ 
     });
 
 getActiveBtn.addEventListener("click", () => {
