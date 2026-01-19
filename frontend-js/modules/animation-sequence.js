@@ -228,7 +228,7 @@ export default function registerAnimationSequence() {
       const scene = this.el.sceneEl;
 
       scene.addEventListener("loaded", () => {
-      XR8.pause()
+
         console.log("🎬 Scene fully loaded.");
         this.setupSequence();
       });
