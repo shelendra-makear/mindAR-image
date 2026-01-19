@@ -1,105 +1,125 @@
 import { hideElement, showElement } from "./utils";
-import { cardList,kelloggList } from "./script";
+import { cardList, kelloggList } from "./script";
 export default function activityscript() {
-    const uiScreen = document.getElementById("ui-screen");
-    const startBtn = document.getElementById("startBtn");
-    const menuPage = document.querySelector(".menu-page");
-    const getActiveBtn = document.getElementById("getActive");
-    const comparisonPage = document.querySelector(".comparison-page");
-   const buttonsSharePage = document.querySelector(".buttons-share-page");
+  const uiScreen = document.getElementById("ui-screen");
+  const startBtn = document.getElementById("startBtn");
+  const menuPage = document.querySelector(".menu-page");
+  const getActiveBtn = document.getElementById("getActive");
+  const comparisonPage = document.querySelector(".comparison-page");
+  const buttonsSharePage = document.querySelector(".buttons-share-page");
 
 
-const scene = document.getElementById("scene");
+  const scene = document.getElementById("scene");
 
-    startBtn.addEventListener("click", () => {
-        const landingPage = document.querySelector(".landing-page");
-        hideElement(landingPage, 500);
-        showElement(menuPage, 0, "block")
-        scene.style.display = "block";
-        uiScreen.style.display = "flex";
+  startBtn.addEventListener("click", async () => {
+    const landingPage = document.querySelector(".landing-page");
+    hideElement(landingPage, 500);
+    showElement(menuPage, 0, "block")
+    // scene.style.display = "block";
+    uiScreen.style.display = "flex";
 
+    const tryStart = () => {
+      if (!window.XR8 || !XR8.run) {
+        console.log("⏳ XR8 not ready...");
+        return setTimeout(tryStart, 200);
+      }
+
+      // ✅ Get A-Frame canvas
+      const sceneEl = document.querySelector("a-scene");
+      const canvas = sceneEl?.canvas;
+
+      if (!canvas) {
+        console.log("⏳ A-Frame canvas not ready...");
+        return setTimeout(tryStart, 200);
+      }
+
+      console.log("📷 Starting XR8 with canvas...");
+      XR8.run({ canvas });   // ✅ FIXED
+    };
+
+    tryStart();
+  });
+
+  getActiveBtn.addEventListener("click", () => {
+    showElement(comparisonPage, 0, "block");
+
+    const active = document.querySelector(".card.active");
+    if (!active) return;
+
+    const index = active.dataset.index;
+    const selected = cardList[index];
+
+    // LEFT NAME
+    const breakfastTableName = document.getElementById("BreakfastTableName");
+    if (breakfastTableName && selected?.text) breakfastTableName.textContent = selected.text;
+
+    // LEFT COLUMN ELEMENT
+    const leftCol = document.querySelector(".table-box .left-col");
+    if (!leftCol) return;
+
+    const leftValues = [
+      selected.Energy,
+      selected.Protein,
+      selected.Carbs,
+      selected.Fat,
+      selected.Calcium,
+      selected.Iron,
+    ];
+
+    // remove old p
+    leftCol.querySelectorAll("p").forEach(p => p.remove());
+
+    // create new p
+    leftValues.forEach(val => {
+      const p = document.createElement("p");
+      p.textContent = val ?? "-";
+      leftCol.appendChild(p);
     });
 
-getActiveBtn.addEventListener("click", () => {
-  showElement(comparisonPage, 0, "block");
+    // RIGHT SIDE
+    const slug = window.location.pathname.split("/").filter(Boolean).pop();
+    if (!slug) return;
 
-  const active = document.querySelector(".card.active");
-  if (!active) return;
+    const selectedurl = kelloggList.find(item => item.slug === slug);
+    if (!selectedurl) return;
 
-  const index = active.dataset.index;
-  const selected = cardList[index];
+    const kelloggsTableName = document.getElementById("kelloggsTableName");
+    if (kelloggsTableName) kelloggsTableName.textContent = selectedurl.name;
 
-  // LEFT NAME
-  const breakfastTableName = document.getElementById("BreakfastTableName");
-  if (breakfastTableName && selected?.text) breakfastTableName.textContent = selected.text;
+    const rightCol = document.querySelector(".table-box .right-col");
+    if (!rightCol) return;
 
-  // LEFT COLUMN ELEMENT
-  const leftCol = document.querySelector(".table-box .left-col");
-  if (!leftCol) return;
+    const rightValues = [
+      selectedurl.Energy,
+      selectedurl.Protein,
+      selectedurl.Carbs,
+      selectedurl.Fat,
+      selectedurl.Calcium,
+      selectedurl.Iron,
+    ];
 
-  const leftValues = [
-    selected.Energy,
-    selected.Protein,
-    selected.Carbs,
-    selected.Fat,
-    selected.Calcium,
-    selected.Iron,
-  ];
+    // remove old p
+    rightCol.querySelectorAll("p").forEach(p => p.remove());
 
-  // remove old p
-  leftCol.querySelectorAll("p").forEach(p => p.remove());
+    // create new p
+    rightValues.forEach(val => {
+      const p = document.createElement("p");
+      p.textContent = val ?? "-";
+      rightCol.appendChild(p);
+    });
 
-  // create new p
-  leftValues.forEach(val => {
-    const p = document.createElement("p");
-    p.textContent = val ?? "-";
-    leftCol.appendChild(p);
+    hideElement(menuPage, 500);
   });
 
-  // RIGHT SIDE
-  const slug = window.location.pathname.split("/").filter(Boolean).pop();
-  if (!slug) return;
-
-  const selectedurl = kelloggList.find(item => item.slug === slug);
-  if (!selectedurl) return;
-
-  const kelloggsTableName = document.getElementById("kelloggsTableName");
-  if (kelloggsTableName) kelloggsTableName.textContent = selectedurl.name;
-
-  const rightCol = document.querySelector(".table-box .right-col");
-  if (!rightCol) return;
-
-  const rightValues = [
-    selectedurl.Energy,
-    selectedurl.Protein,
-    selectedurl.Carbs,
-    selectedurl.Fat,
-    selectedurl.Calcium,
-    selectedurl.Iron,
-  ];
-
-  // remove old p
-  rightCol.querySelectorAll("p").forEach(p => p.remove());
-
-  // create new p
-  rightValues.forEach(val => {
-    const p = document.createElement("p");
-    p.textContent = val ?? "-";
-    rightCol.appendChild(p);
-  });
-
-  hideElement(menuPage, 500);
-});
 
 
-
- const retryBtn = document.querySelector(".retry-btn");
+  const retryBtn = document.querySelector(".retry-btn");
   const popupOverlay = document.getElementById("popupOverlay");
   const popupYes = document.getElementById("popupYes");
   const popupNo = document.getElementById("popupNo");
 
-//   const menuPage = document.querySelector(".menu-page");
-//   const comparisonPage = document.querySelector(".comparison-page");
+  //   const menuPage = document.querySelector(".menu-page");
+  //   const comparisonPage = document.querySelector(".comparison-page");
 
   // SHOW POPUP WHEN RETRY CLICKED
   retryBtn.addEventListener("click", () => {
