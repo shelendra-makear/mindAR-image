@@ -228,7 +228,7 @@ export default function registerAnimationSequence() {
       const scene = this.el.sceneEl;
 
       scene.addEventListener("loaded", () => {
-
+      
         console.log("🎬 Scene fully loaded.");
         this.setupSequence();
       });
@@ -327,8 +327,8 @@ export default function registerAnimationSequence() {
         imageTarget.addEventListener("xrimagelost", onLost);
       }
 
-      // scene.addEventListener("xrimagefound", onFound);
-      // scene.addEventListener("xrimagelost", onLost);
+      scene.addEventListener("xrimagefound", onFound);
+      scene.addEventListener("xrimagelost", onLost);
     },
 
     playEntity(index) {

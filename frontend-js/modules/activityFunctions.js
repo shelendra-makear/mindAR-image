@@ -9,14 +9,17 @@ export default function activityscript() {
    const buttonsSharePage = document.querySelector(".buttons-share-page");
 
 const scene = document.querySelector("a-scene");
-  window.addEventListener("load", () => {
-  
-
-      // Pause camera feed initially
+const app = {
+      cameraopen: false
+    };
+   window.addEventListener("load", () => {
+      
       if (window.XR8) {
-        console.log("Pausing XR8 on load");
         XR8.pause();
       }
+
+      app.cameraopen = false;
+      console.log("Camera Open:", app.cameraopen);
     });
     startBtn.addEventListener("click", () => {
         const landingPage = document.querySelector(".landing-page");
@@ -24,7 +27,9 @@ const scene = document.querySelector("a-scene");
         showElement(menuPage, 0, "block")
         uiScreen.style.display = "flex";
         scene.style.display = "block";
- 
+ if (window.XR8) {
+        XR8.resume();
+      }
     });
 
 getActiveBtn.addEventListener("click", () => {
