@@ -1,213 +1,430 @@
+// export default function registerAnimationSequence() {
+//   AFRAME.registerComponent('animation-sequence', {
+//     schema: {
+//       entities: { type: 'array' },
+//     },
+
+//     init() {
+//       // Cache entity references
+//       this.ents = this.data.entities.map(sel => document.querySelector(sel))
+//       this.currentIndex = 0
+//       this.sequenceStarted = false
+//       this.sequenceCompleted = false
+//       this._onAnimFinished = null
+
+//       const scene = this.el.sceneEl
+//       scene.addEventListener('loaded', () => {
+//         console.log('🎬 Scene fully loaded.')
+//         this.setupSequence()
+//       })
+//     },
+
+//     setupSequence() {
+//       // 🔥 Read target from URL path ( /chocos1 )
+//       const showTarget = window.location.pathname.replace('/', '')
+
+//       const validTargets = [
+//         'chocos1',
+//         'moons_stars',
+//         'doet',
+//         'chhota_laddoo',
+//         'crunchy_bites',
+//       ]
+
+//       if (!showTarget) {
+//         console.error("❌ Target not found in URL")
+//       } else if (!validTargets.includes(showTarget)) {
+//         console.error("❌ Invalid target:", showTarget)
+//       } else {
+//         console.log("✅ Valid Target:", showTarget)
+
+//         // SHOW IMAGE
+//         const imgEl = document.getElementById("target-img")
+//         if (imgEl) {
+//           imgEl.src = `/assets/images/targets/${showTarget}.png`
+//         }
+//       }
+
+//       // Hide all targets
+//       document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
+//         t.setAttribute('enabled', false)
+//         t.style.display = 'none'
+//       })
+
+//       // Disable animation sequences for other targets
+//       document.querySelectorAll('[animation-sequence]').forEach((seq) => {
+//         const parent = seq.closest('xrextras-named-image-target')
+//         if (!parent || parent.id !== showTarget) {
+//           seq.setAttribute('animation-sequence', 'enabled: false')
+//         }
+//       })
+
+//       // Enable only matched target
+//       if (validTargets.includes(showTarget)) {
+//         const targetEl = document.getElementById(showTarget)
+//         if (targetEl) {
+//           targetEl.style.display = 'block'
+//           targetEl.setAttribute('enabled', true)
+//           console.log('🎯 Showing target:', showTarget)
+//         }
+//       } else {
+//         console.warn('❌ Invalid URL target:', showTarget)
+//       }
+
+//       console.log('✅ Animation sequence ready.')
+
+//       const uiscreen = document.getElementById('ui-screen')
+//       const imageTarget = this.el.closest('xrextras-named-image-target')
+//       const scene = this.el.sceneEl
+
+//       const onFound = () => {
+//         console.log('🟢 Image found!')
+//         uiscreen.style.transition = 'opacity 0.3s ease'
+//         uiscreen.style.opacity = '0'
+//         setTimeout(() => {
+//           uiscreen.style.display = 'none'
+//         }, 300)
+
+//         if (!this.sequenceStarted) {
+//           this.sequenceStarted = true
+//           this.chainAnimations()
+//         } else if (!this.sequenceCompleted) {
+//           this.resumeAll()
+//         }
+//       }
+
+//       const onLost = () => {
+//         console.log('⏸️ Image lost.')
+//         uiscreen.style.display = 'flex'
+//         setTimeout(() => {
+//           uiscreen.style.transition = 'opacity 0.3s ease'
+//           uiscreen.style.opacity = '1'
+//         }, 10)
+
+//         if (!this.sequenceCompleted) this.pauseAll()
+//       }
+
+//       if (imageTarget) {
+//         imageTarget.addEventListener('xrimagefound', onFound)
+//         imageTarget.addEventListener('xrimagelost', onLost)
+//       }
+
+//       scene.addEventListener('xrimagefound', onFound)
+//       scene.addEventListener('xrimagelost', onLost)
+//     },
+
+//     playEntity(index) {
+//       // Hide all, show only current
+//       this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
+//       const entity = this.ents[index]
+//       if (!entity) return
+
+//       if (index === 0) {
+//         const soundComp = entity.components.sound
+//         if (soundComp) {
+//           soundComp.stopSound()
+//           soundComp.playSound()
+//           console.log("🔊 anim1 audio started")
+//         } else {
+//           console.warn("⚠️ No sound component found on anim1")
+//         }
+//       }
+
+//       // ⭐ SHOW ELEMENT WHEN INDEX = 1
+//       if (index === 1) {
+//         const specialElement = document.querySelector(".yellow-card")
+//         if (specialElement) {
+//           specialElement.style.display = "block"
+//           console.log("🎉 Display block activated at animation index 2")
+//         }
+//       }
+
+//       const onModelLoaded = () => {
+//         const mixerComp = entity.components['animation-mixer']
+//         if (mixerComp && mixerComp.mixer) {
+//           const { mixer } = mixerComp
+//           mixer.stopAllAction()
+//           mixer.timeScale = 1
+
+//           const actions = Object.values(mixer._actions)
+//           if (actions.length > 0) {
+//             const action = actions[0]
+//             action.reset().play()
+//             console.log(`🎥 Playing animation ${index + 1}`)
+//           } else {
+//             console.warn(`⚠️ No animation clips found in ${entity.id}`)
+//           }
+//         } else {
+//           console.warn(`⚠️ No animation-mixer on ${entity.id}`)
+//         }
+//       }
+
+//       if (entity.hasLoaded) onModelLoaded()
+//       else entity.addEventListener('model-loaded', onModelLoaded, { once: true })
+//     },
+
+//     pauseAll() {
+//       this.ents.forEach((e) => {
+//         const m = e.components['animation-mixer']
+//         if (m && m.mixer) m.mixer.timeScale = 0
+//       })
+//       console.log('⏸️ Animations paused.')
+//     },
+
+//     resumeAll() {
+//       this.ents.forEach((e) => {
+//         const m = e.components['animation-mixer']
+//         if (m && m.mixer) m.mixer.timeScale = 1
+//       })
+//       console.log('▶️ Animations resumed.')
+//     },
+
+//     chainAnimations() {
+//       if (this.sequenceCompleted) return
+
+//       const current = this.ents[this.currentIndex]
+//       const comp = current.components['animation-mixer']
+//       if (!comp || !comp.mixer) {
+//         console.warn(`⚠️ No mixer found on entity ${current.id}`)
+//         return
+//       }
+
+//       const { mixer } = comp
+
+//       if (this._onAnimFinished) mixer.removeEventListener('finished', this._onAnimFinished)
+
+//       this._onAnimFinished = () => {
+//         this.currentIndex++
+//         if (this.currentIndex < this.ents.length) {
+//           console.log(`➡️ Moving to animation ${this.currentIndex + 1}`)
+//           this.playEntity(this.currentIndex)
+//           this.chainAnimations()
+//         } else {
+//           this.sequenceCompleted = true
+//           console.log('🏁 All animations finished successfully!')
+//         }
+//       }
+
+//       mixer.addEventListener('finished', this._onAnimFinished)
+
+//       this.playEntity(this.currentIndex)
+//     },
+//   })
+// }
 export default function registerAnimationSequence() {
-  AFRAME.registerComponent('animation-sequence', {
+  AFRAME.registerComponent("animation-sequence", {
     schema: {
-      entities: { type: 'array' },
+      entities: { type: "array" },
     },
 
     init() {
-      // Cache entity references
-      this.ents = this.data.entities.map(sel => document.querySelector(sel))
-      this.currentIndex = 0
-      this.sequenceStarted = false
-      this.sequenceCompleted = false
-      this._onAnimFinished = null
+      this.ents = this.data.entities.map((sel) => document.querySelector(sel));
+      this.currentIndex = 0;
+      this.sequenceStarted = false;
+      this.sequenceCompleted = false;
+      this._onAnimFinished = null;
 
-      const scene = this.el.sceneEl
-      scene.addEventListener('loaded', () => {
-        console.log('🎬 Scene fully loaded.')
-        this.setupSequence()
-      })
+      const scene = this.el.sceneEl;
+
+      scene.addEventListener("loaded", () => {
+        console.log("🎬 Scene fully loaded.");
+        this.setupSequence();
+      });
     },
 
     setupSequence() {
-     
-      const showTarget = window.location.pathname.replace('/', '')
+      const showTarget = window.location.pathname.replace("/", "");
 
       const validTargets = [
-        'chocos1',
-        'moons_stars',
-        'doet',
-        'chhota_laddoo',
-        'crunchy_bites',
-      ]
+        "chocos1",
+        "moons_stars",
+        "doet",
+        "chhota_laddoo",
+        "crunchy_bites",
+      ];
 
       if (!showTarget) {
-        console.error("❌ Target not found in URL")
+        console.error("❌ Target not found in URL");
       } else if (!validTargets.includes(showTarget)) {
-        console.error("❌ Invalid target:", showTarget)
+        console.error("❌ Invalid target:", showTarget);
       } else {
-        console.log("✅ Valid Target:", showTarget)
+        console.log("✅ Valid Target:", showTarget);
 
         // SHOW IMAGE
-        const imgEl = document.getElementById("target-img")
+        const imgEl = document.getElementById("target-img");
         if (imgEl) {
-          imgEl.src = `/assets/images/targets/${showTarget}.png`
+          imgEl.src = `/assets/images/targets/${showTarget}.png`;
         }
       }
 
       // Hide all targets
-      document.querySelectorAll('xrextras-named-image-target').forEach((t) => {
-        t.setAttribute('enabled', false)
-        t.style.display = 'none'
-      })
+      document.querySelectorAll("xrextras-named-image-target").forEach((t) => {
+        t.setAttribute("enabled", false);
+        t.style.display = "none";
+      });
 
       // Disable animation sequences for other targets
-      document.querySelectorAll('[animation-sequence]').forEach((seq) => {
-        const parent = seq.closest('xrextras-named-image-target')
+      document.querySelectorAll("[animation-sequence]").forEach((seq) => {
+        const parent = seq.closest("xrextras-named-image-target");
         if (!parent || parent.id !== showTarget) {
-          seq.setAttribute('animation-sequence', 'enabled: false')
+          seq.setAttribute("animation-sequence", "enabled: false");
         }
-      })
+      });
 
       // Enable only matched target
       if (validTargets.includes(showTarget)) {
-        const targetEl = document.getElementById(showTarget)
+        const targetEl = document.getElementById(showTarget);
         if (targetEl) {
-          targetEl.style.display = 'block'
-          targetEl.setAttribute('enabled', true)
-          console.log('🎯 Showing target:', showTarget)
+          targetEl.style.display = "block";
+          targetEl.setAttribute("enabled", true);
+          console.log("🎯 Showing target:", showTarget);
         }
       } else {
-        console.warn('❌ Invalid URL target:', showTarget)
+        console.warn("❌ Invalid URL target:", showTarget);
       }
 
-      console.log('✅ Animation sequence ready.')
+      console.log("✅ Animation sequence ready.");
 
-      const uiscreen = document.getElementById('ui-screen')
-      const imageTarget = this.el.closest('xrextras-named-image-target')
-      const scene = this.el.sceneEl
+      const uiscreen = document.getElementById("ui-screen");
+      const imageTarget = this.el.closest("xrextras-named-image-target");
+      const scene = this.el.sceneEl;
 
       const onFound = () => {
-        console.log('🟢 Image found!')
-        uiscreen.style.transition = 'opacity 0.3s ease'
-        uiscreen.style.opacity = '0'
-        setTimeout(() => {
-          uiscreen.style.display = 'none'
-        }, 300)
+        console.log("🟢 Image found!");
+        if (uiscreen) {
+          uiscreen.style.transition = "opacity 0.3s ease";
+          uiscreen.style.opacity = "0";
+          setTimeout(() => {
+            uiscreen.style.display = "none";
+          }, 300);
+        }
 
         if (!this.sequenceStarted) {
-          this.sequenceStarted = true
-          this.chainAnimations()
+          this.sequenceStarted = true;
+          this.chainAnimations();
         } else if (!this.sequenceCompleted) {
-          this.resumeAll()
+          this.resumeAll();
         }
-      }
+      };
 
       const onLost = () => {
-        console.log('⏸️ Image lost.')
-        uiscreen.style.display = 'flex'
-        setTimeout(() => {
-          uiscreen.style.transition = 'opacity 0.3s ease'
-          uiscreen.style.opacity = '1'
-        }, 10)
+        console.log("⏸️ Image lost.");
+        if (uiscreen) {
+          uiscreen.style.display = "flex";
+          setTimeout(() => {
+            uiscreen.style.transition = "opacity 0.3s ease";
+            uiscreen.style.opacity = "1";
+          }, 10);
+        }
 
-        if (!this.sequenceCompleted) this.pauseAll()
-      }
+        if (!this.sequenceCompleted) this.pauseAll();
+      };
 
       if (imageTarget) {
-        imageTarget.addEventListener('xrimagefound', onFound)
-        imageTarget.addEventListener('xrimagelost', onLost)
+        imageTarget.addEventListener("xrimagefound", onFound);
+        imageTarget.addEventListener("xrimagelost", onLost);
       }
 
-      scene.addEventListener('xrimagefound', onFound)
-      scene.addEventListener('xrimagelost', onLost)
+      scene.addEventListener("xrimagefound", onFound);
+      scene.addEventListener("xrimagelost", onLost);
     },
 
     playEntity(index) {
-      // Hide all, show only current
-      this.ents.forEach((e, i) => e.setAttribute('visible', i === index))
-      const entity = this.ents[index]
-      if (!entity) return
+      this.ents.forEach((e, i) => e.setAttribute("visible", i === index));
+      const entity = this.ents[index];
+      if (!entity) return;
 
+      // 🔊 Audio on first animation
       if (index === 0) {
-        const soundComp = entity.components.sound
+        const soundComp = entity.components.sound;
         if (soundComp) {
-          soundComp.stopSound()
-          soundComp.playSound()
-          console.log("🔊 anim1 audio started")
+          soundComp.stopSound();
+          soundComp.playSound();
+          console.log("🔊 anim1 audio started");
         } else {
-          console.warn("⚠️ No sound component found on anim1")
+          console.warn("⚠️ No sound component found on anim1");
         }
       }
 
-      // ⭐ SHOW ELEMENT WHEN INDEX = 1
+      // ⭐ SHOW yellow card when index = 1
       if (index === 1) {
-        const specialElement = document.querySelector(".yellow-card")
+        const specialElement = document.querySelector(".yellow-card");
         if (specialElement) {
-          specialElement.style.display = "block"
-          console.log("🎉 Display block activated at animation index 2")
+          specialElement.style.display = "block";
+          console.log("🎉 Yellow card visible at animation index 2");
         }
       }
 
       const onModelLoaded = () => {
-        const mixerComp = entity.components['animation-mixer']
+        const mixerComp = entity.components["animation-mixer"];
         if (mixerComp && mixerComp.mixer) {
-          const { mixer } = mixerComp
-          mixer.stopAllAction()
-          mixer.timeScale = 1
+          const { mixer } = mixerComp;
+          mixer.stopAllAction();
+          mixer.timeScale = 1;
 
-          const actions = Object.values(mixer._actions)
+          const actions = Object.values(mixer._actions);
           if (actions.length > 0) {
-            const action = actions[0]
-            action.reset().play()
-            console.log(`🎥 Playing animation ${index + 1}`)
+            const action = actions[0];
+            action.reset().play();
+            console.log(`🎥 Playing animation ${index + 1}`);
           } else {
-            console.warn(`⚠️ No animation clips found in ${entity.id}`)
+            console.warn(`⚠️ No animation clips found in ${entity.id}`);
           }
         } else {
-          console.warn(`⚠️ No animation-mixer on ${entity.id}`)
+          console.warn(`⚠️ No animation-mixer on ${entity.id}`);
         }
-      }
+      };
 
-      if (entity.hasLoaded) onModelLoaded()
-      else entity.addEventListener('model-loaded', onModelLoaded, { once: true })
+      if (entity.hasLoaded) onModelLoaded();
+      else entity.addEventListener("model-loaded", onModelLoaded, { once: true });
     },
 
     pauseAll() {
       this.ents.forEach((e) => {
-        const m = e.components['animation-mixer']
-        if (m && m.mixer) m.mixer.timeScale = 0
-      })
-      console.log('⏸️ Animations paused.')
+        const m = e.components["animation-mixer"];
+        if (m && m.mixer) m.mixer.timeScale = 0;
+      });
+      console.log("⏸️ Animations paused.");
     },
 
     resumeAll() {
       this.ents.forEach((e) => {
-        const m = e.components['animation-mixer']
-        if (m && m.mixer) m.mixer.timeScale = 1
-      })
-      console.log('▶️ Animations resumed.')
+        const m = e.components["animation-mixer"];
+        if (m && m.mixer) m.mixer.timeScale = 1;
+      });
+      console.log("▶️ Animations resumed.");
     },
 
     chainAnimations() {
-      if (this.sequenceCompleted) return
+      if (this.sequenceCompleted) return;
 
-      const current = this.ents[this.currentIndex]
-      const comp = current.components['animation-mixer']
+      const current = this.ents[this.currentIndex];
+      const comp = current.components["animation-mixer"];
       if (!comp || !comp.mixer) {
-        console.warn(`⚠️ No mixer found on entity ${current.id}`)
-        return
+        console.warn(`⚠️ No mixer found on entity ${current?.id}`);
+        return;
       }
 
-      const { mixer } = comp
+      const { mixer } = comp;
 
-      if (this._onAnimFinished) mixer.removeEventListener('finished', this._onAnimFinished)
+      if (this._onAnimFinished)
+        mixer.removeEventListener("finished", this._onAnimFinished);
 
       this._onAnimFinished = () => {
-        this.currentIndex++
+        this.currentIndex++;
+
         if (this.currentIndex < this.ents.length) {
-          console.log(`➡️ Moving to animation ${this.currentIndex + 1}`)
-          this.playEntity(this.currentIndex)
-          this.chainAnimations()
+          console.log(`➡️ Moving to animation ${this.currentIndex + 1}`);
+          this.playEntity(this.currentIndex);
+          this.chainAnimations();
         } else {
-          this.sequenceCompleted = true
-          console.log('🏁 All animations finished successfully!')
+          this.sequenceCompleted = true;
+          console.log("🏁 All animations finished successfully!");
         }
-      }
+      };
 
-      mixer.addEventListener('finished', this._onAnimFinished)
-
-      this.playEntity(this.currentIndex)
+      mixer.addEventListener("finished", this._onAnimFinished);
+      this.playEntity(this.currentIndex);
     },
-  })
+  });
 }

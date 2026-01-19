@@ -165,20 +165,13 @@
   
    </div>
    
-       <a-scene id="scene"
-      xrextras-gesture-detector
-     xrextras-loading="   
-  loadImage: #myCustomImage"   xrextras-runtime-error
-      renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
-     xrweb="
-    allowedDevices: any;
-    defaultEnvironmentFogIntensity: 0.5; 
-    defaultEnvironmentFloorTexture: #groundTex; 
-    defaultEnvironmentFloorColor: #FFF;
-    defaultEnvironmentSkyBottomColor: #B4C4CC; 
-    defaultEnvironmentSkyTopColor: #5ac8fa;
-    defaultEnvironmentSkyGradientStrength: 0.5;"
-          vr-mode-ui="enabled: false">
+       <a-scene  id="scene"
+  style="display:block;"
+  xrextras-loading
+  xrextras-runtime-error
+  renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;"
+  xrweb="allowedDevices: any;"
+  vr-mode-ui="enabled: false">
 
        <xrextras-loading></xrextras-loading>
 
