@@ -18,9 +18,9 @@ const limiter = rateLimit({
 
 
 const idMap = {
-  1: 'chocos1',
+  1: 'chocos',
   2: 'moons_stars',
-  3: 'doet',
+  3: 'duet',
   4: 'chhota_laddoo',
   5: 'crunchy_bites',
 }
