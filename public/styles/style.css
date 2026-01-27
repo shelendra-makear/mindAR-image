@@ -1,12 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+@font-face {
+  font-family: "TT Rounds Neue Trial Bold";
+  src: url("../assets/fonts/TT_Rounds_Neue_Trial_Bold.ttf") format("truetype");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "TT Rounds Neue Trial DemiBold";
+  src: url("../assets/fonts/TT_Rounds_Neue_Trial_DemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "TT Rounds Neue Trial Regular";
+  src: url("../assets/fonts/TT_Rounds_Neue_Trial_Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "TT Rounds Neue Trial Medium";
+  src: url("../assets/fonts/TT_Rounds_Neue_Trial_Medium.ttf") format("truetype");
+  font-weight: 500;
+}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-align: center;
     color: rgba(122, 22, 0, 1);
-    font-family: "Raleway";
+    font-family: "TT Rounds Neue Trial Regular";
    
 }
 /* .xrextras-loading {
@@ -18,15 +39,17 @@
     height: 100dvh;
 }
 h2 {
+  font-family: 'TT Rounds Neue Trial Bold';
     font-size: 1rem;
     font-weight: 900;
-    padding: 0.5rem 0rem;
+    /* padding: 0.5rem 0rem; */
 }
 
 p {
     width: 90%;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: 'TT Rounds Neue Trial DemiBold';
+    
     margin: auto
 }
 
@@ -82,22 +105,41 @@ p {
     position: absolute;
     width: 45%;
 }
-.hand-card-board{
+.hero-container{
         position: absolute;
-    bottom: 48dvh;
+    bottom: 25dvh;
     right: 0;
+    left: 0;
+    margin: auto;
+    z-index: 99;
 }
+.hero-img{
+  width: 100%;
+    max-height: 38dvh;
+    object-fit: contain;
 
+}
+.cardBoard-img{   
+   position: absolute;
+    bottom: 33dvh;
+    width: 100%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    z-index: -1;
+        max-width: 48dvh;
+    object-fit: contain;
+}
 .bottom-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100vw;
-    height: 100%;
+    height: 38dvh;
     background-image: url(/assets/images/Crunchy.png);
     background-size: cover;
-    background-position: bottom center;
+    background-position: top center;
     background-repeat: no-repeat;
 }
 
@@ -110,8 +152,8 @@ p {
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'poppins';
-    font-weight: bold;
+    font-family: 'TT Rounds Neue Trial Bold';
+    font-weight: 700;
     margin-top: 0.5rem;
     box-shadow: 0px 3.97px 3.97px 0px rgba(0, 0, 0, 0.35);
 
@@ -120,7 +162,7 @@ p {
 
 .text-box {
     position: absolute;
-    bottom: 2rem;
+    bottom: 8dvh;
     left: 0;
     right: 0;
     margin: auto;
@@ -129,31 +171,38 @@ p {
     width: 95%;
     margin-top: -18vh;
 }
-@media only screen and (max-width: 376px) {
-    h2,p{
+/* @media only screen and (max-width: 376px) {
+    h2{
+       font-family: 'TT Rounds Neue Trial Bold';
+       font-weight: 900;
         width: 100%;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+    }
+    p{
+       font-family: 'TT Rounds Neue Trial DemiBold';
+        width: 100%;
+        font-size: 0.7rem;
     }
     .hand-card-board {
-        bottom: 48%;
+        bottom: 25%;
     }
     .hand-card-board-img{
         width: 80%;
     }
    .bottom-container{
       background-image: url(/assets/images/Crunchy.png);
-      height: 100%;
+      height: 39%;
    }
    .text-box{
-    bottom: 1rem;
+    bottom: 3rem;
    }
 }
 @media only screen and (max-width: 346px) {
     .bottom-container {
         background-image: url(/assets/images/Crunchy.png);
-        height: 111%;
+        height: 39%;
     }
-}
+} */
 .menu-page {
     position: relative;
     height: 100dvh;
@@ -196,6 +245,7 @@ p {
 }
 
 .menu-card-heading p {
+  font-family: 'TT Rounds Neue Trial Medium';
     font-size: 13px;
     margin-bottom: 0.6rem;
         color: #ffffff;
@@ -348,7 +398,7 @@ p {
     width: 90%;
     height: max-content;
     /* background-image:url('../assets/images/menu_bg.png'); */
-    background-color: rgba(251, 229, 0, 1);
+    background-color: rgba(138, 2, 0, 1);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
      border-width: 4px 4px 0px 4px;
@@ -434,16 +484,17 @@ p {
 /* TABLE */
 .table-box {
   margin-top: 0px;
-  background: rgba(214, 21, 63, 1);
+  /* background: rgba(214, 21, 63, 1); */
   border-radius: 16px;
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
- border: 1px solid white;
+ /* border: 1px solid white; */
 }
 
 .table-box .col p,
 .table-box .center-col p {
+ 
   margin: 5px 0;
   font-size: 0.8rem;
 }
@@ -451,20 +502,26 @@ p {
   color: white;
 }
 .left-col,.right-col{
+  font-family: 'TT Rounds Neue Trial Regular';
    padding: 8px 12px;
-  font-weight: bold;
+
 }
+.left-col p,.right-col p{
+  font-family: 'TT Rounds Neue Trial Regular';
+  }
 .left-col {
     border-right: 1px solid white;
 }
 
 .center-col {  
+   font-family: 'TT Rounds Neue Trial DemiBold';
   padding: 8px 12px;
-  font-weight: bold;
+
    border-right: 1px solid white;     
 }
 .center-col h3,.left-col h3,.right-col h3{
-  color: white;
+  font-family: 'TT Rounds Neue Trial Bold';
+  color: rgba(255, 252, 254, 1);
   font-size: 1rem;
 }
 .retry-btn{
@@ -482,7 +539,7 @@ p {
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'poppins';
+    font-family: 'TT Rounds Neue Trial Bold';
     font-weight: bold;
     margin-top: 0.5rem;
 }
@@ -513,6 +570,8 @@ p {
   animation: popIn 0.3s ease;
 }
 .popup-box h3 {
+  font-family: 'TT Rounds Neue Trial Bold';
+ font-weight: 700;
   font-size: 1rem;
   }
 
@@ -533,7 +592,7 @@ p {
   font-size: 16px;
   border: none;
   cursor: pointer;
-  font-family: 'Poppins';
+  font-family: 'TT Rounds Neue Trial Bold';
   font-weight: 700;
 }
 
@@ -568,8 +627,10 @@ p {
         transition: opacity .3s ease;
         flex-direction: column;
       }
-      .pp{
+      .scan-text-pp{
+        font-family: 'TT Rounds Neue Trial Regular';
         color: white;
+        font-size: 0.88rem;
 
       }
       .scan-box{
@@ -674,6 +735,7 @@ p {
     color: white;
 }
 .comparison-card-heading h2,.comparison-card-heading span{
+  font-family: 'TT Rounds Neue Trial Bold';
       color: white;
     font-size: 1.2rem;
     padding-top: 2dvh;
@@ -692,8 +754,8 @@ p {
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'poppins';
-    font-weight: bold;
+    font-family: 'TT Rounds Neue Trial Bold';
+    font-weight: 700;
     margin-top: 0.5rem;
     align-items: center;
     justify-content: center;
@@ -713,8 +775,8 @@ p {
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'poppins';
-    font-weight: bold;
+    font-family: 'TT Rounds Neue Trial Bold';
+    font-weight: 700;
     margin-top: 0.5rem;
     align-items: center;
     justify-content: center;

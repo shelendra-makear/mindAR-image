@@ -27,14 +27,6 @@ const idMap = {
 
 const validTargets = Object.values(idMap)
 
-
-
-/**
- * CLEAN URL
- * /chocos1
- * /moons_stars
- * /doet
- */
 router.get('/:target', (req, res) => {
   const { target } = req.params
 

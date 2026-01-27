@@ -41,33 +41,54 @@ window.addEventListener("xrloaded", () => {
 
 );
 
-const BGimages = [
-    "assets/images/BGimages/Chhota_Bheem_bg.png",
-   "assets/images/BGimages/Brown_bg.png",
-    "assets/images/BGimages/Crunchy_Bites.png",
-    "assets/images/BGimages/Duet_bg.png",
-    "assets/images/BGimages/Moon_star_bg.png",
-  ];
-  const handCardBoard = [
-    "assets/images/handCardBoard/sooo_chocolatey.png",
-   "assets/images/handCardBoard/more_chocolatey.png",
-    "assets/images/handCardBoard/choco_caramel.png",
-    "assets/images/handCardBoard/choco_vanilla.png",
-    "assets/images/handCardBoard/sooo_chocolatey.png",
-  ];
 
-  const randomImage = BGimages[Math.floor(Math.random() * BGimages.length)];
+const target = window.location.pathname.replace("/", "");
 
-   const randomhandCardBoard = handCardBoard[Math.floor(Math.random() * handCardBoard.length)];
-const handCardBoardImg = document.querySelector(".hand-card-board-img");
-  if (handCardBoardImg) {
-    handCardBoardImg.src= randomhandCardBoard;
-  }
-  const landing = document.querySelector(".landing-page");
-  if (landing) {
-    landing.style.backgroundImage = `url('${randomImage}')`;
- 
-  }
+
+const productConfig = {
+  chocos1: {
+    bg: "assets/images/BGimages/Brown_bg.png",
+    card: "assets/images/cardBoard/choco-card.png",
+    product: "assets/images/products/chocos.png",
+  },
+
+  moons_stars: {
+    bg: "assets/images/BGimages/Moon_star_bg.png",
+    card: "assets/images/cardBoard/moons&stars-card.png",
+    product: "assets/images/products/moons_stars.png",
+  },
+
+  doet: {
+    bg: "assets/images/BGimages/Duet_bg.png",
+    card: "assets/images/cardBoard/duet-card.png",
+    product: "assets/images/products/duet.png",
+  },
+
+  chhota_laddoo: {
+    bg: "assets/images/BGimages/Chhota_Bheem_bg.png",
+    card: "assets/images/cardBoard/chhota_laddoo-card.png",
+    product: "assets/images/products/chhota_laddoo.png",
+  },
+
+  crunchy_bites: {
+    bg: "assets/images/BGimages/Crunchy_Bites.png",
+    card: "assets/images/cardBoard/crunchy_bites-card.png",
+    product: "assets/images/products/crunchy_bites.png",
+  },
+};
+
+
+const data = productConfig[target] || productConfig["moons_stars"];
+
+const loadingScreen = document.getElementById("loadingScreen");
+loadingScreen.style.backgroundImage = `url(${data.bg})`;
+
+const cardImg = document.getElementById("cardImage");
+const productImg = document.getElementById("productImage");
+
+if (cardImg) cardImg.src = data.card;
+if (productImg) productImg.src = data.product;
+
  
 
  
