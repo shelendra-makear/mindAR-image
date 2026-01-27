@@ -160,7 +160,9 @@
 
     <a-scene id="scene" style="display:block;" xrextras-loading xrextras-runtime-error
       renderer="colorManagement:true; webgl2:true; physicallyCorrectLights:true;" xrweb="allowedDevices: any;"
-      vr-mode-ui="enabled: false">
+        embedded
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
 
 
       <a-entity xrextras-scene-mesh="drawOcclusion: true"></a-entity>
